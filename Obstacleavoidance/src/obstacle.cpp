@@ -12,8 +12,8 @@ int main()
 	std::cout << num << " doubled is: " << num * 2 << " "<< add(5,3)<< '\n';
 
 	std::cout << "systempaused";
-	int num2{};
-	std::cin >> num2;
+	int num22{};
+	std::cin >> num22;
 
 	return 0;
 }
