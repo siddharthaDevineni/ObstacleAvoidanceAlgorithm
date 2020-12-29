@@ -1,0 +1,424 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						3
+					]
+				},
+				{
+					"build" : "src",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "src",
+					"targetIndexes" : 
+					[
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "ObstacleAvoidance",
+					"targetIndexes" : 
+					[
+						0,
+						3
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "Obstaclessub",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-Debug-fd9335b9c55399273e12.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ALL_BUILD::@145eef247bfb46b6828c",
+					"jsonFile" : "target-ALL_BUILD-Debug-cfa9e46a4f5271718764.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "Obstaclessub::@145eef247bfb46b6828c",
+					"jsonFile" : "target-Obstaclessub-Debug-d80527a8535183494805.json",
+					"name" : "Obstaclessub",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-Debug-54474720bb9862e6d2dd.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				}
+			]
+		},
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						3
+					]
+				},
+				{
+					"build" : "src",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "src",
+					"targetIndexes" : 
+					[
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "ObstacleAvoidance",
+					"targetIndexes" : 
+					[
+						0,
+						3
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "Obstaclessub",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-Release-fd9335b9c55399273e12.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ALL_BUILD::@145eef247bfb46b6828c",
+					"jsonFile" : "target-ALL_BUILD-Release-cfa9e46a4f5271718764.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "Obstaclessub::@145eef247bfb46b6828c",
+					"jsonFile" : "target-Obstaclessub-Release-d4af6d584557d4a69320.json",
+					"name" : "Obstaclessub",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-Release-54474720bb9862e6d2dd.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				}
+			]
+		},
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						3
+					]
+				},
+				{
+					"build" : "src",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "src",
+					"targetIndexes" : 
+					[
+						1,
+						2
+					]
+				}
+			],
+			"name" : "MinSizeRel",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "ObstacleAvoidance",
+					"targetIndexes" : 
+					[
+						0,
+						3
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "Obstaclessub",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-MinSizeRel-fd9335b9c55399273e12.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ALL_BUILD::@145eef247bfb46b6828c",
+					"jsonFile" : "target-ALL_BUILD-MinSizeRel-cfa9e46a4f5271718764.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "Obstaclessub::@145eef247bfb46b6828c",
+					"jsonFile" : "target-Obstaclessub-MinSizeRel-7664af84bc45df45cae8.json",
+					"name" : "Obstaclessub",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-MinSizeRel-54474720bb9862e6d2dd.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				}
+			]
+		},
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						3
+					]
+				},
+				{
+					"build" : "src",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "src",
+					"targetIndexes" : 
+					[
+						1,
+						2
+					]
+				}
+			],
+			"name" : "RelWithDebInfo",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "ObstacleAvoidance",
+					"targetIndexes" : 
+					[
+						0,
+						3
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "Obstaclessub",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-RelWithDebInfo-fd9335b9c55399273e12.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ALL_BUILD::@145eef247bfb46b6828c",
+					"jsonFile" : "target-ALL_BUILD-RelWithDebInfo-cfa9e46a4f5271718764.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "Obstaclessub::@145eef247bfb46b6828c",
+					"jsonFile" : "target-Obstaclessub-RelWithDebInfo-77f54bea5c982a80d939.json",
+					"name" : "Obstaclessub",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-RelWithDebInfo-54474720bb9862e6d2dd.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/Projects-code/ObstacleAvoidanceAlgorithm/ObstacleAvoidance/build",
+		"source" : "D:/Projects-code/ObstacleAvoidanceAlgorithm/ObstacleAvoidance"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 1
+	}
+}
