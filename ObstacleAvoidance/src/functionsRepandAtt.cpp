@@ -2,7 +2,7 @@
 #include<math.h>
 #include<algorithm>
 
-float Fattraction(float x, float y, float xg, float yg)
+float forceAtt(float x, float y, float xg, float yg)
 {
     int ka;
     float Fax,Fay,Fa;
@@ -13,7 +13,7 @@ float Fattraction(float x, float y, float xg, float yg)
     return Fa;
 }
 
-float Frepulsion(float x, float y, float xo, float yo)
+float forceRep(float x, float y, float xo, float yo)
 {
     int kr,ro;
     float p, Frx, Fry, Fr;
@@ -48,12 +48,12 @@ void main()
     float TotalForce = 0;
     while((x,y)!=(xg,yg))
     {
-        TotalAtt = Fattraction(x,y,xg,yg);
+        TotalAtt = forceAtt(x,y,xg,yg);
     
         for (int i = 0; i < n;i++)
             {
         
-                TotalRep += Frepulsion(x,y,xo,yo);
+                TotalRep += forceRep(x,y,xo,yo);
             }
     
         TotalForce = TotalAtt + TotalRep;
