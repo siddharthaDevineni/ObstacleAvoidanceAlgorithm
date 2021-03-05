@@ -1,8 +1,12 @@
 #include<iostream>
 #include<math.h>
 #include<algorithm>
+#include "functionsRepandAtt.h"
 
-float forceAtt(float x, float y, float xg, float yg)
+
+
+
+o_errt Forces::forceAtt(float x, float y, float xg, float yg, Oresult* out)
 {
     int ka;
     float Fax,Fay,Fa;
@@ -10,10 +14,12 @@ float forceAtt(float x, float y, float xg, float yg)
     Fay = -ka*(y - yg); // Y-component of Fatt : Fa_y
 
     Fa = sqrt(pow(Fax,2)+pow(Fay,2)); //Total attraction force Fa
-    return Fa;
+
+    out->ofloatresult = Fa;
+    return o_errt::err_no_error;
 }
 
-float forceRep(float x, float y, float xo, float yo)
+o_errt Forces::forceRep(float x, float y, float xo, float yo, Oresult* out)
 {
     int kr,ro;
     float p, Frx, Fry, Fr;
@@ -35,32 +41,8 @@ float forceRep(float x, float y, float xo, float yo)
             Fry = 0;
         }
     Fr = sqrt(pow(Frx,2)+pow(Fry,2)); // Total repulsiom force Fr
-    return Fr;
-}
-void main()
-{
-    int n = 3; // number of obstacles
-    float x = 0; float y = 0; // initial position of the object
-    float xg = 10; float yg = 10; // position of target
-    int i = 0; //starting index of object
-    float TotalAtt = 0;
-    float TotalRep = 0;
-    float TotalForce = 0;
-    while((x,y)!=(xg,yg))
-    {
-        TotalAtt = forceAtt(x,y,xg,yg);
-    
-        for (int i = 0; i < n;i++)
-            {
-        
-                TotalRep += forceRep(x,y,xo,yo);
-            }
-    
-        TotalForce = TotalAtt + TotalRep;
-        
-    }
 
-
-
+    out->ofloatresult = Fr;
+    return o_errt::err_no_error;
 }
 

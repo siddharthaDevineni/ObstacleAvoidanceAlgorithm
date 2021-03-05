@@ -1,7 +1,5 @@
-cmake_minimum_required(VERSION 3.10)
+include_directories(include)
 
-# set the project name
-project(Obstaclessub)
 
-# add the executable
-add_executable(Obstaclessub obstacle.cpp)
+add_library(forceAttRep functionsRepandAtt.cpp include/functionsRepandAtt.h )
+add_library(obstacleLib obstacleAvoidanceLib.cpp include/obstacleAvoidanceLib.h)
