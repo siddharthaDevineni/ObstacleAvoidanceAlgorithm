@@ -5,7 +5,7 @@
 
 
 
-
+using namespace std;
 
 int main() {
    int n = 3; // number of obstacles
@@ -28,5 +28,6 @@ int main() {
 
    }
 
+   cout << "the program works good ";
    return 0;
 }
