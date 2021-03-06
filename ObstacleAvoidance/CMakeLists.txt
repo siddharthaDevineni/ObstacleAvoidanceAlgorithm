@@ -21,6 +21,6 @@ target_link_libraries(${PROJECT_NAME} forceAttRep obstacleLib)
 
 
 
-# set(CMAKE_C_FLAGS_DEBUG "-g -DDEBUG")
-# set(CMAKE_CXX_FLAGS_DEBUG "-g -DDEBUG")
-# SET(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_C_FLAGS_DEBUG "-g -DDEBUG")
+set(CMAKE_CXX_FLAGS_DEBUG "-g -DDEBUG")
+SET(CMAKE_BUILD_TYPE Debug)
