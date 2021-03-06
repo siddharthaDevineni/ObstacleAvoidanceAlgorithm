@@ -5,3 +5,41 @@
 /Obstacleavoidance/.vs/Obstacleavoidance/v16/Browse.VC.opendb
 /ObstacleAvoidance/out/build/x64-Debug (default)
 /ObstacleAvoidance/.vs
+ObstacleAvoidance/build/cmake_install.cmake
+
+
+
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+
+# Executables
+*.exe
+*.out
+*.app
+
+
+*.json
+
+ObstacleAvoidance/build/ObstacleAvoidance

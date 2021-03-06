@@ -15,7 +15,9 @@ o_errt Forces::forceAtt(float x, float y, float xg, float yg, Oresult* out)
 
     Fa = sqrt(pow(Fax,2)+pow(Fay,2)); //Total attraction force Fa
 
-    out->ofloatresult = Fa;
+    out->oResultF = Fa;
+    out->oError = o_errt::err_no_error;
+
     return o_errt::err_no_error;
 }
 
@@ -42,7 +44,9 @@ o_errt Forces::forceRep(float x, float y, float xo, float yo, Oresult* out)
         }
     Fr = sqrt(pow(Frx,2)+pow(Fry,2)); // Total repulsiom force Fr
 
-    out->ofloatresult = Fr;
+    out->oResultF = Fr;
+    out->oError = o_errt::err_no_error;
+
     return o_errt::err_no_error;
 }
 

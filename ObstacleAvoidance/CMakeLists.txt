@@ -2,9 +2,6 @@ cmake_minimum_required(VERSION 3.10)
 project (ObstacleAvoidance)
 
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-
 add_subdirectory(src)
 
 
@@ -18,9 +15,9 @@ target_link_directories(${PROJECT_NAME} PRIVATE src) # It is looking for the lib
 target_link_libraries(${PROJECT_NAME} forceAttRep obstacleLib)
 
 
+# Needed for Matplotlib
 
-
-
-set(CMAKE_C_FLAGS_DEBUG "-g -DDEBUG")
-set(CMAKE_CXX_FLAGS_DEBUG "-g -DDEBUG")
-SET(CMAKE_BUILD_TYPE Debug)
+include_directories(externals/matplotlib-cpp)
+find_package(Python2 COMPONENTS Development NumPy)
+target_include_directories(${PROJECT_NAME} PRIVATE ${Python2_INCLUDE_DIRS} ${Python2_NumPy_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} Python2::Python Python2::NumPy)
