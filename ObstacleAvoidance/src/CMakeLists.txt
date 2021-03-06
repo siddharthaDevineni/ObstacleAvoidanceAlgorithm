@@ -1,5 +1,5 @@
 include_directories(include)
-include_directories(../externals/matplotlib-cpp)
+include_directories(../externals/matplotlib)
 
 
 add_library(forceAttRep functionsRepandAtt.cpp include/functionsRepandAtt.h )

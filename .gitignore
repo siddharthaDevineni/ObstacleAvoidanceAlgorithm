@@ -2,10 +2,6 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/Obstacleavoidance/.vs/Obstacleavoidance/v16/Browse.VC.opendb
-/ObstacleAvoidance/out/build/x64-Debug (default)
-/ObstacleAvoidance/.vs
-ObstacleAvoidance/build/cmake_install.cmake
 
 
 
@@ -19,12 +15,23 @@ cmake_install.cmake
 install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
+_depsCMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
 _deps
+
 
 
 # Compiled Static libraries
 *.lai
-*.la
+
 *.a
 *.lib
 
@@ -40,6 +47,16 @@ _deps
 *.app
 
 
-*.json
+
 
 ObstacleAvoidance/build/ObstacleAvoidance
+ObstacleAvoidance/build/.cmake/api/v1/query/client-vscode/query.json
+ObstacleAvoidance/build/.cmake/api/v1/reply/cache-v2-b9e36261c7bbb7670e81.json
+ObstacleAvoidance/build/.cmake/api/v1/reply/codemodel-v2-4e100d50019a2c6c6e45.json
+ObstacleAvoidance/build/.cmake/api/v1/reply/index-2021-03-06T18-35-19-0027.json
+ObstacleAvoidance/build/.cmake/api/v1/reply/target-forceAttRep-Debug-bd871a359c0c6722c177.json
+ObstacleAvoidance/build/.cmake/api/v1/reply/target-ObstacleAvoidance-Debug-598ff310989900c19aac.json
+ObstacleAvoidance/build/.cmake/api/v1/reply/target-obstacleLib-Debug-5dff203c29e3de5488e1.json
+ObstacleAvoidance/build/.cmake/api/v1/reply/codemodel-v2-508b916f9e5f3cd50b89.json
+ObstacleAvoidance/build/.cmake/api/v1/reply/index-2021-03-06T18-56-11-0389.json
+ObstacleAvoidance/build/.cmake/api/v1/reply/target-ObstacleAvoidance-Debug-e1613c944fa942b80696.json

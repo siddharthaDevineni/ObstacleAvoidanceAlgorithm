@@ -17,7 +17,7 @@ target_link_libraries(${PROJECT_NAME} forceAttRep obstacleLib)
 
 # Needed for Matplotlib
 
-include_directories(externals/matplotlib-cpp)
+include_directories(externals/matplotlib)
 find_package(Python2 COMPONENTS Development NumPy)
 target_include_directories(${PROJECT_NAME} PRIVATE ${Python2_INCLUDE_DIRS} ${Python2_NumPy_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} Python2::Python Python2::NumPy)
