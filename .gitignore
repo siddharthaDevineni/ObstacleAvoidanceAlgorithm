@@ -50,19 +50,4 @@ _deps
 
 
 ObstacleAvoidance/build/ObstacleAvoidance
-ObstacleAvoidance/build/.cmake/api/v1/query/client-vscode/query.json
-ObstacleAvoidance/build/.cmake/api/v1/reply/cache-v2-b9e36261c7bbb7670e81.json
-ObstacleAvoidance/build/.cmake/api/v1/reply/codemodel-v2-4e100d50019a2c6c6e45.json
-ObstacleAvoidance/build/.cmake/api/v1/reply/index-2021-03-06T18-35-19-0027.json
-ObstacleAvoidance/build/.cmake/api/v1/reply/target-forceAttRep-Debug-bd871a359c0c6722c177.json
-ObstacleAvoidance/build/.cmake/api/v1/reply/target-ObstacleAvoidance-Debug-598ff310989900c19aac.json
-ObstacleAvoidance/build/.cmake/api/v1/reply/target-obstacleLib-Debug-5dff203c29e3de5488e1.json
-ObstacleAvoidance/build/.cmake/api/v1/reply/codemodel-v2-508b916f9e5f3cd50b89.json
-ObstacleAvoidance/build/.cmake/api/v1/reply/index-2021-03-06T18-56-11-0389.json
-ObstacleAvoidance/build/.cmake/api/v1/reply/target-ObstacleAvoidance-Debug-e1613c944fa942b80696.json
-ObstacleAvoidance/build/.cmake/api/v1/reply/codemodel-v2-32de959a28ce661cdbec.json
-ObstacleAvoidance/build/.cmake/api/v1/reply/index-2021-03-06T19-05-59-0432.json
-ObstacleAvoidance/build/.cmake/api/v1/reply/target-forceAttRep-Debug-8f23de3c1d9e19d3445f.json
-ObstacleAvoidance/build/.cmake/api/v1/reply/target-ObstacleAvoidance-Debug-cb7c9a5684aab410610d.json
-ObstacleAvoidance/build/.cmake/api/v1/reply/target-obstacleLib-Debug-2cec501d9e9f6761758d.json
-ObstacleAvoidance/build/.cmake/api/v1/reply/index-2021-03-06T19-15-20-0298.json
+*.json
