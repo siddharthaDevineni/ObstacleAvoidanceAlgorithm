@@ -29,5 +29,6 @@ int main(int argc, char *argv[])
 
    cout << "the program works good " << endl;
    cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;
+
    return 0;
 }
