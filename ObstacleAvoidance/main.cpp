@@ -6,6 +6,8 @@
 
 using namespace std;
 
+namespace plt = matplotlibcpp;
+
 int main(int argc, char *argv[])
 {
    int n = 3; // number of obstacles
@@ -28,6 +30,10 @@ int main(int argc, char *argv[])
    }
 
    cout << "the program works good " << endl;
+
+   plt::plot({1, 3, 2, 4});
+   plt::show();
+
    cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;
 
    return 0;
