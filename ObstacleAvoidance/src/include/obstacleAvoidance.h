@@ -11,7 +11,16 @@ typedef enum class o_errt
 // Result struct
 struct Oresult
 {
-	float oResultF;
+	
+	float oResultFax;
+	float oResultFay;
+	float oResultFrx;
+	float oResultFry;
+	float oResultFx;
+	float oResultFy;
+	float oResultAng;
+	float oResultXf;
+	float oResultYf;
 	o_errt oError;
 };
 
