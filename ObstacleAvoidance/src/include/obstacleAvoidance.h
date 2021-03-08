@@ -59,6 +59,6 @@ o_errt obaFreeCalculationContext(OcalculationContext *ctx);
 	 * 
 	 * @param  
 	 */
-o_errt obaInitResult(Oresult *res)
+o_errt obaInitResult(Oresult *res);
 
 #endif

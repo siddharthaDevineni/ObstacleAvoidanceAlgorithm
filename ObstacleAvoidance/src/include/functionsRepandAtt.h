@@ -2,8 +2,9 @@
 #define FUNCTIONSREPANDATT_H
 
 #include "obstacleAvoidance.h"
+#include "obstacleAvoidance_internal.h"
 
-class FunctionRepandAtt
+class Forces
 {
 
 public:

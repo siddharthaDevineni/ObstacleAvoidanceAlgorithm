@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
    {
       cout << "Error detected";
    }
-   FunctionRepandAtt force;
+   Forces force;
    err = force.forceAtt(ctx, res);
    if (err != o_errt ::err_no_error)
    {
@@ -44,11 +44,11 @@ int main(int argc, char *argv[])
 
    cout << res->oResultAng;
 
-   //cout << "the program works good " << endl;
+   cout << "the program works good " << endl;
 
    //fig = plt.figure()  # an empty figure with no Axes
 
-   //cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;
+   cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;
    plt::plot({1, 3, 2, 4});
    plt::show();
    return 0;

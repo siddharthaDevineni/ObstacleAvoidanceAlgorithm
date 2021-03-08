@@ -3,7 +3,7 @@
 #include <algorithm>
 #include "functionsRepandAtt.h"
 
-o_errt FunctionRepandAtt::forceAtt(OcalculationContext *ctx, Oresult *out)
+o_errt Forces::forceAtt(OcalculationContext *ctx, Oresult *out)
 {
     if (ctx == nullptr)
     {
@@ -29,7 +29,7 @@ float forceRepLineRG(float distRO, float maxObstInfluence, uint16_t funcOrder)
     return pow((pow(distRO, -1) - pow(maxObstInfluence, -1)), 2) * pow(distRO, funcOrder);
 }
 
-o_errt FunctionRepandAtt::forceRep(OcalculationContext *ctx, Oresult *out)
+o_errt Forces::forceRep(OcalculationContext *ctx, Oresult *out)
 {
     float Fr = 0, Fr1, Fr2, phi; // UNDEFINED PHI
     for (int i = 0; i < ctx->s->n_obstacles; i++)
@@ -51,7 +51,7 @@ o_errt FunctionRepandAtt::forceRep(OcalculationContext *ctx, Oresult *out)
 
     return o_errt::err_no_error;
 }
-o_errt FunctionRepandAtt::forceComp(OcalculationContext *ctx, Oresult *out)
+o_errt Forces::forceComp(OcalculationContext *ctx, Oresult *out)
 {
     ctx->s->oResultFx = out->oResultFax;
     ctx->s->oResultFy = out->oResultFay;
@@ -64,7 +64,7 @@ o_errt FunctionRepandAtt::forceComp(OcalculationContext *ctx, Oresult *out)
 
     return o_errt::err_no_error;
 }
-o_errt FunctionRepandAtt::forceAngle(OcalculationContext *ctx, Oresult *out)
+o_errt Forces::forceAngle(OcalculationContext *ctx, Oresult *out)
 {
 
     if (ctx->s->oResultFx > 0)
@@ -78,7 +78,7 @@ o_errt FunctionRepandAtt::forceAngle(OcalculationContext *ctx, Oresult *out)
 
     return o_errt::err_no_error;
 }
-o_errt FunctionRepandAtt::nextStep(OcalculationContext *ctx, Oresult *out)
+o_errt Forces::nextStep(OcalculationContext *ctx, Oresult *out)
 {
 
     out->oResultNextX = ctx->xRobot + ctx->stepSize * cos(out->oResultAng); // Next position of the robot X coordinate

@@ -13,7 +13,7 @@ struct OcalculationState
     float attForce;
     float theta;
     float distRO[N_MAX_OBSTACLES];
-    int n_obstacles;
+    int n_obstacles = 0;
 };
 
 // Add debug trace
