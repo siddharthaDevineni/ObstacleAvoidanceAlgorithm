@@ -1,6 +1,6 @@
 #include <iostream>
 #include "functionsRepandAtt.h"
-#include "obstacleAvoidance.h"
+
 #include "matplotlibcpp.h"
 #include "ObstacleAvoidanceConfig.h"
 
@@ -9,39 +9,40 @@ namespace plt = matplotlibcpp;
 
 int main(int argc, char *argv[])
 {
-   float ka = 1.1;   //coefficient of attraction
-   float krep = 100; // coefficient of repulsion
-   float M = 2;
-   float G = 5;   // coefficient of influential force
-   float L = 0.1; // step size
-   int n = 3;     // number of obstacles
-   float x = 0;
-   float y = 0; // initial position of the object
-   float q = (x, y);
-   float xg = 10;
-   float yg = 10; // position of target
-   float qg = (xg, yg);
-   float xo[3] = {2, 3.5, 7.3};
-   float yo[3] = {3.4, 4.4, 2.5}; // position of obstacles
-   int i = 0;                     // starting index of object
-   Forces force;
-   Oresult out;
-   o_errt errors;
-   float Repx[n];
-   float Repy[n];
-   float ForceX;
-   float ForceY;
-   while (q != qg)
+
+   float goalCoordinates[2] = {10, 10};
+   float robotCoordinates[2] = {0, 0};
+   float obstaclex[3] = {2, 3.5, 7.3};
+   float obstacley[3] = {3.4, 4.4, 2.5};
+   float params[5] = {1.1, 100, 0.1, 5, 2};
+
+   OcalculationContext *ctx = new OcalculationContext;
+   Oresult *res = new Oresult;
+
+   o_errt err;
+   err = obaInitCalculationContext(goalCoordinates, robotCoordinates, params, obstaclex, obstacley, ctx);
+   if (err != o_errt ::err_no_error)
    {
-      force.forceAtt(ka, x, y, xg, yg, &out);
-      for (int j = 0; j < n; j++)
-      {
-         o_errt forceRep(krep, G, M, x, y, xo[j], yo[j], &out);
-         ForceX[j] = out.oResultFax + out.oResultFrx;
-         ForceY[j] = out.oResultFay + out.oResultFry;
-      }
-      
+      cout << "Error detected";
    }
+   err = obaInitResult(res);
+   if (err != o_errt ::err_no_error)
+   {
+      cout << "Error detected";
+   }
+   FunctionRepandAtt force;
+   err = force.forceAtt(ctx, res);
+   if (err != o_errt ::err_no_error)
+   {
+      cout << "Error detected";
+   }
+
+   err = force.forceRep(ctx, res);
+   err = force.forceComp(ctx, res);
+   err = force.forceAngle(ctx, res);
+   err = force.nextStep(ctx, res);
+
+   cout << res->oResultAng;
 
    //cout << "the program works good " << endl;
 

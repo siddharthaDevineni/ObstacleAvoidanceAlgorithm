@@ -3,16 +3,39 @@
 
 #include "obstacleAvoidance.h"
 
-class Forces
+class FunctionRepandAtt
 {
 
 public:
-	
-	o_errt forceAtt(float ka, float x, float y, float xg, float yg, Oresult *out);
-	o_errt forceRep(float krep, float G, float M, float x, float y,float xo, float yo, Oresult *out);
-	o_errt forceComp(Oresult *out);
-	o_errt forceAngle(Oresult *out);
-	o_errt nextStep(float x, float y, float L, Oresult *out);
+	/*
+	 * 
+	 * @param  
+	 */
+	o_errt forceAtt(OcalculationContext *ctx, Oresult *out);
+
+	/*
+	 * 
+	 * @param  
+	 */
+	o_errt forceRep(OcalculationContext *ctx, Oresult *out);
+
+	/*
+	 * 
+	 * @param  
+	 */
+	o_errt forceComp(OcalculationContext *ctx, Oresult *out);
+
+	/*
+	 * 
+	 * @param  
+	 */
+	o_errt forceAngle(OcalculationContext *ctx, Oresult *out);
+
+	/*
+	 * 
+	 * @param  
+	 */
+	o_errt nextStep(OcalculationContext *ctx, Oresult *out);
 };
 
 #endif
