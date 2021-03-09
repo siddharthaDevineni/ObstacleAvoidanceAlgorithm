@@ -13,9 +13,24 @@ struct OcalculationState
     float attForce;
     float theta;
     float distRO[N_MAX_OBSTACLES];
-    int n_obstacles = 0;
+    int n_obstacles;
 };
 
+struct OcalculationContext
+{
+    float attCoefficientKa;
+    float repCoefficientKrep;
+    float xRobot;
+    float yRobot;
+    float xGoal;
+    float yGoal;
+    float maxObstInfluence;
+    int funcOrder;
+    float stepSize;
+    float xObstacle[N_MAX_OBSTACLES];
+    float yObstacle[N_MAX_OBSTACLES];
+    struct OcalculationState *s;
+};
 // Add debug trace
 
 #endif

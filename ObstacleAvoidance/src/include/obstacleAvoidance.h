@@ -1,8 +1,6 @@
 #ifndef OBSTACLEAVOIDANCE_H
 #define OBSTACLEAVOIDANCE_H
 
-#include "obstacleAvoidance_internal.h"
-
 // Obstacle Avoidance Error List
 typedef enum class o_errt
 {
@@ -18,29 +16,20 @@ struct Oresult
 
 	float oResultFax;
 	float oResultFay;
-	float oResultFrx[N_MAX_OBSTACLES];
-	float oResultFry[N_MAX_OBSTACLES];
+	float oResultFrx[10];
+	float oResultFry[10];
 	float oResultAng;
 	float oResultNextX;
 	float oResultNextY;
 	o_errt oError;
 };
 
-struct OcalculationContext
-{
-	float attCoefficientKa;
-	float repCoefficientKrep;
-	float xRobot;
-	float yRobot;
-	float xGoal;
-	float yGoal;
-	float maxObstInfluence;
-	int funcOrder;
-	float stepSize;
-	float xObstacle[N_MAX_OBSTACLES];
-	float yObstacle[N_MAX_OBSTACLES];
-	struct OcalculationState *s;
-};
+// Context must be Initialised for internal purposes
+/*
+	 * 
+	 * @param  
+	 */
+struct OcalculationContext;
 
 // Functions
 

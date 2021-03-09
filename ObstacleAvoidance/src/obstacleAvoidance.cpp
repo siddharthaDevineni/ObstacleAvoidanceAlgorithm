@@ -34,8 +34,8 @@ o_errt obaInitCalculationContext(float goalCoordinates[2], float robotCoordinate
     ctx->stepSize = params[2];
     ctx->maxObstInfluence = params[3];
     ctx->funcOrder = params[4];
-
-    std::memset(ctx->s, 0, sizeof(struct OcalculationState));
+    OcalculationState *state = new OcalculationState;
+    ctx->s = state;
 
     obaNobstacles(ctx, obstx, obsty);
 
