@@ -8,10 +8,11 @@
 
 struct OcalculationState
 {
+    float oResultAngTheta;
+    float oResultAngPhi;
     float oResultFx;
     float oResultFy;
     float attForce;
-    float theta;
     float distRO[N_MAX_OBSTACLES];
     int n_obstacles;
 };

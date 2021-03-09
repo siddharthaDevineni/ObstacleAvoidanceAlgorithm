@@ -3,6 +3,12 @@
 #include <algorithm>
 #include "functionsRepandAtt.h"
 
+o_errt Forces::angles(OcalculationContext *ctx, Oresult *out)
+{
+    ctx->s->oResultAngTheta = atan2(ctx->yGoal - ctx->yRobot, ctx->xGoal - ctx->xRobot);       // theta is angle between the X‐axis and the line from the point of the robot to the target
+    ctx->s->oResultAngPhi = atan2(ctx->yObstacle - ctx->yRobot, ctx->xObstacle - ctx->xRobot); // phi is angle between the X‐axis and the line from the point of the robot to the obstacle
+}
+
 o_errt Forces::forceAtt(OcalculationContext *ctx, Oresult *out)
 {
     if (ctx == nullptr)
@@ -13,8 +19,8 @@ o_errt Forces::forceAtt(OcalculationContext *ctx, Oresult *out)
     float Ra = sqrt(pow((ctx->xRobot - ctx->xGoal), 2) + pow((ctx->yRobot - ctx->yGoal), 2)); // Shortest distance between robot and target
     Fa = ctx->attCoefficientKa * Ra;                                                          // Magnitude of Attraction force
 
-    out->oResultFax = Fa * cos(ctx->s->theta); // X-component of Attraction force
-    out->oResultFay = Fa * sin(ctx->s->theta); // Y-component of Attraction force
+    out->oResultFax = Fa * cos(ctx->s->oResultAngTheta); // X-component of Attraction force
+    out->oResultFay = Fa * sin(ctx->s->oResultAngPhi);   // Y-component of Attraction force
     ctx->s->attForce = Fa;
 
     return o_errt::err_no_error;
@@ -31,19 +37,19 @@ float forceRepLineRG(float distRO, float maxObstInfluence, uint16_t funcOrder)
 
 o_errt Forces::forceRep(OcalculationContext *ctx, Oresult *out)
 {
-    float Fr = 0, Fr1, Fr2, phi; // UNDEFINED PHI
+    float Fr = 0, Fr1, Fr2;
     for (int i = 0; i < ctx->s->n_obstacles; i++)
     {
-        ctx->s->distRO[i] = sqrt(pow((ctx->xRobot - ctx->xObstacle[i]), 2) + pow((ctx->yRobot - ctx->yObstacle[i]), 2));
-        if (ctx->s->distRO[i] <= ctx->maxObstInfluence) // G represents safe distance from obstacle
+        ctx->s->distRO[i] = sqrt(pow((ctx->xRobot - ctx->xObstacle[i]), 2) + pow((ctx->yRobot - ctx->yObstacle[i]), 2)); // Shortest distance between robot and obstacle
+        if (ctx->s->distRO[i] <= ctx->maxObstInfluence)                                                                  // G represents safe distance from obstacle
         {
             Fr1 = forceRepLineRO(ctx->s->distRO[i], ctx->maxObstInfluence, ctx->funcOrder);      // Fr1 is force component in the direction of the line between the robot and the obstacle
             Fr2 = forceRepLineRG(ctx->s->distRO[i], ctx->maxObstInfluence, ctx->funcOrder);      // Fr2 is force component in the direction of the line between the robot and the target
             Fr = ctx->repCoefficientKrep * Fr1 + ctx->repCoefficientKrep * ctx->funcOrder * Fr2; // Magnitude of Repulsion force
         }
 
-        out->oResultFrx[i] = Fr * cos(phi); // Component of repulsion in the direction of the x-axis
-        out->oResultFry[i] = Fr * sin(phi); // Component of repulsion in the direction of the y-axis
+        out->oResultFrx[i] = Fr * cos(ctx->s->oResultAngTheta); // Component of repulsion in the direction of the x-axis
+        out->oResultFry[i] = Fr * sin(ctx->s->oResultAngPhi);   // Component of repulsion in the direction of the y-axis
     }
     // Shortest distance between robot and obstacle
 

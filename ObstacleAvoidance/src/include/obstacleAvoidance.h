@@ -35,18 +35,18 @@ struct OcalculationContext;
 
 /*
 	 * 
-	 * @param  
+	 * @ Paramters initiliaztion for the program to run 
 	 */
 o_errt obaInitCalculationContext(float goalCoordinates[2], float robotCoordinates[2], float params[5], float *obstx,
 								 float *obsty, OcalculationContext *ctx);
 /*
 	 * 
-	 * @param  
+	 * @ Generates error if any of parameter provided is null or in other words no parameter provided
 	 */
 o_errt obaFreeCalculationContext(OcalculationContext *ctx);
 /*
 	 * 
-	 * @param  
+	 * @ Initializes the Result values to 0
 	 */
 o_errt obaInitResult(Oresult *res);
 
