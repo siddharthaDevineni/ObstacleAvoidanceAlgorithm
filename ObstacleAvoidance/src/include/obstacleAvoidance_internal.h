@@ -9,7 +9,7 @@
 struct OcalculationState
 {
     float oResultAngTheta;
-    float oResultAngPhi;
+    float oResultAngPhi[N_MAX_OBSTACLES];
     float oResultFx;
     float oResultFy;
     float attForce;

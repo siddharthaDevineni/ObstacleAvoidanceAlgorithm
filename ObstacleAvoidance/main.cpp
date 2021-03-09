@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
       cout << "Error detected";
    }
    Forces force;
+   err = force.angles(ctx, res);
    err = force.forceAtt(ctx, res);
    if (err != o_errt ::err_no_error)
    {
@@ -41,8 +42,6 @@ int main(int argc, char *argv[])
    err = force.forceComp(ctx, res);
    err = force.forceAngle(ctx, res);
    err = force.nextStep(ctx, res);
-
-   cout << res->oResultAng;
 
    cout << "the program works good " << endl;
 
