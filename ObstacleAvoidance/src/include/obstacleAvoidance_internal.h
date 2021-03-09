@@ -31,6 +31,7 @@ struct OcalculationContext
     float yObstacle[N_MAX_OBSTACLES];
     struct OcalculationState *s;
 };
+
 // Add debug trace
 
 #endif
