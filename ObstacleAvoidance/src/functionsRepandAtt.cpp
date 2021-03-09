@@ -10,6 +10,7 @@ o_errt Forces::angles(OcalculationContext *ctx, Oresult *out)
     {
         ctx->s->oResultAngPhi[i] = atan2(ctx->yObstacle[i] - ctx->yRobot, ctx->xObstacle[i] - ctx->xRobot); // phi is angle between the X‐axis and the line from the point of the robot to the obstacle
     }
+    return o_errt::err_no_error;
 }
 
 o_errt Forces::forceAtt(OcalculationContext *ctx, Oresult *out)
