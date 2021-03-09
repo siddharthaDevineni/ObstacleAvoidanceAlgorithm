@@ -2,7 +2,7 @@
 #define OBSTACLEAVOIDANCE_H
 
 // Obstacle Avoidance Error List
-typedef enum class o_errt
+typedef enum o_errt
 {
 	err_no_error,
 	err_invalid_input,

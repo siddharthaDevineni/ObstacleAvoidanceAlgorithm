@@ -44,9 +44,12 @@ int main(int argc, char *argv[])
    err = force.forceAngle(ctx, res);
    err = force.nextStep(ctx, res);
 
-   cout << res->oResultAng;
+   cout << "Result Ang: " << res->oResultAng << '\n';
+   cout << "Result Error: " << res->oError << '\n';
+   cout << "Result FaX: " << res->oResultFax << '\n';
+   cout << "Result FaY: " << res->oResultFay << '\n';
 
-   cout << "the program works good " << endl;
+   cout << " the program works good " << endl;
 
    //fig = plt.figure()  # an empty figure with no Axes
 
