@@ -5,14 +5,49 @@
 typedef enum class o_errt
 {
 	err_no_error,
-	err_invalid_input
+	err_invalid_input,
+	err_null_input,
+	err_obstaclecount_exceeded
 };
 
 // Result struct
 struct Oresult
 {
-	float oResultF;
+
+	float oResultFax;
+	float oResultFay;
+	float oResultFrx[10];
+	float oResultFry[10];
+	float oResultAng;
+	float oResultNextX;
+	float oResultNextY;
 	o_errt oError;
 };
+
+// Context must be Initialised for internal purposes
+/*
+	 * 
+	 * @param  
+	 */
+struct OcalculationContext;
+
+// Functions
+
+/*
+	 * 
+	 * @param  
+	 */
+o_errt obaInitCalculationContext(float goalCoordinates[2], float robotCoordinates[2], float params[5], float *obstx,
+								 float *obsty, OcalculationContext *ctx);
+/*
+	 * 
+	 * @param  
+	 */
+o_errt obaFreeCalculationContext(OcalculationContext *ctx);
+/*
+	 * 
+	 * @param  
+	 */
+o_errt obaInitResult(Oresult *res);
 
 #endif

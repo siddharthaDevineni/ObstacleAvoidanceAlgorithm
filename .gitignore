@@ -51,3 +51,5 @@ _deps
 
 ObstacleAvoidance/build/ObstacleAvoidance
 *.json
+.DS_Store
+ObstacleAvoidance/.DS_Store

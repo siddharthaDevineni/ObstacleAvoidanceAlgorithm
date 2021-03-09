@@ -2,14 +2,41 @@
 #define FUNCTIONSREPANDATT_H
 
 #include "obstacleAvoidance.h"
+#include "obstacleAvoidance_internal.h"
 
 class Forces
 {
 
 public:
-	o_errt forceAtt(float x, float y, float xg, float yg, Oresult *out);
+	/*
+	 * 
+	 * @param  
+	 */
+	o_errt forceAtt(OcalculationContext *ctx, Oresult *out);
 
-	o_errt forceRep(float x, float y, float xo, float yo, Oresult *out);
+	/*
+	 * 
+	 * @param  
+	 */
+	o_errt forceRep(OcalculationContext *ctx, Oresult *out);
+
+	/*
+	 * 
+	 * @param  
+	 */
+	o_errt forceComp(OcalculationContext *ctx, Oresult *out);
+
+	/*
+	 * 
+	 * @param  
+	 */
+	o_errt forceAngle(OcalculationContext *ctx, Oresult *out);
+
+	/*
+	 * 
+	 * @param  
+	 */
+	o_errt nextStep(OcalculationContext *ctx, Oresult *out);
 };
 
 #endif

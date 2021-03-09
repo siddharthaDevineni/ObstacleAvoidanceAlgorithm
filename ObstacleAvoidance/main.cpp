@@ -1,40 +1,57 @@
 #include <iostream>
 #include "functionsRepandAtt.h"
-#include "obstacleAvoidance.h"
+
 #include "matplotlibcpp.h"
 #include "ObstacleAvoidanceConfig.h"
 
 using namespace std;
+namespace plt = matplotlibcpp;
 
 namespace plt = matplotlibcpp;
 
 int main(int argc, char *argv[])
 {
-   int n = 3; // number of obstacles
-   float x = 0;
-   float y = 0; // initial position of the object
-   float xg = 10;
-   float yg = 10; // position of target
-   int i = 0;     //starting index of object
-   float TotalAtt = 0;
-   float TotalRep = 0;
-   float TotalForce = 0;
-   o_errt errors;
-   Oresult out;
-   while ((x, y) != (xg, yg))
-   {
-      Forces obj;
-      errors = obj.forceAtt(x, y, xg, yg, &out);
 
-      break;
+   float goalCoordinates[2] = {10, 10};
+   float robotCoordinates[2] = {0, 0};
+   float obstaclex[3] = {2, 3.5, 7.3};
+   float obstacley[3] = {3.4, 4.4, 2.5};
+   float params[5] = {1.1, 100, 0.1, 5, 2};
+
+   OcalculationContext *ctx = new OcalculationContext;
+   Oresult *res = new Oresult;
+
+   o_errt err;
+   err = obaInitCalculationContext(goalCoordinates, robotCoordinates, params, obstaclex, obstacley, ctx);
+   if (err != o_errt ::err_no_error)
+   {
+      cout << "Error detected";
    }
+   err = obaInitResult(res);
+   if (err != o_errt ::err_no_error)
+   {
+      cout << "Error detected";
+   }
+   Forces force;
+   err = force.forceAtt(ctx, res);
+   if (err != o_errt ::err_no_error)
+   {
+      cout << "Error detected";
+   }
+
+   err = force.forceRep(ctx, res);
+   err = force.forceComp(ctx, res);
+   err = force.forceAngle(ctx, res);
+   err = force.nextStep(ctx, res);
+
+   cout << res->oResultAng;
 
    cout << "the program works good " << endl;
 
-   plt::plot({1, 3, 2, 4});
-   plt::show();
+   //fig = plt.figure()  # an empty figure with no Axes
 
    cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;
-
+   plt::plot({1, 3, 2, 4});
+   plt::show();
    return 0;
 }
