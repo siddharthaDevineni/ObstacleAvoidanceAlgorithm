@@ -9,9 +9,10 @@ class Forces
 
 public:
 	/*
-	 * 
-	 * @ The force of attraction between the Robot and the goal or tagret
+	 * The force of attraction between the Robot and the goal or tagret
 	 * 	Output: X and Y components of Attraction force
+	 * @params: Calculation Context
+	 * @params: Output result struct 
 	 */
 	o_errt forceAtt(OcalculationContext *ctx, Oresult *out);
 

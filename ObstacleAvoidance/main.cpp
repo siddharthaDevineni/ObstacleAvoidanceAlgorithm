@@ -45,6 +45,9 @@ int main(int argc, char *argv[])
 
    cout << "the program works good " << endl;
 
+   cout << res->oResultFax << ' ' << res->oResultFay << ' ' << res->oResultAng << '\n';
+   cout << "Error: " << res->oError << endl;
+
    //fig = plt.figure()  # an empty figure with no Axes
 
    cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;

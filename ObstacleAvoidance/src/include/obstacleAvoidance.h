@@ -2,7 +2,7 @@
 #define OBSTACLEAVOIDANCE_H
 
 // Obstacle Avoidance Error List
-typedef enum class o_errt
+typedef enum o_errt
 {
 	err_no_error,
 	err_invalid_input,
@@ -49,5 +49,11 @@ o_errt obaFreeCalculationContext(OcalculationContext *ctx);
 	 * @ Initializes the Result values to 0
 	 */
 o_errt obaInitResult(Oresult *res);
+
+class Plot
+{
+
+public:
+};
 
 #endif
