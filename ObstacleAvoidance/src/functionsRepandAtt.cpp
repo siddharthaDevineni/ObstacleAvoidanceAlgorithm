@@ -25,6 +25,7 @@ o_errt Forces::forceAtt(OcalculationContext *ctx, Oresult *out)
 
     out->oResultFax = Fa * cos(ctx->s->oResultAngTheta); // X-component of Attraction force
     out->oResultFay = Fa * sin(ctx->s->oResultAngTheta); // Y-component of Attraction force
+
     ctx->s->attForce = Fa;
 
     return o_errt::err_no_error;
@@ -55,6 +56,7 @@ o_errt Forces::forceRep(OcalculationContext *ctx, Oresult *out)
         out->oResultFrx[i] = Fr * cos(ctx->s->oResultAngPhi[i]); // Component of repulsion in the direction of the x-axis
         out->oResultFry[i] = Fr * sin(ctx->s->oResultAngPhi[i]); // Component of repulsion in the direction of the y-axis
     }
+
     // Shortest distance between robot and obstacle
 
     out->oError = o_errt::err_no_error;
