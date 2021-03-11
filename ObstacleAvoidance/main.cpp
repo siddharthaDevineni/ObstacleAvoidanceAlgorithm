@@ -51,7 +51,11 @@ int main(int argc, char *argv[])
    //fig = plt.figure()  # an empty figure with no Axes
 
    cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;
-   plt::plot({1, 3, 2, 4});
+   //plt::plot({1, 3, 2, 4});
+   std::vector<double> x = {0.1, 0.2, 0.5};
+   std::vector<double> y = {0.1, 0.2, 0.5};
+   plt::plot(x, y, "ro");
+
    plt::show();
    return 0;
 }
