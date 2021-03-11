@@ -43,12 +43,6 @@ public:
 	 * Output: X and Y coordinates of next positon of robot
 	 */
 	o_errt nextStep(OcalculationContext *ctx, Oresult *out);
-
-	/*
-	 * 
-	 * @ Caclculates the angle theta and phi for navigation
-	 */
-	o_errt angles(OcalculationContext *ctx, Oresult *out);
 };
 
 #endif

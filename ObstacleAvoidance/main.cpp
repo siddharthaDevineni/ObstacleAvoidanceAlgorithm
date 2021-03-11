@@ -12,9 +12,9 @@ int main(int argc, char *argv[])
 
    float goalCoordinates[2] = {10, 10};
    float robotCoordinates[2] = {0, 0};
-   float obstaclex[3] = {2, 3.5, 7.3};
-   float obstacley[3] = {3.4, 4.4, 2.5};
-   float params[5] = {1.1, 100, 0.1, 5, 2};
+   float obstaclex[3] = {2.5, 3, 7};
+   float obstacley[3] = {3, 4, 6};
+   float params[5] = {1.1, 100, 2, 5, 2};
 
    OcalculationContext *ctx = new OcalculationContext;
    Oresult *res = new Oresult;
@@ -31,7 +31,6 @@ int main(int argc, char *argv[])
       cout << "Error detected";
    }
    Forces force;
-   err = force.angles(ctx, res);
    err = force.forceAtt(ctx, res);
    if (err != o_errt ::err_no_error)
    {
@@ -51,7 +50,28 @@ int main(int argc, char *argv[])
    //fig = plt.figure()  # an empty figure with no Axes
 
    cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;
-   plt::plot({1, 3, 2, 4});
+   //float q = (ctx->xRobot, ctx->yRobot);
+   //float qGoal = (ctx->xGoal, ctx->yGoal);
+   //vector<float> x = {ctx->xRobot, ctx->xGoal, ctx->xObstacle[2]};
+   //vector<float> y = {ctx->yRobot, ctx->yGoal, ctx->yObstacle[2]};
+   //plt::hold(true);
+
+   while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
+   {
+      force.forceAtt(ctx, res);
+      force.forceRep(ctx, res);
+      force.forceComp(ctx, res);
+      force.nextStep(ctx, res);
+      //q = (res->oResultNextX, res->oResultNextY);
+      vector<float> x = {ctx->xRobot, ctx->xGoal, obstaclex[0], obstaclex[1], obstaclex[2], res->oResultNextX};
+      vector<float> y = {ctx->yRobot, ctx->yGoal, obstacley[0], obstacley[1], obstacley[2], res->oResultNextY};
+      plt::scatter(x, y, 100);
+   }
+
+   //vector<double> x = {0.1, 0.2, 0.3};
+   //vector<double> y = {0.1, 0.2, 0.5};
+   //plt::scatter(x, y, s=1000);
+   plt::grid(true);
    plt::show();
    return 0;
 }

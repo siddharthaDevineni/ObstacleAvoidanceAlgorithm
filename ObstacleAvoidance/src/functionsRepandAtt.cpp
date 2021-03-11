@@ -3,28 +3,19 @@
 #include <algorithm>
 #include "functionsRepandAtt.h"
 
-o_errt Forces::angles(OcalculationContext *ctx, Oresult *out)
-{
-    ctx->s->oResultAngTheta = atan2(ctx->yGoal - ctx->yRobot, ctx->xGoal - ctx->xRobot); // theta is angle between the X‐axis and the line from the point of the robot to the target
-    for (int i = 0; i < ctx->s->n_obstacles; i++)
-    {
-        ctx->s->oResultAngPhi[i] = atan2(ctx->yObstacle[i] - ctx->yRobot, ctx->xObstacle[i] - ctx->xRobot); // phi is angle between the X‐axis and the line from the point of the robot to the obstacle
-    }
-    return o_errt::err_no_error;
-}
-
 o_errt Forces::forceAtt(OcalculationContext *ctx, Oresult *out)
 {
     if (ctx == nullptr)
     {
         return o_errt::err_null_input;
     }
-    float Fa;
-    float Ra = sqrt(pow((ctx->xRobot - ctx->xGoal), 2) + pow((ctx->yRobot - ctx->yGoal), 2)); // Shortest distance between robot and target
-    Fa = ctx->attCoefficientKa * Ra;                                                          // Magnitude of Attraction force
+    float Fa = 0;
+    float Ra = sqrt(pow((ctx->xRobot - ctx->xGoal), 2) + pow((ctx->yRobot - ctx->yGoal), 2));           // Shortest distance between robot and target
+    Fa = ctx->attCoefficientKa * Ra;                                                                    // Magnitude of Attraction force
+    ctx->s->oResultAngTheta = (180 / M_PI) * atan2(ctx->yGoal - ctx->yRobot, ctx->xGoal - ctx->xRobot); // theta is angle between the X‐axis and the line from the point of the robot to the target
+    out->oResultFax = Fa * cos(ctx->s->oResultAngTheta);                                                // X-component of Attraction force
+    out->oResultFay = Fa * sin(ctx->s->oResultAngTheta);                                                // Y-component of Attraction force
 
-    out->oResultFax = Fa * cos(ctx->s->oResultAngTheta); // X-component of Attraction force
-    out->oResultFay = Fa * sin(ctx->s->oResultAngTheta); // Y-component of Attraction force
     ctx->s->attForce = Fa;
 
     return o_errt::err_no_error;
@@ -41,7 +32,7 @@ float forceRepLineRG(float distRO, float maxObstInfluence, uint16_t funcOrder)
 
 o_errt Forces::forceRep(OcalculationContext *ctx, Oresult *out)
 {
-    float Fr = 0, Fr1, Fr2;
+    float Fr = 0, Fr1 = 0, Fr2 = 0;
     for (int i = 0; i < ctx->s->n_obstacles; i++)
     {
         ctx->s->distRO[i] = sqrt(pow((ctx->xRobot - ctx->xObstacle[i]), 2) + pow((ctx->yRobot - ctx->yObstacle[i]), 2)); // Shortest distance between robot and obstacle
@@ -51,9 +42,9 @@ o_errt Forces::forceRep(OcalculationContext *ctx, Oresult *out)
             Fr2 = forceRepLineRG(ctx->s->distRO[i], ctx->maxObstInfluence, ctx->funcOrder);      // Fr2 is force component in the direction of the line between the robot and the target
             Fr = ctx->repCoefficientKrep * Fr1 + ctx->repCoefficientKrep * ctx->funcOrder * Fr2; // Magnitude of Repulsion force
         }
-
-        out->oResultFrx[i] = Fr * cos(ctx->s->oResultAngPhi[i]); // Component of repulsion in the direction of the x-axis
-        out->oResultFry[i] = Fr * sin(ctx->s->oResultAngPhi[i]); // Component of repulsion in the direction of the y-axis
+        ctx->s->oResultAngPhi[i] = (180 / M_PI) * atan2(ctx->yObstacle[i] - ctx->yRobot, ctx->xObstacle[i] - ctx->xRobot); // phi is angle between the X‐axis and the line from the point of the robot to the obstacle
+        out->oResultFrx[i] = Fr * cos(ctx->s->oResultAngPhi[i]);                                                           // Component of repulsion in the direction of the x-axis
+        out->oResultFry[i] = Fr * sin(ctx->s->oResultAngPhi[i]);                                                           // Component of repulsion in the direction of the y-axis
     }
     // Shortest distance between robot and obstacle
 

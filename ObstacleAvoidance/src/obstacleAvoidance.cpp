@@ -9,7 +9,8 @@ o_errt obaNobstacles(OcalculationContext *ctx, float *obstx, float *obsty)
         return o_errt::err_invalid_input;
     }
     ctx->s->attForce = 1.f;
-    ctx->s->n_obstacles = sizeof(obstx) / sizeof(obstx[0]); // needs to check
+    //ctx->s->n_obstacles = sizeof(obstx) / sizeof(obstx[0]); // needs to check
+      ctx->s->n_obstacles = 3;
 
     if (ctx->s->n_obstacles > N_MAX_OBSTACLES)
     {
@@ -67,8 +68,8 @@ o_errt obaInitResult(Oresult *res)
     res->oResultAng = 0.f;
     res->oResultFax = 0.f;
     res->oResultFay = 0.f;
-    res->oResultFrx[N_MAX_OBSTACLES] = 0.f;
-    res->oResultFry[N_MAX_OBSTACLES] = 0.f;
+    res->oResultFrx[3] = 0.f;
+    res->oResultFry[3] = 0.f;
     res->oResultNextX = 0.f;
     res->oResultNextY = 0.f;
     res->oError = o_errt::err_no_error;
