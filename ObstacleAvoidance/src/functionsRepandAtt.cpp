@@ -16,12 +16,6 @@ o_errt Forces::forceAtt(OcalculationContext *ctx, Oresult *out)
     out->oResultFax = Fa * cos(ctx->s->oResultAngTheta);                                                // X-component of Attraction force
     out->oResultFay = Fa * sin(ctx->s->oResultAngTheta);                                                // Y-component of Attraction force
 
-<<<<<<< HEAD
-=======
-    out->oResultFax = Fa * cos(ctx->s->oResultAngTheta); // X-component of Attraction force
-    out->oResultFay = Fa * sin(ctx->s->oResultAngTheta); // Y-component of Attraction force
-
->>>>>>> ce3247bbcbaf66cc039ba0db9da05b179d6be548
     ctx->s->attForce = Fa;
 
     return o_errt::err_no_error;

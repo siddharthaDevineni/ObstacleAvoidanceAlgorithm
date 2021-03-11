@@ -47,10 +47,7 @@ int main(int argc, char *argv[])
    cout << res->oResultFax << ' ' << res->oResultFay << ' ' << res->oResultAng << '\n';
    cout << "Error: " << res->oError << endl;
 
-   //fig = plt.figure()  # an empty figure with no Axes
-
    cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;
-<<<<<<< HEAD
    //float q = (ctx->xRobot, ctx->yRobot);
    //float qGoal = (ctx->xGoal, ctx->yGoal);
    //vector<float> x = {ctx->xRobot, ctx->xGoal, ctx->xObstacle[2]};
@@ -68,18 +65,7 @@ int main(int argc, char *argv[])
       vector<float> y = {ctx->yRobot, ctx->yGoal, obstacley[0], obstacley[1], obstacley[2], res->oResultNextY};
       plt::scatter(x, y, 100);
    }
-
-   //vector<double> x = {0.1, 0.2, 0.3};
-   //vector<double> y = {0.1, 0.2, 0.5};
-   //plt::scatter(x, y, s=1000);
    plt::grid(true);
-=======
-   //plt::plot({1, 3, 2, 4});
-   std::vector<double> x = {0.1, 0.2, 0.5};
-   std::vector<double> y = {0.1, 0.2, 0.5};
-   plt::plot(x, y, "ro");
-
->>>>>>> ce3247bbcbaf66cc039ba0db9da05b179d6be548
    plt::show();
    return 0;
 }
