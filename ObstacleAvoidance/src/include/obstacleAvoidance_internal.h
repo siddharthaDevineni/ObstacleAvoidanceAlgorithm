@@ -4,7 +4,7 @@
 #define DEBUG_ENABLED // Comment out to disable
 
 #ifdef DEBUG_ENABLED
-#define TRACE_LEVEL 2 // Greater than 0 to activate deep trace
+#define TRACE_LEVEL 3 // Greater than 0 to activate deep trace
 #endif
 #ifndef DEBUG_ENABLED
 #define TRACE_LEVEL -1
