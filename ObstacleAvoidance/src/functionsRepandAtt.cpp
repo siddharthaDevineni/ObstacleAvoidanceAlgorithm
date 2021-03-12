@@ -89,4 +89,3 @@ o_errt Forces::nextStep(OcalculationContext *ctx, Oresult *out)
     ctx->yRobot = out->oResultNextY;
     return o_errt::err_no_error;
 }
-

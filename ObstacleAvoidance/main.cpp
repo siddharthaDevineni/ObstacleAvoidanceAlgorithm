@@ -7,6 +7,8 @@
 using namespace std;
 namespace plt = matplotlibcpp;
 
+namespace plt = matplotlibcpp;
+
 int main(int argc, char *argv[])
 {
 
@@ -31,7 +33,7 @@ int main(int argc, char *argv[])
       cout << "Error detected";
    }
 
-   cout << "the program works good " << endl;
+   cout << " the program works good " << endl;
 
    cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;
    //float q = (ctx->xRobot, ctx->yRobot);
