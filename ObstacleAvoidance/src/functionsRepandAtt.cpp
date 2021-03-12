@@ -82,7 +82,6 @@ o_errt Forces::forceAngle(OcalculationContext *ctx, Oresult *out)
 }
 o_errt Forces::nextStep(OcalculationContext *ctx, Oresult *out)
 {
-
     out->oResultNextX = ctx->xRobot + ctx->stepSize * cos(out->oResultAng); // Next position of the robot X coordinate
     out->oResultNextY = ctx->yRobot + ctx->stepSize * sin(out->oResultAng); // Next position of the robot Y coordinate
     ctx->xRobot = out->oResultNextX;

@@ -50,14 +50,15 @@ int main(int argc, char *argv[])
       err = force.forceAngle(ctx, res);
       err = force.nextStep(ctx, res);
       //q = (res->oResultNextX, res->oResultNextY);
-      vector<float> x = {ctx->xRobot, ctx->xGoal, obstaclex[0], obstaclex[1], obstaclex[2], res->oResultNextX};
-      vector<float> y = {ctx->yRobot, ctx->yGoal, obstacley[0], obstacley[1], obstacley[2], res->oResultNextY};
-
+      vector<float> obsx = {obstaclex[0], obstaclex[1], obstaclex[2]};
+      vector<float> obsy = {obstacley[0], obstacley[1], obstacley[2]};
+      vector<float> goalx = {ctx->xGoal};
+      vector<float> goaly = {ctx->yGoal};
       vector<float> xR = {ctx->xRobot};
       vector<float> yR = {ctx->yRobot};
-      plt::scatter(x, y, 100);
-      plt::scatter(xR, yR, 'r');
-
+      plt::scatter(xR, yR, 100);
+      plt::scatter(obsx, obsy, 'r');
+      plt::scatter(goalx, goaly, 'g');
       plt::grid(true);
       plt::show();
       i++;
