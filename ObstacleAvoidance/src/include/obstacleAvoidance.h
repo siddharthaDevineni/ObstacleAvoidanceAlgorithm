@@ -7,7 +7,8 @@ typedef enum o_errt
 	err_no_error,
 	err_invalid_input,
 	err_null_input,
-	err_obstaclecount_exceeded
+	err_obstaclecount_exceeded,
+	err_no_memory
 };
 
 // Result struct
