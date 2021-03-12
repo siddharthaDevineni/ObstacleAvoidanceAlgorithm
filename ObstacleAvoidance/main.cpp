@@ -52,7 +52,10 @@ int main(int argc, char *argv[])
       //q = (res->oResultNextX, res->oResultNextY);
       vector<float> x = {ctx->xRobot, ctx->xGoal, obstaclex[0], obstaclex[1], obstaclex[2], res->oResultNextX};
       vector<float> y = {ctx->yRobot, ctx->yGoal, obstacley[0], obstacley[1], obstacley[2], res->oResultNextY};
+      vector<float> xR = {ctx->xRobot};
+      vector<float> yR = {ctx->yRobot};
       plt::scatter(x, y, 100);
+      plt::scatter(xR, yR, '-r');
       plt::grid(true);
       plt::show();
       i++;
