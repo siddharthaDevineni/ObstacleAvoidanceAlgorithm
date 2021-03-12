@@ -8,12 +8,12 @@
 
 struct OcalculationState
 {
+    float oResultAngTheta;
+    float oResultAngPhi[N_MAX_OBSTACLES];
     float oResultFx;
     float oResultFy;
     float attForce;
-    float theta;
     float distRO[N_MAX_OBSTACLES];
-    int n_obstacles;
 };
 
 struct OcalculationContext
@@ -27,6 +27,7 @@ struct OcalculationContext
     float maxObstInfluence;
     int funcOrder;
     float stepSize;
+    int n_obstacles;
     float xObstacle[N_MAX_OBSTACLES];
     float yObstacle[N_MAX_OBSTACLES];
     struct OcalculationState *s;

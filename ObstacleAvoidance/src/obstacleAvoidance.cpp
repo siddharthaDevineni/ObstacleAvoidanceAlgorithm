@@ -2,23 +2,7 @@
 #include "obstacleAvoidance.h"
 #include "obstacleAvoidance_internal.h"
 
-o_errt obaNobstacles(OcalculationContext *ctx, float *obstx, float *obsty)
-{
-    if (sizeof(obstx) != sizeof(obsty))
-    {
-        return o_errt::err_invalid_input;
-    }
-    ctx->s->attForce = 1.f;
-    ctx->s->n_obstacles = sizeof(obstx) / sizeof(obstx[0]); // needs to check
-
-    if (ctx->s->n_obstacles > N_MAX_OBSTACLES)
-    {
-        return o_errt::err_obstaclecount_exceeded;
-    }
-    return o_errt::err_no_error;
-}
-
-o_errt obaInitCalculationContext(float goalCoordinates[2], float robotCoordinates[2], float params[5], float *obstx,
+o_errt obaInitCalculationContext(float goalCoordinates[2], float robotCoordinates[2], float params[6], float *obstx,
                                  float *obsty, OcalculationContext *ctx)
 {
     if (ctx == nullptr)
@@ -34,12 +18,15 @@ o_errt obaInitCalculationContext(float goalCoordinates[2], float robotCoordinate
     ctx->stepSize = params[2];
     ctx->maxObstInfluence = params[3];
     ctx->funcOrder = params[4];
+    ctx->n_obstacles = params[5];
     OcalculationState *state = new OcalculationState;
     ctx->s = state;
 
-    obaNobstacles(ctx, obstx, obsty);
-
-    for (int i = 0; i < ctx->s->n_obstacles; i++)
+    if (ctx->n_obstacles > N_MAX_OBSTACLES)
+    {
+        return o_errt::err_obstaclecount_exceeded;
+    }
+    for (int i = 0; i < ctx->n_obstacles; i++)
     {
         ctx->xObstacle[i] = obstx[i];
         ctx->yObstacle[i] = obsty[i];

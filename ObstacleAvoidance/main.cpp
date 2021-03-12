@@ -14,14 +14,14 @@ int main(int argc, char *argv[])
 
    float goalCoordinates[2] = {10, 10};
    float robotCoordinates[2] = {0, 0};
-   float obstaclex[3] = {2, 3.5, 7.3};
-   float obstacley[3] = {3.4, 4.4, 2.5};
-   float params[5] = {1.1, 100, 0.1, 5, 2};
-
+   float obstaclex[3] = {2.5, 3, 7};
+   float obstacley[3] = {3, 4, 6};
+   float params[6] = {1.1, 100, 2, 5, 2, 3};
+   o_errt err;
    OcalculationContext *ctx = new OcalculationContext;
    Oresult *res = new Oresult;
+   Forces force;
 
-   o_errt err;
    err = obaInitCalculationContext(goalCoordinates, robotCoordinates, params, obstaclex, obstacley, ctx);
    if (err != o_errt ::err_no_error)
    {
@@ -32,29 +32,35 @@ int main(int argc, char *argv[])
    {
       cout << "Error detected";
    }
-   Forces force;
-   err = force.forceAtt(ctx, res);
-   if (err != o_errt ::err_no_error)
-   {
-      cout << "Error detected";
-   }
-
-   err = force.forceRep(ctx, res);
-   err = force.forceComp(ctx, res);
-   err = force.forceAngle(ctx, res);
-   err = force.nextStep(ctx, res);
-
-   cout << "Result Ang: " << res->oResultAng << '\n';
-   cout << "Result Error: " << res->oError << '\n';
-   cout << "Result FaX: " << res->oResultFax << '\n';
-   cout << "Result FaY: " << res->oResultFay << '\n';
 
    cout << " the program works good " << endl;
 
-   //fig = plt.figure()  # an empty figure with no Axes
-
    cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;
-   plt::plot({1, 3, 2, 4});
-   plt::show();
+   //float q = (ctx->xRobot, ctx->yRobot);
+   //float qGoal = (ctx->xGoal, ctx->yGoal);
+   //vector<float> x = {ctx->xRobot, ctx->xGoal, ctx->xObstacle[2]};
+   //vector<float> y = {ctx->yRobot, ctx->yGoal, ctx->yObstacle[2]};
+   //plt::hold(true);
+   int i = 0;
+   while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
+   {
+      err = force.forceAtt(ctx, res);
+      err = force.forceRep(ctx, res);
+      err = force.forceComp(ctx, res);
+      err = force.forceAngle(ctx, res);
+      err = force.nextStep(ctx, res);
+      //q = (res->oResultNextX, res->oResultNextY);
+      vector<float> x = {ctx->xRobot, ctx->xGoal, obstaclex[0], obstaclex[1], obstaclex[2], res->oResultNextX};
+      vector<float> y = {ctx->yRobot, ctx->yGoal, obstacley[0], obstacley[1], obstacley[2], res->oResultNextY};
+      plt::scatter(x, y, 100);
+      plt::grid(true);
+      plt::show();
+      i++;
+      if (i > 7)
+      {
+         break;
+      }
+   }
+
    return 0;
 }
