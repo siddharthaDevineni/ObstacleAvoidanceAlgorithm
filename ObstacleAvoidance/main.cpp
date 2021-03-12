@@ -52,7 +52,11 @@ int main(int argc, char *argv[])
       //q = (res->oResultNextX, res->oResultNextY);
       vector<float> x = {ctx->xRobot, ctx->xGoal, obstaclex[0], obstaclex[1], obstaclex[2], res->oResultNextX};
       vector<float> y = {ctx->yRobot, ctx->yGoal, obstacley[0], obstacley[1], obstacley[2], res->oResultNextY};
-      // plt::scatter(x, y, 100,color=['blue','red','red','red','green']);
+
+      vector<float> xR = {ctx->xRobot};
+      vector<float> yR = {ctx->yRobot};
+      plt::scatter(x, y, 100);
+      plt::scatter(xR, yR, 'r');
 
       plt::grid(true);
       plt::show();
@@ -62,10 +66,6 @@ int main(int argc, char *argv[])
          break;
       }
    }
-   vector<float> x = {1, 2};
-   vector<float> y = {4, 3};
-   vector<float> z = {'r', 'g'};
-   plt::scatter(x, 'green');
-   plt::show();
+
    return 0;
 }
