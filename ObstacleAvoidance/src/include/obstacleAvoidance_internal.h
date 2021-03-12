@@ -14,7 +14,6 @@ struct OcalculationState
     float oResultFy;
     float attForce;
     float distRO[N_MAX_OBSTACLES];
-    int n_obstacles;
 };
 
 struct OcalculationContext
@@ -28,6 +27,7 @@ struct OcalculationContext
     float maxObstInfluence;
     int funcOrder;
     float stepSize;
+    int n_obstacles;
     float xObstacle[N_MAX_OBSTACLES];
     float yObstacle[N_MAX_OBSTACLES];
     struct OcalculationState *s;
