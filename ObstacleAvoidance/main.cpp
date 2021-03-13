@@ -42,6 +42,8 @@ int main(int argc, char *argv[])
    //vector<float> y = {ctx->yRobot, ctx->yGoal, ctx->yObstacle[2]};
    //plt::hold(true);
    int i = 0;
+   vector<float> xR;
+   vector<float> yR;
    while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
    {
       err = force.forceAtt(ctx, res);
@@ -54,15 +56,16 @@ int main(int argc, char *argv[])
       vector<float> obsy = {obstacley[0], obstacley[1], obstacley[2]};
       vector<float> goalx = {ctx->xGoal};
       vector<float> goaly = {ctx->yGoal};
-      vector<float> xR = {ctx->xRobot};
-      vector<float> yR = {ctx->yRobot};
+      xR.push_back(ctx->xRobot);
+      yR.push_back(ctx->yRobot);
+      plt::plot(xR, yR);
       plt::scatter(xR, yR, 100);
       plt::scatter(obsx, obsy, 'r');
       plt::scatter(goalx, goaly, 'g');
       plt::grid(true);
       plt::show();
       i++;
-      if (i > 7)
+      if (i > 20)
       {
          break;
       }
