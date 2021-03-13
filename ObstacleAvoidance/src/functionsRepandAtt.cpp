@@ -84,6 +84,11 @@ o_errt Forces::nextStep(OcalculationContext *ctx, Oresult *out)
 {
     out->oResultNextX = ctx->xRobot + ctx->stepSize * cos(out->oResultAng); // Next position of the robot X coordinate
     out->oResultNextY = ctx->yRobot + ctx->stepSize * sin(out->oResultAng); // Next position of the robot Y coordinate
+    /*if ((ctx->xRobot, ctx->yRobot) > (ctx->xGoal, ctx->yGoal))
+    {
+        out->oResultNextX = ctx->xRobot - ctx->stepSize * cos(out->oResultAng);
+        out->oResultNextY = ctx->yRobot - ctx->stepSize * sin(out->oResultAng);
+    }*/
     ctx->xRobot = out->oResultNextX;
     ctx->yRobot = out->oResultNextY;
     return o_errt::err_no_error;

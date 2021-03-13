@@ -7,8 +7,6 @@
 using namespace std;
 namespace plt = matplotlibcpp;
 
-namespace plt = matplotlibcpp;
-
 int main(int argc, char *argv[])
 {
 
@@ -16,7 +14,13 @@ int main(int argc, char *argv[])
    float robotCoordinates[2] = {0, 0};
    float obstaclex[3] = {2.5, 3, 7};
    float obstacley[3] = {3, 4, 6};
-   float params[6] = {1.1, 100, 2, 5, 2, 3};
+   // attCoefficientKa = params[0]
+   // repCoefficientKrep = params[1]
+   // stepSize = params[2]
+   // maxObstInfluence = params[3]
+   // funcOrder = params[4]
+   // n_obstacles = params[5]
+   float params[6] = {100, 100, 0.8, 4, 2, 3};
    o_errt err;
    OcalculationContext *ctx = new OcalculationContext;
    Oresult *res = new Oresult;
@@ -41,35 +45,41 @@ int main(int argc, char *argv[])
    //vector<float> x = {ctx->xRobot, ctx->xGoal, ctx->xObstacle[2]};
    //vector<float> y = {ctx->yRobot, ctx->yGoal, ctx->yObstacle[2]};
    //plt::hold(true);
-   int i = 0;
+   //int i = 0;
    vector<float> xR;
    vector<float> yR;
-   while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
+   vector<float> obsx = {obstaclex[0], obstaclex[1], obstaclex[2]};
+   vector<float> obsy = {obstacley[0], obstacley[1], obstacley[2]};
+   vector<float> goalx = {ctx->xGoal};
+   vector<float> goaly = {ctx->yGoal};
+   while ((ctx->xRobot, ctx->yRobot) < (ctx->xGoal, ctx->yGoal))
    {
       err = force.forceAtt(ctx, res);
       err = force.forceRep(ctx, res);
       err = force.forceComp(ctx, res);
       err = force.forceAngle(ctx, res);
       err = force.nextStep(ctx, res);
+      /*if ((ctx->xRobot, ctx->yRobot) >= (ctx->xGoal, ctx->yGoal))
+      {
+         (ctx->xRobot, ctx->yRobot) == (ctx->xGoal, ctx->yGoal);
+      }*/
       //q = (res->oResultNextX, res->oResultNextY);
-      vector<float> obsx = {obstaclex[0], obstaclex[1], obstaclex[2]};
-      vector<float> obsy = {obstacley[0], obstacley[1], obstacley[2]};
-      vector<float> goalx = {ctx->xGoal};
-      vector<float> goaly = {ctx->yGoal};
       xR.push_back(ctx->xRobot);
       yR.push_back(ctx->yRobot);
       plt::plot(xR, yR);
       plt::scatter(xR, yR, 100);
+      plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
       plt::scatter(obsx, obsy, 'r');
+      //plt::annotate("Obstacle", obsx, obsy);
       plt::scatter(goalx, goaly, 'g');
+      //plt::annotate("Goal", goalx, goaly);
       plt::grid(true);
       plt::show();
-      i++;
-      if (i > 20)
+      /*i++;
+      if (i > 50)
       {
          break;
-      }
+      }*/
    }
-
    return 0;
 }
