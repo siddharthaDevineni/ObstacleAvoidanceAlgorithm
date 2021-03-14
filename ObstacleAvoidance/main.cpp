@@ -14,20 +14,27 @@ int main(int argc, char *argv[])
    float robotCoordinates[2] = {0, 0};
    //float obstaclex[3] = {2.5, 3.9, 7};
    //float obstacley[3] = {2.2, 3.9, 5};
-   float obstaclex[24];
-   float obstacley[24];
-   for (float obstaclex = 0.7; obstaclex <= 3.5; obstaclex = obstaclex + 0.1)
+   int nObstacles = 24;
+   float obstaclex[nObstacles];
+   float obstacley[nObstacles];
+   float obstaclexf = 0.7f;
+   //float obstaclex = 0.7; obstaclex <= 3.5; obstaclex = obstaclex + 0.1
+   for (int i = 0; i < nObstacles; i++)
    {
-      obstacley[] = (pow((1 / obstaclex), 2) + 0.5);
+
+      obstacley[i] = (pow((1 / obstaclexf), 2) + 0.5);
+      obstaclex[i] = obstaclexf;
+      obstaclexf += 0.1;
    }
    //cout << sizeof(obstaclex);
    // attCoefficientKa = params[0]
    // repCoefficientKrep = params[1]
    // stepSize = params[2]
+   // stepsizerange[2] = {maxstep, minstep} = {1,0.1}
    // maxObstInfluence = params[3]
    // funcOrder = params[4]
    // n_obstacles = params[5]
-   float params[6] = {1.1, 100, 0.1, 0.11, 2, 3};
+   float params[6] = {1.1, 100, 0.1, 0.11, 2, nObstacles};
    o_errt err;
    OcalculationContext *ctx = new OcalculationContext;
    Oresult *res = new Oresult;
@@ -57,9 +64,14 @@ int main(int argc, char *argv[])
    vector<float> yR;
    //vector<float> obsx = {obstaclex[0], obstaclex[1], obstaclex[2]};
    //vector<float> obsy = {obstacley[0], obstacley[1], obstacley[2]};
-   vector<float> obsx = {obstaclex[0], obstaclex[1], obstaclex[2], obstaclex[3], obstaclex[4], obstaclex[5], obstaclex[6], obstaclex[7], obstaclex[8], obstaclex[9], obstaclex[10], obstaclex[11], obstaclex[12], obstaclex[13], obstaclex[14], obstaclex[15], obstaclex[16], obstaclex[17], obstaclex[18], obstaclex[19], obstaclex[20], obstaclex[21], obstaclex[22], obstaclex[23]};
-   vector<float> obsy = {obstacley[0], obstacley[1], obstacley[2], obstacley[3], obstacley[4], obstacley[5], obstacley[6], obstacley[7], obstacley[8], obstacley[9], obstacley[10], obstacley[11], obstacley[12], obstacley[13], obstacley[14], obstacley[15], obstacley[16], obstacley[17], obstacley[18], obstacley[19], obstacley[20], obstacley[21], obstacley[22], obstacley[23]};
-   //vector<float> obsy = {obstacley[0], obstacley[1], obstacley[2]};
+   vector<float> obsx;
+   vector<float> obsy;
+
+   for (int i = 0; i < params[5]; i++)
+   {
+      obsx.push_back(obstaclex[i]);
+      obsy.push_back(obstacley[i]);
+   }
    vector<float> goalx = {ctx->xGoal};
    vector<float> goaly = {ctx->yGoal};
    plt::figure();
