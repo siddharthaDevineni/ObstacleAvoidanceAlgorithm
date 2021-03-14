@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
    // maxObstInfluence = params[3]
    // funcOrder = params[4]
    // n_obstacles = params[5]
-   float params[6] = {1.1, 100, 0.1, 0.11, 2, nObstacles};
+   float params[6] = {1.1, 100, 0.2, 1, 2, float(nObstacles)};
    o_errt err;
    OcalculationContext *ctx = new OcalculationContext;
    Oresult *res = new Oresult;
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
    vector<float> goalx = {ctx->xGoal};
    vector<float> goaly = {ctx->yGoal};
    plt::figure();
-   while ((ctx->xRobot, ctx->yRobot) < (ctx->xGoal, ctx->yGoal))
+   while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
    {
       err = force.forceAtt(ctx, res);
       err = force.forceRep(ctx, res);
