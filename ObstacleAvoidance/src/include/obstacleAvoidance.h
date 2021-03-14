@@ -17,8 +17,8 @@ struct Oresult
 
 	float oResultFax;
 	float oResultFay;
-	float oResultFrx[3];
-	float oResultFry[3];
+	float oResultFrx[24];
+	float oResultFry[24];
 	float oResultAng;
 	float oResultNextX;
 	float oResultNextY;
