@@ -7,6 +7,8 @@
 using namespace std;
 namespace plt = matplotlibcpp;
 
+//plt::backend('agg');
+
 int main(int argc, char *argv[])
 {
 
@@ -52,6 +54,7 @@ int main(int argc, char *argv[])
    vector<float> obsy = {obstacley[0], obstacley[1], obstacley[2]};
    vector<float> goalx = {ctx->xGoal};
    vector<float> goaly = {ctx->yGoal};
+   plt::figure();
    while ((ctx->xRobot, ctx->yRobot) < (ctx->xGoal, ctx->yGoal))
    {
       err = force.forceAtt(ctx, res);
@@ -74,6 +77,7 @@ int main(int argc, char *argv[])
       plt::scatter(goalx, goaly, 'g');
       //plt::annotate("Goal", goalx, goaly);
       plt::grid(true);
+      plt::title("Robot's Path Planning in Obstacle Avoidance");
       plt::show();
       /*i++;
       if (i > 50)
@@ -81,5 +85,6 @@ int main(int argc, char *argv[])
          break;
       }*/
    }
+
    return 0;
 }
