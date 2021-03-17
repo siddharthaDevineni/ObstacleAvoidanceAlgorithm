@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
       obstaclexf += 0.1;
     }
 
-    // Parameters such as Coefficient of attraction, Coefficient of repulsion, Step size of robot, Max obstacle influence, Order of function, Number of obstacles
+    // Parameters as described in detail in the library obstacleAvoidance
     float params[6] = {1.1, 100, 0.2, 1, 2, float(nObstacles)};
 
     // Obstacle Avoidance possible Error object creation as err
@@ -53,33 +53,20 @@ int main(int argc, char *argv[])
     // Object creation for the calculation context as ctx
     OcalculationContext *ctx = new OcalculationContext;
 
-    // Creation of object for the Result  as res
+    // Creation of object for the Result as res
     Oresult *res = new Oresult;
 
     // Creation of object for Forces as force
     Forces force;
 
-    /*
-	 * Function for initialization of parameters to run the program
-	 * Output: error if any missing or incorrect entry of parameters
-	 * @params: Position of goal as its coordinates
-	 * @params: Position of robot as its coordinates
-     * @params: Required parameters for functions
-     * @params: X coordinates of obstacles
-     * @params: Y coordinates of obstacles
-     * @params: Calculation context object ctx
-	 */
+	 // Function for initialization of parameters to run the program as explained in the library obstacleAvoidance
     err = obaInitCalculationContext(goalCoordinates, robotCoordinates, params, obstaclex, obstacley, ctx);
     if (err != o_errt ::err_no_error)
     {
       cout << "Error detected";
     }
 
-    /*
-	 * @ Function takes the Result obtained from the functionsRepandAtt.h
-	 * Output: generates error if any abnormal output values
-     * @params: results
-	 */
+	 // Function takes the Results obtained from functionsRepandAtt to check errors
     err = obaInitResult(res);
     if (err != o_errt ::err_no_error)
     {
@@ -87,10 +74,11 @@ int main(int argc, char *argv[])
     }
 
     // for plotting purposes using matplotlib
-    vector<float> xR;
-    vector<float> yR;
-    vector<float> obsx;
-    vector<float> obsy;
+    vector<float> xR; // x-coordinate of robot
+    vector<float> yR; // y-coordinate of robot
+    vector<float> obsx; // x-coordinate of obstacles
+    vector<float> obsy; // y-coordinate of obstacles
+
     for (int i = 0; i < params[5]; i++)
     {
       obsx.push_back(obstaclex[i]);
@@ -99,22 +87,22 @@ int main(int argc, char *argv[])
     vector<float> goalx = {ctx->xGoal};
     vector<float> goaly = {ctx->yGoal};
     plt::figure();
+
+    // while robot not yet reached the target
     while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
    {
-      err = force.forceAtt(ctx, res);
-      err = force.forceRep(ctx, res);
-      err = force.forceComp(ctx, res);
-      err = force.forceAngle(ctx, res);
-      err = force.nextStep(ctx, res);
-      xR.push_back(ctx->xRobot);
-      yR.push_back(ctx->yRobot);
-      plt::plot(xR, yR);
+      err = force.forceAtt(ctx, res); // Calculate attraction force between the robot and target
+      err = force.forceRep(ctx, res); // Calculate force of repulsion between the Robot and the obstacles
+      err = force.forceComp(ctx, res); // Calculate the total force by adding the corresponding components of attraction & repulsion forces
+      err = force.forceAngle(ctx, res); // Calculate the steering angle for direction (navigation) using total force components
+      err = force.nextStep(ctx, res); // Calculate the next step for the robot consisting of x and y coordinates as its position
+      xR.push_back(ctx->xRobot); // for plotting purpose
+      yR.push_back(ctx->yRobot); // for plotting purpose
+      plt::plot(xR, yR); 
       plt::scatter(xR, yR);
       plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
       plt::scatter(obsx, obsy, 'r');
-      //plt::annotate("Obstacle", obsx, obsy);
       plt::scatter(goalx, goaly, 'g');
-      //plt::annotate("Goal", goalx, goaly);
       plt::grid(true);
       plt::title("Robot's Path Planning in Obstacle Avoidance");
       plt::show();
@@ -128,8 +116,8 @@ int main(int argc, char *argv[])
 
 ## Technologies
 Project is created with:
-* C++ version: 14
-* CMake version: 3.17
+* C++
+* CMake
 
 ## Setup
 To run this project
@@ -139,9 +127,9 @@ To run this project
 
 
 ## Roadmap
-- [x] Robot avoids random stationary obstacles (static environment)
-- [ ] Robot avoids random moving obstacles (dynamic environment)
-- [ ] Implementation of interpolation functions and control strategies to calculate optimal path like shortest distance and time
+- [x] Robot avoids random stationary obstacles (static environment) as version 1.0
+- [ ] Robot avoids random moving obstacles (dynamic environment) as version 1.1
+- [ ] Implementation of interpolation functions and control strategies to calculate optimal path like shortest distance and time as version 2.0
 
 
 ## References
@@ -153,5 +141,5 @@ To run this project
 [MIT](https://choosealicense.com/licenses/mit/)
 
 
-Thanks :v:
+Thanks for visiting :v:
 
