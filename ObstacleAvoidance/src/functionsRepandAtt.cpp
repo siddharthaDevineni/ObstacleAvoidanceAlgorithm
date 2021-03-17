@@ -110,7 +110,7 @@ o_errt Forces::nextStep(OcalculationContext *ctx, Oresult *out)
         out->oResultNextX = ctx->xRobot - funcstepSize * cos(out->oResultAng);
         out->oResultNextY = ctx->yRobot - funcstepSize * sin(out->oResultAng);
     }*/
-    if (ctx->s->distRA <= 0.75)
+    if (ctx->s->distRA <= 0.1)
     {
         out->oResultNextX = ctx->xGoal;
         out->oResultNextY = ctx->yGoal;

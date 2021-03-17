@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
    int nObstacles = 24;
    float obstaclex[nObstacles];
    float obstacley[nObstacles];
-   float obstaclexf = 0.7f;
+   float obstaclexf = 0.5f;
    //float obstaclex = 0.7; obstaclex <= 3.5; obstaclex = obstaclex + 0.1
    for (int i = 0; i < nObstacles; i++)
    {
@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
    // maxObstInfluence = params[3]
    // funcOrder = params[4]
    // n_obstacles = params[5]
-   float params[6] = {1.1, 100, 0.2, 1, 2, float(nObstacles)};
+   float params[6] = {1.1, 100, 0.1, 1, 2, float(nObstacles)};
    o_errt err;
    OcalculationContext *ctx = new OcalculationContext;
    Oresult *res = new Oresult;
@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
       xR.push_back(ctx->xRobot);
       yR.push_back(ctx->yRobot);
       plt::plot(xR, yR);
-      plt::scatter(xR, yR);
+      plt::scatter(xR, yR, 30);
       plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
       plt::scatter(obsx, obsy, 'r');
       //plt::annotate("Obstacle", obsx, obsy);
