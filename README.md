@@ -134,7 +134,7 @@ Project is created with:
 ## Setup
 To run this project
 * Install CMake with a minimum version of 3.10
-* Add libraries [functionsRepandAtt](../src/include/functionsRepandAtt.h) and [obstacleAvoidance](../src/include/obstacleAvoidance.h)
+* Add libraries [functionsRepandAtt](..ObstacleAvoidance/src/include/functionsRepandAtt.h) and [obstacleAvoidance](..ObstacleAvoidance/src/include/obstacleAvoidance.h)
 * Install [Matplotlib-cpp](https://github.com/lava/matplotlib-cpp) which is a very easy to use C++ plotting library for plotting and visualization purposes.
 
 
