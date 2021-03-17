@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
 }
 ```
 **Result:**
-![Image of Robot](Figure_2.png)
+![Image of Robot](Figure.png)
 
 ## Technologies
 Project is created with:
