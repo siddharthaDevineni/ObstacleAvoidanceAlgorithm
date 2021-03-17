@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
 }
 ```
 **Result:**
-![Image of Robot](..ObstacleAvoidance/externals/matplotlib2/examples/Figure_1.png)
+![Image of Robot](..ObstacleAvoidanceAlgorithm/Figure_1.png)
 
 ## Technologies
 Project is created with:
