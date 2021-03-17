@@ -17,8 +17,8 @@ struct Oresult
 
 	float oResultFax;	  // Magnitude of Attraction force in X-direction
 	float oResultFay;	  // Magnitude of Attraction force in Y-direction
-	float oResultFrx[24]; // Magnitude of Repulsion force in X-direction for each obstacle
-	float oResultFry[24]; // Magnitude of Repulsion force in Y-direction for each obstacle
+	float oResultFrx[27]; // Magnitude of Repulsion force in X-direction for each obstacle
+	float oResultFry[27]; // Magnitude of Repulsion force in Y-direction for each obstacle
 	float oResultAng;	  // Steering angle for navigation of the robot
 	float oResultNextX;	  // Next position of the robot X coordinate
 	float oResultNextY;	  // Next position of the robot Y coordinate

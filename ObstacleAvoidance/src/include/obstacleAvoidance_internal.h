@@ -16,7 +16,7 @@
 #include <string>
 #include <iostream>
 
-#define N_MAX_OBSTACLES 25
+#define N_MAX_OBSTACLES 30
 
 struct OcalculationState
 {

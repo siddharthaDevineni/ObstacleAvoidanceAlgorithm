@@ -31,18 +31,27 @@ int main(int argc, char *argv[])
     float robotCoordinates[2] = {0, 0};
 
     // number of obstacles
-    int   nObstacles = 24;
-    float obstaclex[nObstacles];
-    float obstacley[nObstacles];
+    int nObstaclesCurve = 24;
+    int nObstaclesTotal = 27;
+    float obstaclex[nObstaclesTotal];
+    float obstacley[nObstaclesTotal];
     float obstaclexf = 0.7f;
 
-    // Creation of custom obstacles
-     for (int i = 0; i < nObstacles; i++)
+    // Creation of custom obstacles like curve
+     for (int i = 0; i < nObstaclesCurve; i++)
     {
       obstacley[i] = (pow((1 / obstaclexf), 2) + 0.5);
       obstaclex[i] = obstaclexf;
       obstaclexf += 0.1;
     }
+
+    // random dot obstacles
+    obstaclex[24] = {6};
+    obstacley[24] = {3.5};
+    obstaclex[25] = {7};
+    obstacley[25] = {6.5};
+    obstaclex[26] = {8.5};
+    obstacley[26] = {7.2};
 
     // Parameters as described in detail in the library obstacleAvoidance
     float params[6] = {1.1, 100, 0.2, 1, 2, float(nObstacles)};
@@ -66,7 +75,7 @@ int main(int argc, char *argv[])
       cout << "Error detected";
     }
 
-	 // Function takes the Results obtained from functionsRepandAtt to check errors
+    // Function takes the Results obtained from functionsRepandAtt to check errors
     err = obaInitResult(res);
     if (err != o_errt ::err_no_error)
     {
@@ -112,7 +121,7 @@ int main(int argc, char *argv[])
 }
 ```
 **Result:**
-![Image of Robot](Figure_1.png)
+![Image of Robot](Figure_2.png)
 
 ## Technologies
 Project is created with:

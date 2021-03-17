@@ -12,27 +12,27 @@ int main(int argc, char *argv[])
    float robotCoordinates[2] = {0, 0};
    //float obstaclex[3] = {2.5, 3.9, 7};
    //float obstacley[3] = {2.2, 3.9, 5};
-   int nObstacles = 24;
-   float obstaclex[nObstacles];
-   float obstacley[nObstacles];
+   int nObstaclesCurve = 24;
+   int nObstaclesTotal = 27;
+   float obstaclex[nObstaclesTotal];
+   float obstacley[nObstaclesTotal];
    float obstaclexf = 0.5f;
    //float obstaclex = 0.7; obstaclex <= 3.5; obstaclex = obstaclex + 0.1
-   for (int i = 0; i < nObstacles; i++)
+   for (int i = 0; i < nObstaclesCurve; i++)
    {
 
       obstacley[i] = (pow((1 / obstaclexf), 2) + 0.5);
       obstaclex[i] = obstaclexf;
       obstaclexf += 0.1;
    }
-   //cout << sizeof(obstaclex);
-   // attCoefficientKa = params[0]
-   // repCoefficientKrep = params[1]
-   // stepSize = params[2]
-   // stepsizerange[2] = {maxstep, minstep} = {1,0.1}
-   // maxObstInfluence = params[3]
-   // funcOrder = params[4]
-   // n_obstacles = params[5]
-   float params[6] = {1.1, 100, 0.1, 1, 2, float(nObstacles)};
+   obstaclex[24] = {6};
+   obstacley[24] = {3.5};
+   obstaclex[25] = {7};
+   obstacley[25] = {6.5};
+   obstaclex[26] = {8.5};
+   obstacley[26] = {7.2};
+
+   float params[6] = {1.1, 100, 0.1, 1, 2, float(nObstaclesTotal)};
    o_errt err;
    OcalculationContext *ctx = new OcalculationContext;
    Oresult *res = new Oresult;
@@ -92,6 +92,6 @@ int main(int argc, char *argv[])
       plt::title("Robot's Path Planning in Obstacle Avoidance");
       plt::show();
    }
-
+   plt::save("master_plot.png");
    return 0;
 }
