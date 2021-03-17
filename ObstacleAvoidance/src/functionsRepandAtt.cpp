@@ -54,7 +54,6 @@ o_errt Forces::forceRep(OcalculationContext *ctx, Oresult *out)
         out->oResultFrx[i] = Fr * cos(ctx->s->oResultAngPhi[i]); // Component of repulsion in the direction of the x-axis
         out->oResultFry[i] = Fr * sin(ctx->s->oResultAngPhi[i]); // Component of repulsion in the direction of the y-axis
         OBA_TRACE_L2("Obstacle Coordinates: (%f,%f) Obstacle Distance: (%f) FR1: (%f) FR2: (%f) Repulsion force: (%f)", ctx->xObstacle[i], ctx->yObstacle[i], ctx->s->distRO[i], Fr1, Fr2, ctx->s->repForce);
-        //OBA_TRACE_L2("Attr/Rep: (%f)", ctx->s->attForce / ctx->s->repForce);
     }
 
     // Shortest distance between robot and obstacle

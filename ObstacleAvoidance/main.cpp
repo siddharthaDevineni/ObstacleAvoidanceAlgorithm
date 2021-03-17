@@ -6,8 +6,6 @@
 using namespace std;
 namespace plt = matplotlibcpp;
 
-//plt::backend('agg');
-
 int main(int argc, char *argv[])
 {
    float goalCoordinates[2] = {10, 10};
@@ -90,7 +88,6 @@ int main(int argc, char *argv[])
       plt::scatter(obsx, obsy, 'r');
       //plt::annotate("Obstacle", obsx, obsy);
       plt::scatter(goalx, goaly, 'g');
-      //plt::annotate("Goal", goalx, goaly);
       plt::grid(true);
       plt::title("Robot's Path Planning in Obstacle Avoidance");
       plt::show();
