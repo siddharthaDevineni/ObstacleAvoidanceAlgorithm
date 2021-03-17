@@ -20,7 +20,7 @@ A comprehensive example:
 #include "ObstacleAvoidanceConfig.h"
 
 using namespace std;
-namespace plt = matplotlibcpp;
+namespace plt = matplotlibcpp; // Importing matplotlib-cpp
 
 int main(int argc, char *argv[])
 {
@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
     // Creation of object for Forces as force
     Forces force;
 
-	 // Function for initialization of parameters to run the program as explained in the library obstacleAvoidance
+    // Function for initialization of parameters to run the program as explained in the library obstacleAvoidance
     err = obaInitCalculationContext(goalCoordinates, robotCoordinates, params, obstaclex, obstacley, ctx);
     if (err != o_errt ::err_no_error)
     {
