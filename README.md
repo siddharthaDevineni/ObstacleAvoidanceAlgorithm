@@ -125,8 +125,7 @@ int main(int argc, char *argv[])
 ![Image of Robot](Figure.png)
 
 ## Demo
-//![gif](plot_gif.gif)
-<img src="plot_gif.gif" width="400" height="400"/>
+<img src="plot_gif.gif" width="1000" height="600"/>
 
 ## Technologies
 Project is created with:
