@@ -1,4 +1,4 @@
-# Obstacle Avoidance Algorithm in C++
+# Obstacle Avoidance Algorithm in C++ - (Version 1.0)
 - [Obstacle Avoidance Algorithm in C++](#obstacle-avoidance-algorithm-in-c)
   - [Description](#description)
   - [Usage](#usage)
