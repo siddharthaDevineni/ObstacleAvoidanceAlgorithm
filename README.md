@@ -126,7 +126,7 @@ int main(int argc, char *argv[])
 
 ## Demo
 //![gif](plot_gif.gif)
-<img src="plot_gif.gif" width="100" height="100"/>
+<img src="plot_gif.gif" width="400" height="400"/>
 
 ## Technologies
 Project is created with:
