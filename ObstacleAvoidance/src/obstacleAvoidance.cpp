@@ -33,6 +33,7 @@ o_errt obaInitCalculationContext(float goalCoordinates[2], float robotCoordinate
     ctx->yGoal = goalCoordinates[1];
     ctx->xRobot = robotCoordinates[0];
     ctx->yRobot = robotCoordinates[1];
+
     OBA_TRACE_L2("Goal Coordinates: (%f,%f) RobotCoordinates:(%f,%f)", ctx->xGoal, ctx->yGoal, ctx->xRobot, ctx->yRobot);
 
     ctx->attCoefficientKa = params[0];
