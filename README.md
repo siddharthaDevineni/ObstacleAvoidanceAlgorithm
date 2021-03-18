@@ -2,6 +2,7 @@
 - [Obstacle Avoidance Algorithm in C++](#obstacle-avoidance-algorithm-in-c)
   - [Description](#description)
   - [Usage](#usage)
+  - [Demo](#demo)
   - [Technologies](#technologies)
   - [Setup](#setup)
   - [Roadmap](#roadmap)
@@ -122,6 +123,9 @@ int main(int argc, char *argv[])
 ```
 **Result:**
 ![Image of Robot](Figure.png)
+
+## Demo
+![gif](plot_gif.gif)
 
 ## Technologies
 Project is created with:
