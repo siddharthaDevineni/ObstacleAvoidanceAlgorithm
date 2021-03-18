@@ -181,8 +181,8 @@ namespace matplotlibcpp
                 wchar_t const *dummy_args[] = {L"Python", NULL}; // const is needed because literals must not be modified
                 wchar_t const **argv = dummy_args;
                 int argc = sizeof(dummy_args) / sizeof(dummy_args[0]) - 1;
-                //PySys_SetArgv(argc, const_cast<wchar_t **>(argv));
-                PySys_SetArgv(argc, reinterpret_cast<char **>(const_cast<wchar_t **>(argv)));
+                PySys_SetArgv(argc, const_cast<wchar_t **>(argv));
+                //PySys_SetArgv(argc, reinterpret_cast<char **>(const_cast<wchar_t **>(argv)));
 
 #ifndef WITHOUT_NUMPY
                 import_numpy(); // initialize numpy C-API
