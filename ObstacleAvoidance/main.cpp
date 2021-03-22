@@ -9,32 +9,31 @@ namespace plt = matplotlibcpp; // Importing matplotlib-cpp
 int main(int argc, char *argv[])
 {
 
-   float goalCoordinates[2] = {10, -10};
+   float goalCoordinates[2] = {10, 10};
    float robotCoordinates[2] = {0, 0};
 
    // number of obstacles
-   int nObstaclesCurve = 24;
-   int nObstaclesTotal = 27;
-   float obstaclex[nObstaclesTotal];
-   float obstacley[nObstaclesTotal];
-   float obstaclexf = 0.5f;
 
-   for (int i = 0; i < nObstaclesCurve; i++)
-   {
-      obstacley[i] = (pow((1 / obstaclexf), 2) + 0.5);
-      obstaclex[i] = obstaclexf;
-      obstaclexf += 0.1;
-   }
+   int nObstaclesTotal = 2;
+   float obstaclex[nObstaclesTotal] = {1.5, 3};
+   float obstacley[nObstaclesTotal] = {1.3, 3};
 
-   // random dot obstacles
-   obstaclex[24] = {6};
-   obstacley[24] = {3.5};
-   obstaclex[25] = {7};
-   obstacley[25] = {6.5};
-   obstaclex[26] = {8.5};
-   obstacley[26] = {7.2};
+   /*    ctx->xGoal = goalCoordinates[0];
+    ctx->yGoal = goalCoordinates[1];
+    ctx->xRobot = robotCoordinates[0];
+    ctx->yRobot = robotCoordinates[1];
+
+    OBA_TRACE_L2("Goal Coordinates: (%f,%f) RobotCoordinates:(%f,%f)", ctx->xGoal, ctx->yGoal, ctx->xRobot, ctx->yRobot);
+
+    ctx->attCoefficientKa = params[0];
+    ctx->repCoefficientKrep = params[1];
+    ctx->stepSize = params[2];
+    ctx->maxObstInfluence = params[3];
+    ctx->funcOrder = params[4];
+    ctx->n_obstacles = params[5];*/
+
    // paramters as explained in obstacleAvoidance
-   float params[6] = {1.1, 100, 0.1, 1, 2, float(nObstaclesTotal)};
+   float params[6] = {1.1, 100, 0.2, 0.5, 2, float(nObstaclesTotal)};
 
    // As explained in corresponding libraries
    // Obstacle Avoidance possible Error object creation as err
@@ -66,6 +65,11 @@ int main(int argc, char *argv[])
    cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;
 
    int i = 0;
+   vector<float> xR = {robotCoordinates[0]};
+   vector<float> yR = {robotCoordinates[1]};
+   vector<float> xObs = {obstaclex[0], obstaclex[1], goalCoordinates[0]};
+   vector<float> yObs = {obstacley[0], obstacley[1], goalCoordinates[1]};
+
    while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
    {
       err = force.forceAtt(ctx, res);
@@ -74,49 +78,22 @@ int main(int argc, char *argv[])
       err = force.forceAngle(ctx, res);
       err = force.nextStep(ctx, res);
 
-      vector<float> x = {ctx->xRobot, ctx->xGoal, obstaclex[0], obstaclex[1], obstaclex[2], res->oResultNextX};
-      vector<float> y = {ctx->yRobot, ctx->yGoal, obstacley[0], obstacley[1], obstacley[2], res->oResultNextY};
-      vector<double> xR = {ctx->xRobot, 2, 4};
-      vector<double> yR = {ctx->yRobot, 5, 6};
+      xR.push_back(ctx->xRobot);
+      yR.push_back(ctx->yRobot);
 
-      plt::plot(xR, yR, "r");
+      plt::plot(xR, yR);
+      plt::scatter(xObs, yObs, 'r');
+      plt::grid(true);
+      plt::title("Robot's Path Planning in Obstacle Avoidance");
+      plt::show();
 
-      // for plotting purposes
-      vector<float> xR;   // x-coordinate of robot
-      vector<float> yR;   // y-coordinate of robot
-      vector<float> obsx; // x-coordinate of obstacles
-      vector<float> obsy; // y-coordinate of obstacles
-
-      for (int i = 0; i < params[5]; i++)
+      if (i > 15)
       {
-         obsx.push_back(obstaclex[i]);
-         obsy.push_back(obstacley[i]);
+         break;
       }
-      vector<float> goalx = {ctx->xGoal};
-      vector<float> goaly = {ctx->yGoal};
-      plt::figure();
-      // while robot not yet reached the target
-      while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
-      {
-         err = force.forceAtt(ctx, res);   // Calculate attraction force between the robot and target
-         err = force.forceRep(ctx, res);   // Calculate force of repulsion between the Robot and the obstacles
-         err = force.forceComp(ctx, res);  // Calculate the total force by adding the corresponding components of attraction & repulsion forces
-         err = force.forceAngle(ctx, res); // Calculate the steering angle for direction (navigation) using total force components
-         err = force.nextStep(ctx, res);   // Calculate the next step for the robot consisting of x and y coordinates as its position
-         xR.push_back(ctx->xRobot);        // for plotting purpose
-         yR.push_back(ctx->yRobot);        // for plotting purpose
-         plt::plot(xR, yR);
-         plt::xlabel("X-axis");
-         plt::ylabel("Y-axis");
-         plt::scatter(xR, yR, 30);
-         //plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
-         plt::scatter(obsx, obsy, 'r');
-         plt::scatter(goalx, goaly, 'g');
-         plt::grid(true);
-         plt::pause(0.01);
-         plt::title("Robot's Path Planning in Obstacle Avoidance");
-      }
-      //plt::show();
-      plt::save("master_plot.png");
-      return 0;
+      i++;
    }
+
+   cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;
+   return 0;
+}

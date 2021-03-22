@@ -10,16 +10,17 @@ o_errt Forces::forceAtt(OcalculationContext *ctx, Oresult *out)
         return o_errt::err_null_input;
     }
     float Fa = 0;
-    float Ra = sqrt(pow((ctx->xRobot - ctx->xGoal), 2) + pow((ctx->yRobot - ctx->yGoal), 2)); // Shortest distance between robot and target
-    Fa = ctx->attCoefficientKa * Ra;                                                          // Magnitude of Attraction force
-    ctx->s->oResultAngTheta = atan2(ctx->yGoal - ctx->yRobot, ctx->xGoal - ctx->xRobot);      // theta is angle between the X‐axis and the line from the point of the robot to the target
+    ctx->s->distRA = sqrt(pow((ctx->xRobot - ctx->xGoal), 2) + pow((ctx->yRobot - ctx->yGoal), 2)); // Shortest distance between robot and target
+    Fa = ctx->attCoefficientKa * ctx->s->distRA;                                                    // Magnitude of Attraction force
+    ctx->s->oResultAngTheta = atan2(ctx->yGoal - ctx->yRobot, ctx->xGoal - ctx->xRobot);            // theta is angle between the X‐axis and the line from the point of the robot to the target
 
     OBA_TRACE_L2("Attraction Theta: %f", (ctx->s->oResultAngTheta * 180 / 3.14));
     out->oResultFax = Fa * cos(ctx->s->oResultAngTheta); // X-component of Attraction force
     out->oResultFay = Fa * sin(ctx->s->oResultAngTheta); // Y-component of Attraction force
 
     ctx->s->attForce = Fa;
-    OBA_TRACE_L2("Robot Coordinates:(%f,%f) Target Distance: (%f) Attraction force: (%f)", ctx->xRobot, ctx->yRobot, ctx->s->distRA, Fa);
+    OBA_TRACE_L2("Robot Coordinates:(%f,%f) Target Distance: (%f) Attraction force: (%f) Fax: %f, Fay: %f",
+                 ctx->xRobot, ctx->yRobot, ctx->s->distRA, ctx->s->attForce, out->oResultFax, out->oResultFay);
 
     return o_errt::err_no_error;
 }
@@ -49,13 +50,17 @@ o_errt Forces::forceRep(OcalculationContext *ctx, Oresult *out)
         {
             Fr = 0;
         }
-        float dot = ctx->xObstacle[i] * ctx->xRobot + ctx->yObstacle[i] * ctx->yRobot;
-        float det = ctx->xObstacle[i] * ctx->yRobot - ctx->yObstacle[i] * ctx->xRobot;
-        ctx->s->oResultAngPhi[i] = atan2(det, dot);              // phi is angle between the X‐axis and the line from the point of the robot to the obstacle
+        float dot = (ctx->xRobot - ctx->xObstacle[i]) * 1;
+        float det = (ctx->yRobot - ctx->yObstacle[i]);
+        ctx->s->oResultAngPhi[i] = atan2(dot, det); // phi is angle between the X‐axis and the line from the point of the robot to the obstacle
+        //ctx->s->oResultAngPhi[i] = atan2(ctx->yObstacle[i] - ctx->yRobot, ctx->xObstacle[i] - ctx->xRobot);
         ctx->s->repForce = Fr;                                   // Magnitude of repulsion force
         out->oResultFrx[i] = Fr * cos(ctx->s->oResultAngPhi[i]); // Component of repulsion in the direction of the x-axis
         out->oResultFry[i] = Fr * sin(ctx->s->oResultAngPhi[i]); // Component of repulsion in the direction of the y-axis
-        OBA_TRACE_L2("Obstacle Coordinates: (%f,%f) Obstacle Distance: (%f) FR1: (%f) FR2: (%f) Repulsion force: (%f)", ctx->xObstacle[i], ctx->yObstacle[i], ctx->s->distRO[i], Fr1, Fr2, ctx->s->repForce);
+
+        OBA_TRACE_L2("Obstacle Coordinates: (%f,%f) ObsAngle: %f Obstacle Distance: (%f) FRx: (%f) FRy: (%f) Repulsion force: (%f)",
+                     ctx->xObstacle[i], ctx->yObstacle[i], ctx->s->oResultAngPhi[i] * 180 / 3.14, ctx->s->distRO[i], out->oResultFrx[i],
+                     out->oResultFry[i], ctx->s->repForce);
     }
 
     // Shortest distance between robot and obstacle
@@ -74,19 +79,18 @@ o_errt Forces::forceComp(OcalculationContext *ctx, Oresult *out)
         ctx->s->oResultFy += out->oResultFry[i]; // Total Force in Y-direcion
     }
 
+    OBA_TRACE_L2("resultFx: %f, resultFy: %f",
+                 ctx->s->oResultFx, ctx->s->oResultFy);
+
     return o_errt::err_no_error;
 }
 o_errt Forces::forceAngle(OcalculationContext *ctx, Oresult *out)
 {
 
-    if (ctx->s->oResultFx > 0)
-    {
-        out->oResultAng = atan2(ctx->s->oResultFy, ctx->s->oResultFx); // Steering angle
-    }
-    else
-    {
-        out->oResultAng = M_PI + atan2(ctx->s->oResultFy, ctx->s->oResultFx);
-    }
+    out->oResultAng = atan2(ctx->s->oResultFy, ctx->s->oResultFx); // Steering angle
+
+    OBA_TRACE_L2("resultAngle: %f",
+                 out->oResultAng * 180 / 3.14);
 
     return o_errt::err_no_error;
 }
