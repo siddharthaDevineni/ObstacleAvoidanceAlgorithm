@@ -13,8 +13,10 @@ o_errt Forces::forceAtt(OcalculationContext *ctx, Oresult *out)
     float Ra = sqrt(pow((ctx->xRobot - ctx->xGoal), 2) + pow((ctx->yRobot - ctx->yGoal), 2)); // Shortest distance between robot and target
     Fa = ctx->attCoefficientKa * Ra;                                                          // Magnitude of Attraction force
     ctx->s->oResultAngTheta = atan2(ctx->yGoal - ctx->yRobot, ctx->xGoal - ctx->xRobot);      // theta is angle between the X‐axis and the line from the point of the robot to the target
-    out->oResultFax = Fa * cos(ctx->s->oResultAngTheta);                                      // X-component of Attraction force
-    out->oResultFay = Fa * sin(ctx->s->oResultAngTheta);                                      // Y-component of Attraction force
+
+    OBA_TRACE_L2("Attraction Theta: %f", (ctx->s->oResultAngTheta * 180 / 3.14));
+    out->oResultFax = Fa * cos(ctx->s->oResultAngTheta); // X-component of Attraction force
+    out->oResultFay = Fa * sin(ctx->s->oResultAngTheta); // Y-component of Attraction force
 
     ctx->s->attForce = Fa;
 

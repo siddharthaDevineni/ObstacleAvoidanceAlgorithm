@@ -12,7 +12,7 @@ namespace plt = matplotlibcpp;
 int main(int argc, char *argv[])
 {
 
-   float goalCoordinates[2] = {10, 10};
+   float goalCoordinates[2] = {10, -10};
    float robotCoordinates[2] = {0, 0};
    float obstaclex[3] = {2.5, 3, 7};
    float obstacley[3] = {3, 4, 6};
@@ -36,11 +36,7 @@ int main(int argc, char *argv[])
    cout << " the program works good " << endl;
 
    cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;
-   //float q = (ctx->xRobot, ctx->yRobot);
-   //float qGoal = (ctx->xGoal, ctx->yGoal);
-   //vector<float> x = {ctx->xRobot, ctx->xGoal, ctx->xObstacle[2]};
-   //vector<float> y = {ctx->yRobot, ctx->yGoal, ctx->yObstacle[2]};
-   //plt::hold(true);
+
    int i = 0;
    while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
    {
@@ -49,7 +45,7 @@ int main(int argc, char *argv[])
       err = force.forceComp(ctx, res);
       err = force.forceAngle(ctx, res);
       err = force.nextStep(ctx, res);
-      //q = (res->oResultNextX, res->oResultNextY);
+
       vector<float> x = {ctx->xRobot, ctx->xGoal, obstaclex[0], obstaclex[1], obstaclex[2], res->oResultNextX};
       vector<float> y = {ctx->yRobot, ctx->yGoal, obstacley[0], obstacley[1], obstacley[2], res->oResultNextY};
       vector<double> xR = {ctx->xRobot, 2, 4};
