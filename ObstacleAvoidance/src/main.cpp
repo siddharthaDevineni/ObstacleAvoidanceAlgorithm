@@ -1,20 +1,3 @@
-# Obstacle Avoidance Algorithm in C++ (Version 1.0)
-- [Obstacle Avoidance Algorithm in C++ (Version 1.0)](#obstacle-avoidance-algorithm-in-c-version-10)
-  - [Description](#description)
-  - [Usage](#usage)
-  - [Demo](#demo)
-  - [Technologies](#technologies)
-  - [Setup](#setup)
-  - [Roadmap](#roadmap)
-  - [References](#references)
-  - [License](#license)
-
-## Description
-This library is about path planning for a mobile robot to reach its destination by avoiding obstacles resulting in a safe navigation as an optimal path.
-
-## Usage
-A comprehensive example:
-```c++
 #include <iostream>
 #include "functionsRepandAtt.h"
 #include "matplotlibcpp.h"
@@ -102,38 +85,3 @@ int main(int argc, char *argv[])
    }
    return 0;
 }
-```
-**Result:**
-![Image of Robot](Figure.png)
-
-## Demo
-<img src="plot_gif.gif" width="1600" height="600"/>
-
-## Technologies
-Project is created with:
-* C++
-* CMake
-
-## Setup
-To run this project
-* Install CMake with a minimum version of 3.10
-* Add libraries [functionsRepandAtt](ObstacleAvoidance/src/include/functionsRepandAtt.h) and [obstacleAvoidance](ObstacleAvoidance/src/include/obstacleAvoidance.h)
-* Install [Matplotlib-cpp](https://github.com/lava/matplotlib-cpp) which is a very easy to use C++ plotting library for plotting and visualization purposes.
-
-
-## Roadmap
-- [x] Robot avoids random stationary obstacles (static environment) as version 1.0
-- [ ] Robot avoids random moving obstacles (dynamic environment) as version 1.1
-- [ ] Implementation of interpolation functions and control strategies to calculate optimal path like shortest distance and time as version 2.0
-
-
-## References
-* [Obstacle avoidance of mobile robots using modified artificial potential field algorithm](https://doi.org/10.1186/s13638-019-1396-2)
-
-* [Path planning for autonomous mobile robot using the Potential Field method](https://doi.org/10.1109/ASET.2017.7983725)
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
-
-
-Thanks for visiting :v:

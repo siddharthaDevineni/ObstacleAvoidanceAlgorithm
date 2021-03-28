@@ -1,20 +1,3 @@
-# Obstacle Avoidance Algorithm in C++ (Version 1.0)
-- [Obstacle Avoidance Algorithm in C++ (Version 1.0)](#obstacle-avoidance-algorithm-in-c-version-10)
-  - [Description](#description)
-  - [Usage](#usage)
-  - [Demo](#demo)
-  - [Technologies](#technologies)
-  - [Setup](#setup)
-  - [Roadmap](#roadmap)
-  - [References](#references)
-  - [License](#license)
-
-## Description
-This library is about path planning for a mobile robot to reach its destination by avoiding obstacles resulting in a safe navigation as an optimal path.
-
-## Usage
-A comprehensive example:
-```c++
 #include <iostream>
 #include "functionsRepandAtt.h"
 #include "matplotlibcpp.h"
@@ -32,12 +15,28 @@ int main(int argc, char *argv[])
    float robotCoordinates[2] = {0, 0};
 
    // number of obstacles
-   int nObstaclesTotal = 2;
-   float obstaclex[nObstaclesTotal] = {1.5, 3};
-   float obstacley[nObstaclesTotal] = {1.3, 3};
+   int nObstaclesCurve = 24;
+   int nObstaclesTotal = 27;
+   float obstaclex[nObstaclesTotal];
+   float obstacley[nObstaclesTotal];
+   float obstaclexf = 0.5f;
 
+   for (int i = 0; i < nObstaclesCurve; i++)
+   {
+      obstacley[i] = (pow((1 / obstaclexf), 2) + 0.5);
+      obstaclex[i] = obstaclexf;
+      obstaclexf += 0.1;
+   }
+
+   // random dot obstacles
+   obstaclex[24] = {6};
+   obstacley[24] = {3.5};
+   obstaclex[25] = {7};
+   obstacley[25] = {6.5};
+   obstaclex[26] = {8.5};
+   obstacley[26] = {7.2};
    // paramters as explained in obstacleAvoidance
-   float params[6] = {1.1, 100, 0.2, 0.5, 2, float(nObstaclesTotal)};
+   float params[6] = {1.1, 100, 0.1, 1, 2, float(nObstaclesTotal)};
 
    // As explained in corresponding libraries
    // Obstacle Avoidance possible Error object creation as err
@@ -69,11 +68,16 @@ int main(int argc, char *argv[])
    cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;
 
    // for plotting purposes
-   vector<float> xR = {robotCoordinates[0]};                              // x-coordinate of robot
-   vector<float> yR = {robotCoordinates[1]};                              // y-coordinate of robot
-   vector<float> obsx = {obstaclex[0], obstaclex[1], goalCoordinates[0]}; // x-coordinate of obstacles
-   vector<float> obsy = {obstacley[0], obstacley[1], goalCoordinates[1]}; // y-coordinate of obstacles
+   vector<float> xR;   // x-coordinate of robot
+   vector<float> yR;   // y-coordinate of robot
+   vector<float> obsx; // x-coordinate of obstacles
+   vector<float> obsy; // y-coordinate of obstacles
 
+   for (int i = 0; i < params[5]; i++)
+   {
+      obsx.push_back(obstaclex[i]);
+      obsy.push_back(obstacley[i]);
+   }
    vector<float> goalx = {ctx->xGoal};
    vector<float> goaly = {ctx->yGoal};
    plt::figure();
@@ -85,55 +89,20 @@ int main(int argc, char *argv[])
       err = force.forceComp(ctx, res);  // Calculate the total force by adding the corresponding components of attraction & repulsion forces
       err = force.forceAngle(ctx, res); // Calculate the steering angle for direction (navigation) using total force components
       err = force.nextStep(ctx, res);   // Calculate the next step for the robot consisting of x and y coordinates as its position
-
-      xR.push_back(ctx->xRobot); // for plotting purpose
-      yR.push_back(ctx->yRobot); // for plotting purpose
-
+      xR.push_back(ctx->xRobot);        // for plotting purpose
+      yR.push_back(ctx->yRobot);        // for plotting purpose
       plt::plot(xR, yR);
       plt::xlabel("X-axis");
       plt::ylabel("Y-axis");
       plt::scatter(xR, yR, 30);
+      //plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
       plt::scatter(obsx, obsy, 'r');
       plt::scatter(goalx, goaly, 'g');
       plt::grid(true);
       plt::pause(0.01);
       plt::title("Robot's Path Planning in Obstacle Avoidance");
-      plt::show();
    }
+   //plt::show();
+   plt::save("master_plot.png");
    return 0;
 }
-```
-**Result:**
-![Image of Robot](Figure.png)
-
-## Demo
-<img src="plot_gif.gif" width="1600" height="600"/>
-
-## Technologies
-Project is created with:
-* C++
-* CMake
-
-## Setup
-To run this project
-* Install CMake with a minimum version of 3.10
-* Add libraries [functionsRepandAtt](ObstacleAvoidance/src/include/functionsRepandAtt.h) and [obstacleAvoidance](ObstacleAvoidance/src/include/obstacleAvoidance.h)
-* Install [Matplotlib-cpp](https://github.com/lava/matplotlib-cpp) which is a very easy to use C++ plotting library for plotting and visualization purposes.
-
-
-## Roadmap
-- [x] Robot avoids random stationary obstacles (static environment) as version 1.0
-- [ ] Robot avoids random moving obstacles (dynamic environment) as version 1.1
-- [ ] Implementation of interpolation functions and control strategies to calculate optimal path like shortest distance and time as version 2.0
-
-
-## References
-* [Obstacle avoidance of mobile robots using modified artificial potential field algorithm](https://doi.org/10.1186/s13638-019-1396-2)
-
-* [Path planning for autonomous mobile robot using the Potential Field method](https://doi.org/10.1109/ASET.2017.7983725)
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
-
-
-Thanks for visiting :v:
