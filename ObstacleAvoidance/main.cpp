@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 
    // number of obstacles
 
-   int nObstaclesTotal = 2;
+   const int nObstaclesTotal = 2;
    float obstaclex[nObstaclesTotal] = {1.5, 3};
    float obstacley[nObstaclesTotal] = {1.3, 3};
 
