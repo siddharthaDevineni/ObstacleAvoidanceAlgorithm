@@ -9,14 +9,14 @@ namespace plt = matplotlibcpp; // Importing matplotlib-cpp
 int main(int argc, char *argv[])
 {
 
-   float goalCoordinates[2] = {10, 10};
+   float goalCoordinates[2] = {10, -10};
    float robotCoordinates[2] = {0, 0};
 
    // number of obstacles
 
    const int nObstaclesTotal = 2;
-   float obstaclex[nObstaclesTotal] = {1.5, 3};
-   float obstacley[nObstaclesTotal] = {1.3, 3};
+   float obstaclex[nObstaclesTotal] = {5.8, 3.4};
+   float obstacley[nObstaclesTotal] = {-5.2, -3.2};
 
    /*    ctx->xGoal = goalCoordinates[0];
     ctx->yGoal = goalCoordinates[1];
@@ -87,11 +87,11 @@ int main(int argc, char *argv[])
       plt::title("Robot's Path Planning in Obstacle Avoidance");
       plt::show();
 
-      if (i > 15)
-      {
-         break;
-      }
-      i++;
+      // if (i > 15)
+      // {
+      //    break;
+      // }
+      // i++;
    }
 
    cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;

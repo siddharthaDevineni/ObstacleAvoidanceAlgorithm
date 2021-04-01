@@ -50,7 +50,7 @@ o_errt Forces::forceRep(OcalculationContext *ctx, Oresult *out)
         {
             Fr = 0;
         }
-        float dot = (ctx->xRobot - ctx->xObstacle[i]) * 1;
+        float dot = (ctx->xRobot + ctx->xObstacle[i]) * 1;
         float det = (ctx->yRobot - ctx->yObstacle[i]);
         ctx->s->oResultAngPhi[i] = atan2(dot, det); // phi is angle between the X‐axis and the line from the point of the robot to the obstacle
         //ctx->s->oResultAngPhi[i] = atan2(ctx->yObstacle[i] - ctx->yRobot, ctx->xObstacle[i] - ctx->xRobot);
