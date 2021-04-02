@@ -50,10 +50,15 @@ o_errt Forces::forceRep(OcalculationContext *ctx, Oresult *out)
         {
             Fr = 0;
         }
-        float dot = (ctx->xRobot + ctx->xObstacle[i]) * 1;
+
+        float dot = (ctx->xRobot - ctx->xObstacle[i]) * 1;
         float det = (ctx->yRobot - ctx->yObstacle[i]);
         ctx->s->oResultAngPhi[i] = atan2(dot, det); // phi is angle between the X‐axis and the line from the point of the robot to the obstacle
         //ctx->s->oResultAngPhi[i] = atan2(ctx->yObstacle[i] - ctx->yRobot, ctx->xObstacle[i] - ctx->xRobot);
+
+        // ctx->xRobot = ctx->xRobot * cos(ctx->s->oResultAngPhi[i]) - ctx->yRobot * sin(ctx->s->oResultAngPhi[i]);
+        // ctx->yRobot = ctx->xRobot * sin(ctx->s->oResultAngPhi[i]) + ctx->yRobot * cos(ctx->s->oResultAngPhi[i]);
+
         ctx->s->repForce = Fr;                                   // Magnitude of repulsion force
         out->oResultFrx[i] = Fr * cos(ctx->s->oResultAngPhi[i]); // Component of repulsion in the direction of the x-axis
         out->oResultFry[i] = Fr * sin(ctx->s->oResultAngPhi[i]); // Component of repulsion in the direction of the y-axis

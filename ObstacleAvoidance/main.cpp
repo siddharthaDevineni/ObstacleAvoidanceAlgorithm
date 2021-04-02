@@ -9,14 +9,14 @@ namespace plt = matplotlibcpp; // Importing matplotlib-cpp
 int main(int argc, char *argv[])
 {
 
-   float goalCoordinates[2] = {10, -10};
+   float goalCoordinates[2] = {10, 10};
    float robotCoordinates[2] = {0, 0};
 
    // number of obstacles
 
    const int nObstaclesTotal = 2;
-   float obstaclex[nObstaclesTotal] = {5.8, 3.4};
-   float obstacley[nObstaclesTotal] = {-5.2, -3.2};
+   float obstaclex[nObstaclesTotal] = {5.8, 3};
+   float obstacley[nObstaclesTotal] = {5.2, 3.3};
 
    /*    ctx->xGoal = goalCoordinates[0];
     ctx->yGoal = goalCoordinates[1];
