@@ -51,13 +51,9 @@ o_errt Forces::forceRep(OcalculationContext *ctx, Oresult *out)
             Fr = 0;
         }
 
-        float dot = (ctx->xRobot - ctx->xObstacle[i]) * 1;
-        float det = (ctx->yRobot - ctx->yObstacle[i]);
+        float dot = (ctx->xRobot - ctx->xObstacle[i]) * 1 + 0;
+        float det = 1 * (ctx->yRobot - ctx->yObstacle[i]) - 0;
         ctx->s->oResultAngPhi[i] = atan2(dot, det); // phi is angle between the X‐axis and the line from the point of the robot to the obstacle
-        //ctx->s->oResultAngPhi[i] = atan2(ctx->yObstacle[i] - ctx->yRobot, ctx->xObstacle[i] - ctx->xRobot);
-
-        // ctx->xRobot = ctx->xRobot * cos(ctx->s->oResultAngPhi[i]) - ctx->yRobot * sin(ctx->s->oResultAngPhi[i]);
-        // ctx->yRobot = ctx->xRobot * sin(ctx->s->oResultAngPhi[i]) + ctx->yRobot * cos(ctx->s->oResultAngPhi[i]);
 
         ctx->s->repForce = Fr;                                   // Magnitude of repulsion force
         out->oResultFrx[i] = Fr * cos(ctx->s->oResultAngPhi[i]); // Component of repulsion in the direction of the x-axis
@@ -115,11 +111,7 @@ o_errt Forces::nextStep(OcalculationContext *ctx, Oresult *out)
 {
     out->oResultNextX = ctx->xRobot + funStepSize(ctx->s->attForce, ctx->s->repForce, ctx->stepSize) * cos(out->oResultAng); // Next position of the robot X coordinate
     out->oResultNextY = ctx->yRobot + funStepSize(ctx->s->attForce, ctx->s->repForce, ctx->stepSize) * sin(out->oResultAng); // Next position of the robot Y coordinate
-                                                                                                                             /*if ((ctx->xRobot, ctx->yRobot) > (ctx->xGoal, ctx->yGoal))
-        {
-        out->oResultNextX = ctx->xRobot - funcstepSize * cos(out->oResultAng);
-        out->oResultNextY = ctx->yRobot - funcstepSize * sin(out->oResultAng);
-    }*/
+
     if (ctx->s->distRA <= 0.1)
     {
         out->oResultNextX = ctx->xGoal;

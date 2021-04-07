@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 
    const int nObstaclesTotal = 2;
    float obstaclex[nObstaclesTotal] = {-5, -3};
-   float obstacley[nObstaclesTotal] = {-5, -2.8};
+   float obstacley[nObstaclesTotal] = {-5, -3.2};
 
    /*    ctx->xGoal = goalCoordinates[0];
     ctx->yGoal = goalCoordinates[1];
