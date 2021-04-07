@@ -1,6 +1,8 @@
 #ifndef OBSTACLEAVOIDANCE_H
 #define OBSTACLEAVOIDANCE_H
 
+#define N_MAX_OBSTACLES 30
+
 // Obstacle Avoidance Error List
 typedef enum o_errt
 {
@@ -15,14 +17,14 @@ typedef enum o_errt
 struct Oresult
 {
 
-	float oResultFax;	  // Magnitude of Attraction force in X-direction
-	float oResultFay;	  // Magnitude of Attraction force in Y-direction
-	float oResultFrx[27]; // Magnitude of Repulsion force in X-direction for each obstacle
-	float oResultFry[27]; // Magnitude of Repulsion force in Y-direction for each obstacle
-	float oResultAng;	  // Steering angle for navigation of the robot
-	float oResultNextX;	  // Next position of the robot X coordinate
-	float oResultNextY;	  // Next position of the robot Y coordinate
-	o_errt oError;		  // Obstacle Avoidance Error List
+	float oResultFax;				   // Magnitude of Attraction force in X-direction
+	float oResultFay;				   // Magnitude of Attraction force in Y-direction
+	float oResultFrx[N_MAX_OBSTACLES]; // Magnitude of Repulsion force in X-direction for each obstacle
+	float oResultFry[N_MAX_OBSTACLES]; // Magnitude of Repulsion force in Y-direction for each obstacle
+	float oResultAng;				   // Steering angle for navigation of the robot
+	float oResultNextX;				   // Next position of the robot X coordinate
+	float oResultNextY;				   // Next position of the robot Y coordinate
+	o_errt oError;					   // Obstacle Avoidance Error List
 };
 
 // Context must be Initialised for internal purposes
