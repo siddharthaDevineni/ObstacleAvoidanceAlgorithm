@@ -9,31 +9,16 @@ namespace plt = matplotlibcpp; // Importing matplotlib-cpp
 int main(int argc, char *argv[])
 {
 
-   float goalCoordinates[2] = {-10, -10};
-   float robotCoordinates[2] = {0, 0};
+   float goalCoordinates[2] = {10, 10}; // position of target
+   float robotCoordinates[2] = {0, 0};  // initial position of robot
 
-   // number of obstacles
-
+   // Number of obstacles
    const int nObstaclesTotal = 2;
-   float obstaclex[nObstaclesTotal] = {-5, -3};
-   float obstacley[nObstaclesTotal] = {-5, -3.2};
+   float obstaclex[nObstaclesTotal] = {3, 7};
+   float obstacley[nObstaclesTotal] = {3.2, 6.5};
 
-   /*    ctx->xGoal = goalCoordinates[0];
-    ctx->yGoal = goalCoordinates[1];
-    ctx->xRobot = robotCoordinates[0];
-    ctx->yRobot = robotCoordinates[1];
-
-    OBA_TRACE_L2("Goal Coordinates: (%f,%f) RobotCoordinates:(%f,%f)", ctx->xGoal, ctx->yGoal, ctx->xRobot, ctx->yRobot);
-
-    ctx->attCoefficientKa = params[0];
-    ctx->repCoefficientKrep = params[1];
-    ctx->stepSize = params[2];
-    ctx->maxObstInfluence = params[3];
-    ctx->funcOrder = params[4];
-    ctx->n_obstacles = params[5];*/
-
-   // paramters as explained in obstacleAvoidance
-   float params[6] = {1.1, 100, 0.2, 0.5, 2, float(nObstaclesTotal)};
+   // Paramters as explained in obstacleAvoidance
+   float params[6] = {1.1, 100, 0.1, 0.75, 2, float(nObstaclesTotal)};
 
    // As explained in corresponding libraries
    // Obstacle Avoidance possible Error object creation as err
@@ -61,39 +46,31 @@ int main(int argc, char *argv[])
    {
       cout << "Error detected";
    }
-
-   cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;
-
-   int i = 0;
-   vector<float> xR = {robotCoordinates[0]};
-   vector<float> yR = {robotCoordinates[1]};
-   vector<float> xObs = {obstaclex[0], obstaclex[1], goalCoordinates[0]};
-   vector<float> yObs = {obstacley[0], obstacley[1], goalCoordinates[1]};
-
+   vector<float> xR = {robotCoordinates[0]};                              // x-coordinate of robot
+   vector<float> yR = {robotCoordinates[1]};                              // y-coordinate of robot
+   vector<float> xObs = {obstaclex[0], obstaclex[1], goalCoordinates[0]}; // x-coordinate of obstacles
+   vector<float> yObs = {obstacley[0], obstacley[1], goalCoordinates[1]}; // y-coordinate of obstacles
+   vector<float> goalx = {ctx->xGoal};
+   vector<float> goaly = {ctx->yGoal};
    while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
    {
-      err = force.forceAtt(ctx, res);
-      err = force.forceRep(ctx, res);
-      err = force.forceComp(ctx, res);
-      err = force.forceAngle(ctx, res);
-      err = force.nextStep(ctx, res);
+      err = force.forceAtt(ctx, res);   // Calculate attraction force between the robot and target
+      err = force.forceRep(ctx, res);   // Calculate force of repulsion between the Robot and the obstacles
+      err = force.forceComp(ctx, res);  // Calculate the total force by adding the corresponding components of attraction & repulsion forces
+      err = force.forceAngle(ctx, res); // Calculate the steering angle for direction (navigation) using total force components
+      err = force.nextStep(ctx, res);   // Calculate the next step for the robot consisting of x and y coordinates as its position
 
-      xR.push_back(ctx->xRobot);
-      yR.push_back(ctx->yRobot);
-
-      plt::plot(xR, yR);
+      xR.push_back(ctx->xRobot); // for plotting purpose
+      yR.push_back(ctx->yRobot); // for plotting purpose
+      plt::scatter(xR, yR, 3);
+      plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
       plt::scatter(xObs, yObs, 'r');
+      plt::scatter(goalx, goaly, 'g');
       plt::grid(true);
       plt::title("Robot's Path Planning in Obstacle Avoidance");
       plt::show();
-
-      // if (i > 15)
-      // {
-      //    break;
-      // }
-      // i++;
    }
-
+   plt::save("twoObstacles.pdf");
    cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;
    return 0;
 }
