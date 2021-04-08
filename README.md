@@ -92,10 +92,10 @@ int main(int argc, char *argv[])
 }
 ```
 **Result:**
-![Image of Robot](examples/twoObstacles)
+![Image of Robot](examples/twoObstacles.png)
 
 ## Demo
-![Image](examples/)
+![Image](examples/curveAndDotObstacles.png)
 <img src="plot_gif.gif" width="1600" height="600"/>
 
 ## Technologies
