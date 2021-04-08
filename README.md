@@ -25,19 +25,16 @@ namespace plt = matplotlibcpp; // Importing matplotlib-cpp
 
 int main(int argc, char *argv[])
 {
-   // position of target
-   float goalCoordinates[2] = {10, 10};
+   float goalCoordinates[2] = {10, 10}; // position of target
+   float robotCoordinates[2] = {0, 0};  // initial position of robot
 
-   // initial position of robot
-   float robotCoordinates[2] = {0, 0};
+   // Number of obstacles
+   const int nObstaclesTotal = 2;
+   float obstaclex[nObstaclesTotal] = {3, 7};
+   float obstacley[nObstaclesTotal] = {3.2, 6.5};
 
-   // number of obstacles
-   int nObstaclesTotal = 2;
-   float obstaclex[nObstaclesTotal] = {1.5, 3};
-   float obstacley[nObstaclesTotal] = {1.3, 3};
-
-   // paramters as explained in obstacleAvoidance
-   float params[6] = {1.1, 100, 0.2, 0.5, 2, float(nObstaclesTotal)};
+   // Paramters as explained in obstacleAvoidance
+   float params[6] = {1.1, 100, 0.1, 0.75, 2, float(nObstaclesTotal)};
 
    // As explained in corresponding libraries
    // Obstacle Avoidance possible Error object creation as err
@@ -65,19 +62,13 @@ int main(int argc, char *argv[])
    {
       cout << "Error detected";
    }
-
-   cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;
-
-   // for plotting purposes
    vector<float> xR = {robotCoordinates[0]};                              // x-coordinate of robot
    vector<float> yR = {robotCoordinates[1]};                              // y-coordinate of robot
-   vector<float> obsx = {obstaclex[0], obstaclex[1], goalCoordinates[0]}; // x-coordinate of obstacles
-   vector<float> obsy = {obstacley[0], obstacley[1], goalCoordinates[1]}; // y-coordinate of obstacles
-
+   vector<float> xObs = {obstaclex[0], obstaclex[1], goalCoordinates[0]}; // x-coordinate of obstacles
+   vector<float> yObs = {obstacley[0], obstacley[1], goalCoordinates[1]}; // y-coordinate of obstacles
    vector<float> goalx = {ctx->xGoal};
    vector<float> goaly = {ctx->yGoal};
-   plt::figure();
-   // while robot not yet reached the target
+   
    while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
    {
       err = force.forceAtt(ctx, res);   // Calculate attraction force between the robot and target
@@ -88,25 +79,23 @@ int main(int argc, char *argv[])
 
       xR.push_back(ctx->xRobot); // for plotting purpose
       yR.push_back(ctx->yRobot); // for plotting purpose
-
-      plt::plot(xR, yR);
-      plt::xlabel("X-axis");
-      plt::ylabel("Y-axis");
-      plt::scatter(xR, yR, 30);
-      plt::scatter(obsx, obsy, 'r');
+      plt::scatter(xR, yR, 3);
+      plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
+      plt::scatter(xObs, yObs, 'r');
       plt::scatter(goalx, goaly, 'g');
       plt::grid(true);
-      plt::pause(0.01);
       plt::title("Robot's Path Planning in Obstacle Avoidance");
       plt::show();
    }
+   cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;
    return 0;
 }
 ```
 **Result:**
-![Image of Robot](Figure.png)
+![Image of Robot](examples/twoObstacles.png)
 
 ## Demo
+![Image](examples/curveAndDotObstacles.png)
 <img src="plot_gif.gif" width="1600" height="600"/>
 
 ## Technologies

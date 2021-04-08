@@ -1,7 +1,7 @@
 #ifndef OBSTACLEAVOIDANCE_INTERNAL_H
 #define OBSTACLEAVOIDANCE_INTERNAL_H
 
-//#define DEBUG_ENABLED // Comment out to disable
+// #define DEBUG_ENABLED // Comment out to disable
 
 #ifdef DEBUG_ENABLED
 #define TRACE_LEVEL 3 // Greater than 0 to activate deep trace
@@ -15,8 +15,6 @@
 #include <stdarg.h>
 #include <string>
 #include <iostream>
-
-#define N_MAX_OBSTACLES 30
 
 struct OcalculationState
 {
