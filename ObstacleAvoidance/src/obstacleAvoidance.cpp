@@ -18,6 +18,42 @@ void obaDebug_printFormatted(const char *format, ...)
     printf("\n");
     va_end(vl);
 }
+
+/**
+ * Obstacle InterPolation functions
+*
+*/
+class ObaObstInterpolationInt
+{
+
+private:
+    /**
+     * @params nobstacles: number of obstacles
+     * @params obstacleStart[N_MAX_OBSTACLES * 2]: X,Y start coordinates of the obstacles
+     * 
+     */
+
+    o_errt oba_obst_movtype_individual(float obstacleStartPt[2], float obstacleEndPt[2], o_obstMovementType movtype, float *outObstPts, uint outobstCount)
+    {
+        if (movtype == obst_mov_linear)
+        {
+        }
+        return o_errt::err_no_error;
+    }
+
+public:
+    /**
+     * @params nobstacles: number of obstacles
+     * @params obstacleStart[N_MAX_OBSTACLES * 2]: X,Y start coordinates of the obstacles
+     * 
+     */
+    o_errt oba_obst_movtype_internal(OcalculationContext *ctx)
+    {
+
+        return o_errt::err_no_error;
+    }
+};
+
 /**
  * LIBRARY CODES
 *
@@ -29,6 +65,7 @@ o_errt obaInitCalculationContext(float goalCoordinates[2], float robotCoordinate
     {
         return o_errt::err_null_input;
     }
+    ctx->envType = env_stationary;
     ctx->xGoal = goalCoordinates[0];
     ctx->yGoal = goalCoordinates[1];
     ctx->xRobot = robotCoordinates[0];
@@ -54,10 +91,11 @@ o_errt obaInitCalculationContext(float goalCoordinates[2], float robotCoordinate
         return o_errt::err_no_memory;
     }
     ctx->s = state;
+    ctx->s->movCount = 0;
 
     if (ctx->n_obstacles > N_MAX_OBSTACLES)
     {
-        return o_errt::err_obstaclecount_exceeded;
+        return o_errt::err_obstaclecount_invalid;
     }
     for (int i = 0; i < ctx->n_obstacles; i++)
     {
@@ -67,6 +105,50 @@ o_errt obaInitCalculationContext(float goalCoordinates[2], float robotCoordinate
     }
 
     OBA_TRACE("CTX initialised");
+
+    return o_errt::err_no_error;
+}
+
+o_errt obaInitEnvironment(float *obstEndx, float *obstEndy, OcalculationContext *ctx, o_envType envtype, o_obstMovementType movtype)
+{
+    o_errt res;
+    if (ctx == nullptr)
+    {
+        return o_errt::err_null_input;
+    }
+    if (envtype == env_dynamic)
+    {
+        ctx->envType = env_dynamic;
+
+        for (int i = 0; i < ctx->n_obstacles; i++)
+        {
+            if (obstEndx != nullptr && obstEndy != nullptr)
+            {
+                ctx->xObstacleEnd[i] = obstEndx[i];
+                ctx->yObstacleEnd[i] = obstEndy[i];
+            }
+            else
+            {
+                o_errt err_obstaclecount_invalid;
+            }
+        }
+
+        ctx->obsMovType = movtype;
+    }
+    else if (envtype != env_stationary)
+    {
+        o_errt err_invalid_input;
+    }
+
+    // Calculate intermediate Obstacle coordinates
+    ObaObstInterpolationInt obj;
+    res = obj.oba_obst_movtype_internal(ctx);
+    if (res != err_no_error)
+    {
+        return res;
+    }
+
+    OBA_TRACE("CTX Environment initialised");
 
     return o_errt::err_no_error;
 }

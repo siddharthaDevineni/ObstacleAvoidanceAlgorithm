@@ -9,8 +9,20 @@ typedef enum o_errt
 	err_no_error,
 	err_invalid_input,
 	err_null_input,
-	err_obstaclecount_exceeded,
+	err_obstaclecount_invalid,
 	err_no_memory
+};
+
+typedef enum o_envType
+{
+	env_stationary,
+	env_dynamic
+};
+
+typedef enum o_obstMovementType
+{
+	obst_mov_linear,
+	obst_mov_quadratic
 };
 
 // Result struct
@@ -56,6 +68,9 @@ struct OcalculationContext;
 	 */
 o_errt obaInitCalculationContext(float goalCoordinates[2], float robotCoordinates[2], float params[5], float *obstx,
 								 float *obsty, OcalculationContext *ctx);
+
+// bla bla bla
+o_errt obaInitEnvironment(float *obstEndx, float *obstEndy, OcalculationContext *ctx, o_envType envtype, o_obstMovementType movtype);
 
 /*
 	 * Generates error if any of parameter provided is null or in other words no parameter provided 
