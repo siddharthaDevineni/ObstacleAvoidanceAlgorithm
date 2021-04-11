@@ -52,8 +52,10 @@ int main(int argc, char *argv[])
     vector<float> yObs = {obstacley[0], obstacley[1], goalCoordinates[1]}; // y-coordinate of obstacles
     vector<float> goalx = {ctx->xGoal};
     vector<float> goaly = {ctx->yGoal};
+    ctx->s->movCount = 0;
     while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
     {
+        ctx->s->movCount++;
         err = force.forceAtt(ctx, res);   // Calculate attraction force between the robot and target
         err = force.forceRep(ctx, res);   // Calculate force of repulsion between the Robot and the obstacles
         err = force.forceComp(ctx, res);  // Calculate the total force by adding the corresponding components of attraction & repulsion forces

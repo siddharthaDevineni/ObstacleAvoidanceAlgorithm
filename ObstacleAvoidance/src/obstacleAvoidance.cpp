@@ -33,11 +33,22 @@ private:
      * 
      */
 
-    o_errt oba_obst_movtype_individual(float obstacleStartPt[2], float obstacleEndPt[2], o_obstMovementType movtype, float *outObstPts, uint outobstCount)
+    o_errt oba_obst_movtype_individual(float obstacleStartPt[2], float obstacleEndPt[2], o_obstMovementType movtype, float *outObstPts, uint outObstCount, float params[6])
     {
         if (movtype == obst_mov_linear)
         {
+            int numPoints;
+            numPoints = sqrt(pow((obstacleStartPt[1] - obstacleEndPt[1]), 2) + pow((obstacleStartPt[0] - obstacleEndPt[0]), 2)) / params[2];
+            outObstCount = std::min(numPoints, MAX_OBSTACLE_PTS);
+            float yFunc[numPoints];
+            float xFunc[numPoints];
+            for (int i = 0; i < outObstCount; i++)
+            {
+                xFunc[0] = obstacleStartPt[0] + params[2];
+                yFunc[i] = obstacleStartPt[1] + (obstacleEndPt[1] - obstacleStartPt[1]) * (xFunc[i] - obstacleStartPt[0]) / (obstacleEndPt[0] - obstacleStartPt[0]);
+            }
         }
+        outObstPts = (xFunc,yFunc); ????
         return o_errt::err_no_error;
     }
 
@@ -49,7 +60,8 @@ public:
      */
     o_errt oba_obst_movtype_internal(OcalculationContext *ctx)
     {
-
+        ctx->s->obstaclePtsCount = 
+        ctx->s->obsPts = 
         return o_errt::err_no_error;
     }
 };
