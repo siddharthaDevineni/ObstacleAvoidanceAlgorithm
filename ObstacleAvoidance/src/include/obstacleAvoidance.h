@@ -10,7 +10,8 @@ typedef enum o_errt
 	err_invalid_input,
 	err_null_input,
 	err_obstaclecount_invalid,
-	err_no_memory
+	err_no_memory,
+	err_calculation_error
 };
 
 typedef enum o_envType

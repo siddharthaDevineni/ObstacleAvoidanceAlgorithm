@@ -33,22 +33,28 @@ private:
      * 
      */
 
-    o_errt oba_obst_movtype_individual(float obstacleStartPt[2], float obstacleEndPt[2], o_obstMovementType movtype, float *outObstPts, uint outObstCount, float params[6])
+    o_errt oba_obst_movtype_individual(float obstacleStartPt[2], float obstacleEndPt[2], o_obstMovementType movtype, float stepsize, float *outObstPts, uint *outObstCount)
     {
         if (movtype == obst_mov_linear)
         {
-            int numPoints;
-            numPoints = sqrt(pow((obstacleStartPt[1] - obstacleEndPt[1]), 2) + pow((obstacleStartPt[0] - obstacleEndPt[0]), 2)) / params[2];
-            outObstCount = std::min(numPoints, MAX_OBSTACLE_PTS);
-            float yFunc[numPoints];
-            float xFunc[numPoints];
-            for (int i = 0; i < outObstCount; i++)
+
+            int numPoints = sqrt(pow((obstacleStartPt[1] - obstacleEndPt[1]), 2) + pow((obstacleStartPt[0] - obstacleEndPt[0]), 2)) / stepsize;
+            *outObstCount = std::min(numPoints, MAX_OBSTACLE_PTS);
+
+            for (int i = 0; i < *outObstCount; i++)
             {
-                xFunc[0] = obstacleStartPt[0] + params[2];
-                yFunc[i] = obstacleStartPt[1] + (obstacleEndPt[1] - obstacleStartPt[1]) * (xFunc[i] - obstacleStartPt[0]) / (obstacleEndPt[0] - obstacleStartPt[0]);
+                *(outObstPts + (2 * i)) = obstacleStartPt[0] + stepsize;
+                if ((obstacleEndPt[0] - obstacleStartPt[0]) != 0)
+                {
+                    *(outObstPts + (2 * i + 1)) = obstacleStartPt[1] + (obstacleEndPt[1] - obstacleStartPt[1]) * (*(outObstPts + (2 * i)) - obstacleStartPt[0]) / (obstacleEndPt[0] - obstacleStartPt[0]);
+                }
+                else
+                {
+                    return o_errt::err_calculation_error;
+                }
             }
         }
-        outObstPts = (xFunc,yFunc); ????
+
         return o_errt::err_no_error;
     }
 
@@ -60,8 +66,19 @@ public:
      */
     o_errt oba_obst_movtype_internal(OcalculationContext *ctx)
     {
-        ctx->s->obstaclePtsCount = 
-        ctx->s->obsPts = 
+        o_errt res;
+        for (int i = 0; i < ctx->n_obstacles; i++)
+        {
+
+            float obstStartPt[2] = {ctx->xObstacle[i], ctx->yObstacle[i]};
+            float obstEndPt[2] = {ctx->xObstacleEnd[i], ctx->yObstacleEnd[i]};
+            res = oba_obst_movtype_individual(obstStartPt, obstEndPt, ctx->obsMovType, ctx->stepSize, (*(ctx->s->obsPts) + i), &(ctx->s->obstaclePtsCount[i]));
+            if (res != o_errt::err_no_error)
+            {
+                return res;
+            }
+        }
+
         return o_errt::err_no_error;
     }
 };
@@ -103,7 +120,8 @@ o_errt obaInitCalculationContext(float goalCoordinates[2], float robotCoordinate
         return o_errt::err_no_memory;
     }
     ctx->s = state;
-    ctx->s->movCount = 0;
+    ctx->s->movCount[0] = 0;
+    ctx->s->movCount[1] = -1;
 
     if (ctx->n_obstacles > N_MAX_OBSTACLES)
     {

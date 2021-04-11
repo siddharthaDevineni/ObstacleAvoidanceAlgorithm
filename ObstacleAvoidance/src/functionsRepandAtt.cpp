@@ -116,8 +116,15 @@ o_errt Forces::nextStep(OcalculationContext *ctx, Oresult *out)
     {
         out->oResultNextX = ctx->xGoal;
         out->oResultNextY = ctx->yGoal;
+        ctx->s->movCount[1] = ctx->s->movCount[0];
     }
-    ctx->xRobot = out->oResultNextX;
-    ctx->yRobot = out->oResultNextY;
+    else
+    {
+        ctx->xRobot = out->oResultNextX;
+        ctx->yRobot = out->oResultNextY;
+        ctx->s->movCount[1] = ctx->s->movCount[0];
+        ctx->s->movCount[0]++;
+    }
+
     return o_errt::err_no_error;
 }

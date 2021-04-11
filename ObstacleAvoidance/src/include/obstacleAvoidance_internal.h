@@ -16,6 +16,7 @@
 #include <stdarg.h>
 #include <string>
 #include <iostream>
+#include <math.h>
 
 struct OcalculationState
 {
@@ -30,7 +31,7 @@ struct OcalculationState
     float distRO[N_MAX_OBSTACLES];
     uint obstaclePtsCount[N_MAX_OBSTACLES];
     float **obsPts;
-    uint movCount;
+    int movCount[2]; // curr, prev values
 };
 
 struct OcalculationContext
