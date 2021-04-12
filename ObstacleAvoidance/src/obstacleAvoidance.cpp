@@ -41,16 +41,28 @@ private:
             int numPoints = sqrt(pow((obstacleStartPt[1] - obstacleEndPt[1]), 2) + pow((obstacleStartPt[0] - obstacleEndPt[0]), 2)) / stepsize;
             *outObstCount = std::min(numPoints, MAX_OBSTACLE_PTS);
 
-            for (int i = 0; i < *outObstCount; i++)
+            int i;
+        jump:
+            for (i = 0; i < *outObstCount; i++)
             {
                 *(outObstPts + (2 * i)) = obstacleStartPt[0] + stepsize;
                 if ((obstacleEndPt[0] - obstacleStartPt[0]) != 0)
                 {
                     *(outObstPts + (2 * i + 1)) = obstacleStartPt[1] + (obstacleEndPt[1] - obstacleStartPt[1]) * (*(outObstPts + (2 * i)) - obstacleStartPt[0]) / (obstacleEndPt[0] - obstacleStartPt[0]);
                 }
+
                 else
                 {
                     return o_errt::err_calculation_error;
+                }
+                OBA_TRACE_L2("Out Obstacle Points: (%f %f)", *(outObstPts + (2 * i)), *(outObstPts + (2 * i + 1)));
+            }
+            for (i = *outObstPts - 1; i >= 0; i--)
+            {
+                *(outObstPts) = *(outObstPts - (2 * i + 1));
+                if (i == 0)
+                {
+                    goto jump;
                 }
             }
         }

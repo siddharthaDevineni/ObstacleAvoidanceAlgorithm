@@ -8,17 +8,19 @@ namespace plt = matplotlibcpp; // Importing matplotlib-cpp
 
 int main(int argc, char *argv[])
 {
-
     float goalCoordinates[2] = {10, 10}; // position of target
     float robotCoordinates[2] = {0, 0};  // initial position of robot
 
     // Number of obstacles
     const int nObstaclesTotal = 2;
     float obstaclex[nObstaclesTotal] = {3, 7};
-    float obstacley[nObstaclesTotal] = {3.2, 6.5};
-
+    float obstacley[nObstaclesTotal] = {1, 3};
+    float xObstacleEnd[nObstaclesTotal] = {3, 7};
+    float yObstacleEnd[nObstaclesTotal] = {5, 7};
+    o_envType envType = env_dynamic;
+    o_obstMovementType obsMovType = obst_mov_linear;
     // Paramters as explained in obstacleAvoidance
-    float params[6] = {1.1, 100, 0.1, 0.75, 2, float(nObstaclesTotal)};
+    float params[6] = {1.1, 100, 0.1, 0.5, 2, float(nObstaclesTotal)};
 
     // As explained in corresponding libraries
     // Obstacle Avoidance possible Error object creation as err
@@ -46,10 +48,10 @@ int main(int argc, char *argv[])
     {
         cout << "Error detected";
     }
-    vector<float> xR = {robotCoordinates[0]};                              // x-coordinate of robot
-    vector<float> yR = {robotCoordinates[1]};                              // y-coordinate of robot
-    vector<float> xObs = {obstaclex[0], obstaclex[1], goalCoordinates[0]}; // x-coordinate of obstacles
-    vector<float> yObs = {obstacley[0], obstacley[1], goalCoordinates[1]}; // y-coordinate of obstacles
+    vector<float> xR = {robotCoordinates[0]};          // x-coordinate of robot
+    vector<float> yR = {robotCoordinates[1]};          // y-coordinate of robot
+    vector<float> xObs = {obstaclex[0], obstaclex[1]}; // x-coordinate of obstacles
+    vector<float> yObs = {obstacley[0], obstacley[1]}; // y-coordinate of obstacles
     vector<float> goalx = {ctx->xGoal};
     vector<float> goaly = {ctx->yGoal};
 
@@ -64,7 +66,7 @@ int main(int argc, char *argv[])
 
         xR.push_back(ctx->xRobot); // for plotting purpose
         yR.push_back(ctx->yRobot); // for plotting purpose
-        plt::scatter(xR, yR, 3);
+        plt::plot(xR, yR);
         plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
         plt::scatter(xObs, yObs, 'r');
         plt::scatter(goalx, goaly, 'g');
@@ -72,7 +74,6 @@ int main(int argc, char *argv[])
         plt::title("Robot's Path Planning in Obstacle Avoidance");
         plt::show();
     }
-    plt::save("twoObstacles.pdf");
     cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;
     return 0;
 }
