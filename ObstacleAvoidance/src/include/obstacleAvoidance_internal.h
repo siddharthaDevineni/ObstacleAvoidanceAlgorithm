@@ -30,7 +30,7 @@ struct OcalculationState
     float distRA;
     float distRO[N_MAX_OBSTACLES];
     uint obstaclePtsCount[N_MAX_OBSTACLES];
-    float **obsPts;
+    float obsPts[N_MAX_OBSTACLES][MAX_OBSTACLE_PTS];
     int movCount[2]; // curr, prev values
 };
 

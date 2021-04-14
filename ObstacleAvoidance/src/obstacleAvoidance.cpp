@@ -38,34 +38,32 @@ private:
         if (movtype == obst_mov_linear)
         {
 
-            int numPoints = sqrt(pow((obstacleStartPt[1] - obstacleEndPt[1]), 2) + pow((obstacleStartPt[0] - obstacleEndPt[0]), 2)) / stepsize;
+            int numPoints = (float)sqrt(pow((obstacleStartPt[1] - obstacleEndPt[1]), 2) + pow((obstacleStartPt[0] - obstacleEndPt[0]), 2)) / stepsize;
+
             *outObstCount = std::min(numPoints, MAX_OBSTACLE_PTS);
 
-            // int i;
-            // jump:
+            if (*outObstCount == MAX_OBSTACLE_PTS)
+            {
+                stepsize = sqrt(pow((obstacleStartPt[1] - obstacleEndPt[1]), 2) + pow((obstacleStartPt[0] - obstacleEndPt[0]), 2)) / MAX_OBSTACLE_PTS;
+            }
+
             for (int i = 0; i < *outObstCount; i++)
             {
-                *(outObstPts + (2 * i)) = obstacleStartPt[0] + stepsize;
+                float obstPathSlope = atan2(-obstacleStartPt[1] + obstacleEndPt[1], obstacleEndPt[0] - obstacleStartPt[0]);
+                outObstPts[2 * i] = obstacleStartPt[0] + cos(obstPathSlope) * (stepsize * i);
                 if ((obstacleEndPt[0] - obstacleStartPt[0]) != 0)
                 {
                     *(outObstPts + (2 * i + 1)) = obstacleStartPt[1] + (obstacleEndPt[1] - obstacleStartPt[1]) * (*(outObstPts + (2 * i)) - obstacleStartPt[0]) / (obstacleEndPt[0] - obstacleStartPt[0]);
                 }
-
                 else
                 {
-                    return o_errt::err_calculation_error;
+                    *(outObstPts + (2 * i + 1)) = obstacleStartPt[1] + stepsize * i;
                 }
+
+                OBA_TRACE_L2("obstPathSlope: %f ", obstPathSlope * 180 / 3.14);
+
                 OBA_TRACE_L2("Out Obstacle Points: (%f %f)", *(outObstPts + (2 * i)), *(outObstPts + (2 * i + 1)));
             }
-            // if(i == i = *outObstPts - 1)
-            // for (i = *outObstPts - 1; i >= 0; i--)
-            // {
-            //     *(outObstPts) = *(outObstPts - (2 * i + 1));
-            //     if (i == 0)
-            //     {
-            //         goto jump;
-            //     }
-            // }
         }
 
         return o_errt::err_no_error;
@@ -85,7 +83,7 @@ public:
 
             float obstStartPt[2] = {ctx->xObstacle[i], ctx->yObstacle[i]};
             float obstEndPt[2] = {ctx->xObstacleEnd[i], ctx->yObstacleEnd[i]};
-            res = oba_obst_movtype_individual(obstStartPt, obstEndPt, ctx->obsMovType, ctx->stepSize, *(ctx->s->obsPts + i), &(ctx->s->obstaclePtsCount[i]));
+            res = oba_obst_movtype_individual(obstStartPt, obstEndPt, ctx->obsMovType, ctx->stepSize, ctx->s->obsPts[i], &(ctx->s->obstaclePtsCount[i]));
             if (res != o_errt::err_no_error)
             {
                 return res;
@@ -162,8 +160,8 @@ o_errt obaInitEnvironment(float *obstEndx, float *obstEndy, OcalculationContext 
     if (envtype == env_dynamic)
     {
         ctx->envType = env_dynamic;
-        float *obsPts = new float[10];
-        if (obsPts == nullptr)
+
+        if (ctx->s->obsPts == nullptr)
         {
             OBA_TRACE("obsPts could not be allocated memory");
             return o_errt::err_no_memory;
