@@ -10,7 +10,7 @@
 #define TRACE_LEVEL -1
 #endif
 
-#define MAX_OBSTACLE_PTS 50
+#define MAX_OBSTACLE_PTS 100
 // This part of the code is not available for mere mortals
 #include "obstacleAvoidance.h"
 #include <stdarg.h>
@@ -31,7 +31,7 @@ struct OcalculationState
     float distRO[N_MAX_OBSTACLES];
     uint obstaclePtsCount[N_MAX_OBSTACLES];
     float obsPts[N_MAX_OBSTACLES][MAX_OBSTACLE_PTS];
-    int movCount[2]; // curr, prev values
+    uint movCount;
 };
 
 struct OcalculationContext

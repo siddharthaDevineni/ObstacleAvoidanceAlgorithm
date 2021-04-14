@@ -37,7 +37,10 @@ struct Oresult
 	float oResultAng;				   // Steering angle for navigation of the robot
 	float oResultNextX;				   // Next position of the robot X coordinate
 	float oResultNextY;				   // Next position of the robot Y coordinate
-	o_errt oError;					   // Obstacle Avoidance Error List
+	float obstCoordinatesX[N_MAX_OBSTACLES];
+	float obstCoordinatesY[N_MAX_OBSTACLES];
+
+	o_errt oError; // Obstacle Avoidance Error List
 };
 
 // Context must be Initialised for internal purposes

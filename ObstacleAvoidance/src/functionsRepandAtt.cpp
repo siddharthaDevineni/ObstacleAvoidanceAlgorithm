@@ -68,35 +68,51 @@ o_errt Forces::forceRep(OcalculationContext *ctx, Oresult *out)
     }
     else if (ctx->envType == env_dynamic)
     {
+
         for (int j = 0; j < ctx->n_obstacles; j++)
         {
-            for (int i = 0; i < (ctx->s->obstaclePtsCount[j]); i++)
+            int i = ctx->s->movCount;
+            int loopCount = 0;
+            while (i >= ctx->s->obstaclePtsCount[j] * 2)
             {
-                ctx->s->distRO[i] = sqrt(pow((ctx->xRobot - **(ctx->s->obsPts + (2 * i))), 2) + pow((ctx->yRobot - **(ctx->s->obsPts + (2 * i + 1))), 2)); // Shortest distance between robot and obstacle
-
-                if (ctx->s->distRO[i] <= ctx->maxObstInfluence) // G represents safe distance from obstacle
-                {
-                    Fr1 = forceRepLineRO(ctx->s->distRO[i], ctx->maxObstInfluence, ctx->funcOrder, ctx->s->distRA); // Fr1 is force component in the direction of the line between the robot and the obstacle
-                    Fr2 = forceRepLineRG(ctx->s->distRO[i], ctx->maxObstInfluence, ctx->funcOrder, ctx->s->distRA); // Fr2 is force component in the direction of the line between the robot and the target
-                    Fr = ctx->repCoefficientKrep * Fr1 + ctx->repCoefficientKrep * ctx->funcOrder * Fr2;            // Magnitude of Repulsion force
-                }
-                else
-                {
-                    Fr = 0;
-                }
-                float dot = (ctx->xRobot - **(ctx->s->obsPts + (2 * i))) * 1 + 0;
-                float det = 1 * (ctx->yRobot - **(ctx->s->obsPts + (2 * i + 1))) - 0;
-                ctx->s->oResultAngPhi[i] = atan2(dot, det); // phi is angle between the X‐axis and the line from the point of the robot to the obstacle
-
-                ctx->s->repForce = Fr;                                   // Magnitude of repulsion force
-                out->oResultFrx[i] = Fr * cos(ctx->s->oResultAngPhi[i]); // Component of repulsion in the direction of the x-axis
-                out->oResultFry[i] = Fr * sin(ctx->s->oResultAngPhi[i]); // Component of repulsion in the direction of the y-axis
-
-                OBA_TRACE_L2("Obstacle Coordinates: (%f,%f) ObsAngle: %f Obstacle Distance: (%f) FRx: (%f) FRy: (%f) Repulsion force: (%f)",
-                             **(ctx->s->obsPts + (2 * i)), **(ctx->s->obsPts + (2 * i + 1)), ctx->s->oResultAngPhi[i] * 180 / 3.14, ctx->s->distRO[i],
-                             out->oResultFrx[i], out->oResultFry[i], ctx->s->repForce);
+                i = i - (ctx->s->obstaclePtsCount[j] * 2);
+                loopCount++;
             }
+            if (loopCount % 2 != 0)
+            {
+                i = ctx->s->obstaclePtsCount[j] * 2 - i;
+            }
+
+            ctx->s->distRO[j] = sqrt(pow((ctx->xRobot - ctx->s->obsPts[j][i]), 2) + pow((ctx->yRobot - ctx->s->obsPts[j][i + 1]), 2)); // Shortest distance between robot and obstacle
+
+            if (ctx->s->distRO[j] <= ctx->maxObstInfluence) // G represents safe distance from obstacle
+            {
+                Fr1 = forceRepLineRO(ctx->s->distRO[j], ctx->maxObstInfluence, ctx->funcOrder, ctx->s->distRA); // Fr1 is force component in the direction of the line between the robot and the obstacle
+                Fr2 = forceRepLineRG(ctx->s->distRO[j], ctx->maxObstInfluence, ctx->funcOrder, ctx->s->distRA); // Fr2 is force component in the direction of the line between the robot and the target
+                Fr = ctx->repCoefficientKrep * Fr1 + ctx->repCoefficientKrep * ctx->funcOrder * Fr2;            // Magnitude of Repulsion force
+            }
+            else
+            {
+                Fr = 0;
+            }
+            float dot = (ctx->xRobot - ctx->s->obsPts[j][i]);
+            float det = 1 * (ctx->yRobot - ctx->s->obsPts[j][i + 1]);
+            ctx->s->oResultAngPhi[j] = atan2(dot, det); // phi is angle between the X‐axis and the line from the point of the robot to the obstacle
+
+            ctx->s->repForce = Fr;                                   // Magnitude of repulsion force
+            out->oResultFrx[j] = Fr * cos(ctx->s->oResultAngPhi[j]); // Component of repulsion in the direction of the x-axis
+            out->oResultFry[j] = Fr * sin(ctx->s->oResultAngPhi[j]); // Component of repulsion in the direction of the y-axis
+
+            out->obstCoordinatesX[j] = ctx->s->obsPts[j][i];
+            out->obstCoordinatesY[j] = ctx->s->obsPts[j][i + 1];
+
+            OBA_TRACE_L2("Obstacle Coordinates: (%f,%f) ObsAngle: %f Obstacle Distance: (%f) FRx: (%f) FRy: (%f) Repulsion force: (%f)",
+                         ctx->s->obsPts[j][i], ctx->s->obsPts[j][i + 1], ctx->s->oResultAngPhi[j] * 180 / 3.14, ctx->s->distRO[j],
+                         out->oResultFrx[j], out->oResultFry[j], ctx->s->repForce);
         }
+
+        ctx->s->movCount = ctx->s->movCount + 2;
+        OBA_TRACE_L1("Move Count: %d", ctx->s->movCount)
     }
 
     out->oError = o_errt::err_no_error;
@@ -104,27 +120,15 @@ o_errt Forces::forceRep(OcalculationContext *ctx, Oresult *out)
 }
 o_errt Forces::forceComp(OcalculationContext *ctx, Oresult *out)
 {
-    if (ctx->envType == env_stationary)
+
+    ctx->s->oResultFx = out->oResultFax;
+    ctx->s->oResultFy = out->oResultFay;
+    for (int i = 0; i < ctx->n_obstacles; i++)
     {
-        ctx->s->oResultFx = out->oResultFax;
-        ctx->s->oResultFy = out->oResultFay;
-        for (int i = 0; i < ctx->n_obstacles; i++)
-        {
-            ctx->s->oResultFx += out->oResultFrx[i]; // Total Force in X-direcion
-            ctx->s->oResultFy += out->oResultFry[i]; // Total Force in Y-direcion
-        }
+        ctx->s->oResultFx += out->oResultFrx[i]; // Total Force in X-direcion
+        ctx->s->oResultFy += out->oResultFry[i]; // Total Force in Y-direcion
     }
-    else if (ctx->envType == env_dynamic)
-    {
-        for (int j = 0; j < ctx->n_obstacles; j++)
-        {
-            for (int i = 0; i < (ctx->s->obstaclePtsCount[j]); i++)
-            {
-                ctx->s->oResultFx = out->oResultFax + out->oResultFrx[i]; // Total Force in X-direcion
-                ctx->s->oResultFy = out->oResultFay + out->oResultFry[i]; // Total Force in Y-direcion
-            }
-        }
-    }
+
     OBA_TRACE_L2("resultFx: %f, resultFy: %f",
                  ctx->s->oResultFx, ctx->s->oResultFy);
 
@@ -161,14 +165,11 @@ o_errt Forces::nextStep(OcalculationContext *ctx, Oresult *out)
     {
         out->oResultNextX = ctx->xGoal;
         out->oResultNextY = ctx->yGoal;
-        ctx->s->movCount[1] = ctx->s->movCount[0];
     }
     else
     {
         ctx->xRobot = out->oResultNextX;
         ctx->yRobot = out->oResultNextY;
-        ctx->s->movCount[1] = ctx->s->movCount[0];
-        ctx->s->movCount[0]++;
     }
 
     return o_errt::err_no_error;

@@ -47,7 +47,7 @@ private:
                 stepsize = sqrt(pow((obstacleStartPt[1] - obstacleEndPt[1]), 2) + pow((obstacleStartPt[0] - obstacleEndPt[0]), 2)) / MAX_OBSTACLE_PTS;
             }
 
-            for (int i = 0; i < *outObstCount; i++)
+            for (int i = 0; i < *outObstCount + 1; i++)
             {
                 float obstPathSlope = atan2(-obstacleStartPt[1] + obstacleEndPt[1], obstacleEndPt[0] - obstacleStartPt[0]);
                 outObstPts[2 * i] = obstacleStartPt[0] + cos(obstPathSlope) * (stepsize * i);
@@ -131,8 +131,6 @@ o_errt obaInitCalculationContext(float goalCoordinates[2], float robotCoordinate
         return o_errt::err_no_memory;
     }
     ctx->s = state;
-    ctx->s->movCount[0] = 0;
-    ctx->s->movCount[1] = -1;
 
     if (ctx->n_obstacles > N_MAX_OBSTACLES)
     {
@@ -180,6 +178,7 @@ o_errt obaInitEnvironment(float *obstEndx, float *obstEndy, OcalculationContext 
         }
 
         ctx->obsMovType = movtype;
+        ctx->s->movCount = 0;
     }
     else if (envtype != env_stationary)
     {
@@ -201,8 +200,9 @@ o_errt obaInitEnvironment(float *obstEndx, float *obstEndy, OcalculationContext 
 
 o_errt obaFreeCalculationContext(OcalculationContext *ctx)
 {
+    delete ctx->s;
+
     delete ctx;
-    ctx = nullptr;
 
     return o_errt::err_no_error;
 }

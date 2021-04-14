@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     o_envType envType = env_dynamic;
     o_obstMovementType obsMovType = obst_mov_linear;
     // Paramters as explained in obstacleAvoidance
-    float params[6] = {1.1, 100, 0.1, 0.5, 2, float(nObstaclesTotal)};
+    float params[6] = {1.1, 100, 0.5, 0.5, 2, float(nObstaclesTotal)};
 
     // As explained in corresponding libraries
     // Obstacle Avoidance possible Error object creation as err
@@ -54,32 +54,81 @@ int main(int argc, char *argv[])
     {
         cout << "Error detected";
     }
-    vector<float> xR = {robotCoordinates[0]};          // x-coordinate of robot
-    vector<float> yR = {robotCoordinates[1]};          // y-coordinate of robot
-    vector<float> xObs = {obstaclex[0], obstaclex[1]}; // x-coordinate of obstacles
-    vector<float> yObs = {obstacley[0], obstacley[1]}; // y-coordinate of obstacles
+    vector<float> xR = {robotCoordinates[0]}; // x-coordinate of robot
+    vector<float> yR = {robotCoordinates[1]}; // y-coordinate of robot
     vector<float> goalx = {ctx->xGoal};
     vector<float> goaly = {ctx->yGoal};
 
-    while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
+    if (ctx->envType = env_dynamic)
+    {
+        vector<float> xObs1 = {obstaclex[0], xObstacleEnd[0]}; // x-coordinate of robot
+        vector<float> yObs1 = {obstacley[0], yObstacleEnd[0]}; // y-coordinate of robot
+
+        while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
+        {
+
+            err = force.forceAtt(ctx, res);   // Calculate attraction force between the robot and target
+            err = force.forceRep(ctx, res);   // Calculate force of repulsion between the Robot and the obstacles
+            err = force.forceComp(ctx, res);  // Calculate the total force by adding the corresponding components of attraction & repulsion forces
+            err = force.forceAngle(ctx, res); // Calculate the steering angle for direction (navigation) using total force components
+            err = force.nextStep(ctx, res);   // Calculate the next step for the robot consisting of x and y coordinates as its position
+
+            xR.push_back(res->oResultNextX); // for plotting purpose
+            yR.push_back(res->oResultNextY); // for plotting purpose
+            vector<float> obsptsX;
+            vector<float> obsptsY;
+            ;
+            for (int i = 0; i < nObstaclesTotal; i++)
+            {
+                obsptsX.push_back(res->obstCoordinatesX[i]);
+                obsptsY.push_back(res->obstCoordinatesY[i]);
+            }
+
+            plt::plot(xR, yR);
+            plt::plot(xObs1, yObs1);
+            plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
+
+            plt::scatter(obsptsX, obsptsY, 'r');
+
+            plt::scatter(goalx, goaly, 'g');
+            plt::grid(true);
+            plt::title("Robot's Path Planning in Dynamic Environment");
+            plt::show();
+
+            break;
+        }
+    }
+
+    if (ctx->envType = env_stationary)
     {
 
-        err = force.forceAtt(ctx, res);   // Calculate attraction force between the robot and target
-        err = force.forceRep(ctx, res);   // Calculate force of repulsion between the Robot and the obstacles
-        err = force.forceComp(ctx, res);  // Calculate the total force by adding the corresponding components of attraction & repulsion forces
-        err = force.forceAngle(ctx, res); // Calculate the steering angle for direction (navigation) using total force components
-        err = force.nextStep(ctx, res);   // Calculate the next step for the robot consisting of x and y coordinates as its position
+        vector<float> xObs = {obstaclex[0], obstaclex[1]}; // x-coordinate of obstacles
+        vector<float> yObs = {obstacley[0], obstacley[1]}; // y-coordinate of obstacles
 
-        xR.push_back(ctx->xRobot); // for plotting purpose
-        yR.push_back(ctx->yRobot); // for plotting purpose
-        plt::plot(xR, yR);
-        plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
-        plt::scatter(xObs, yObs, 'r');
-        plt::scatter(goalx, goaly, 'g');
-        plt::grid(true);
-        plt::title("Robot's Path Planning in Obstacle Avoidance");
-        plt::show();
+        while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
+        {
+
+            err = force.forceAtt(ctx, res);   // Calculate attraction force between the robot and target
+            err = force.forceRep(ctx, res);   // Calculate force of repulsion between the Robot and the obstacles
+            err = force.forceComp(ctx, res);  // Calculate the total force by adding the corresponding components of attraction & repulsion forces
+            err = force.forceAngle(ctx, res); // Calculate the steering angle for direction (navigation) using total force components
+            err = force.nextStep(ctx, res);   // Calculate the next step for the robot consisting of x and y coordinates as its position
+
+            xR.push_back(res->oResultNextX); // for plotting purpose
+            yR.push_back(res->oResultNextY); // for plotting purpose
+            plt::plot(xR, yR);
+            plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
+            plt::scatter(xObs, yObs, 'r');
+            plt::scatter(goalx, goaly, 'g');
+            plt::grid(true);
+            plt::title("Robot's Path Planning in Stationary Environment");
+            plt::show();
+
+            break;
+        }
     }
+
+    err = obaFreeCalculationContext(ctx);
     cout << argv[0] << " VERSION " << OBSTACLEAVOIDANCE_VERSION_MAJOR << "." << OBSTACLEAVOIDANCE_VERSION_MINOR << endl;
     return 0;
 }
