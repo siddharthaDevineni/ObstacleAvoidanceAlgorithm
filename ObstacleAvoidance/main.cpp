@@ -42,6 +42,12 @@ int main(int argc, char *argv[])
         cout << "Error detected";
     }
 
+    err = obaInitEnvironment(xObstacleEnd, yObstacleEnd, ctx, envType, obsMovType);
+    if (err != o_errt ::err_no_error)
+    {
+        cout << "Error detected";
+    }
+
     // Function takes the Results obtained from functionsRepandAtt to check errors
     err = obaInitResult(res);
     if (err != o_errt ::err_no_error)

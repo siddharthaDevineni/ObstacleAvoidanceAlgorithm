@@ -41,9 +41,9 @@ private:
             int numPoints = sqrt(pow((obstacleStartPt[1] - obstacleEndPt[1]), 2) + pow((obstacleStartPt[0] - obstacleEndPt[0]), 2)) / stepsize;
             *outObstCount = std::min(numPoints, MAX_OBSTACLE_PTS);
 
-            int i;
-        jump:
-            for (i = 0; i < *outObstCount; i++)
+            // int i;
+            // jump:
+            for (int i = 0; i < *outObstCount; i++)
             {
                 *(outObstPts + (2 * i)) = obstacleStartPt[0] + stepsize;
                 if ((obstacleEndPt[0] - obstacleStartPt[0]) != 0)
@@ -57,14 +57,15 @@ private:
                 }
                 OBA_TRACE_L2("Out Obstacle Points: (%f %f)", *(outObstPts + (2 * i)), *(outObstPts + (2 * i + 1)));
             }
-            for (i = *outObstPts - 1; i >= 0; i--)
-            {
-                *(outObstPts) = *(outObstPts - (2 * i + 1));
-                if (i == 0)
-                {
-                    goto jump;
-                }
-            }
+            // if(i == i = *outObstPts - 1)
+            // for (i = *outObstPts - 1; i >= 0; i--)
+            // {
+            //     *(outObstPts) = *(outObstPts - (2 * i + 1));
+            //     if (i == 0)
+            //     {
+            //         goto jump;
+            //     }
+            // }
         }
 
         return o_errt::err_no_error;
@@ -84,7 +85,7 @@ public:
 
             float obstStartPt[2] = {ctx->xObstacle[i], ctx->yObstacle[i]};
             float obstEndPt[2] = {ctx->xObstacleEnd[i], ctx->yObstacleEnd[i]};
-            res = oba_obst_movtype_individual(obstStartPt, obstEndPt, ctx->obsMovType, ctx->stepSize, (*(ctx->s->obsPts) + i), &(ctx->s->obstaclePtsCount[i]));
+            res = oba_obst_movtype_individual(obstStartPt, obstEndPt, ctx->obsMovType, ctx->stepSize, *(ctx->s->obsPts + i), &(ctx->s->obstaclePtsCount[i]));
             if (res != o_errt::err_no_error)
             {
                 return res;
@@ -161,7 +162,12 @@ o_errt obaInitEnvironment(float *obstEndx, float *obstEndy, OcalculationContext 
     if (envtype == env_dynamic)
     {
         ctx->envType = env_dynamic;
-
+        float *obsPts = new float[10];
+        if (obsPts == nullptr)
+        {
+            OBA_TRACE("obsPts could not be allocated memory");
+            return o_errt::err_no_memory;
+        }
         for (int i = 0; i < ctx->n_obstacles; i++)
         {
             if (obstEndx != nullptr && obstEndy != nullptr)

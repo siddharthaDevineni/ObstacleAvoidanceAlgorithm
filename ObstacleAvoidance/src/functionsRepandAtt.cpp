@@ -34,6 +34,16 @@ float forceRepLineRG(float distRO, float maxObstInfluence, uint16_t funcOrder, f
     return pow((pow(distRO, -1) - pow(maxObstInfluence, -1)), 2) * pow(distRA, funcOrder);
 }
 
+// **float dynCoordinates(int n_obstacles, uint obstaclePtsCount, float **obsPts, float xObstacle, float stepSize, float xObstacleEnd, float yObstacle, float yObstacleEnd, float **pointerX, float **pointerY)
+// {
+
+// jump:
+//     **pointerY = yObstacle + (yObstacleEnd - yObstacle) * (**pointerX - xObstacle) / (xObstacleEnd - xObstacle);
+//     return **pointerY;
+
+//     OBA_TRACE_L2("Out Obstacle Points: (%f %f)", **(ctx->s->obsPts + (2 * i)), **(ctx->s->obsPts + (2 * i + 1)));
+// }
+
 o_errt Forces::forceRep(OcalculationContext *ctx, Oresult *out)
 {
     float Fr, Fr1, Fr2;
@@ -72,6 +82,22 @@ o_errt Forces::forceRep(OcalculationContext *ctx, Oresult *out)
         {
             for (int i = 0; i < (ctx->s->obstaclePtsCount[j]); i++)
             {
+                //         **(ctx->s->obsPts + (2 * i)) = ctx->xObstacle[0] + ctx->stepSize;
+                //         float **pointerX = **(ctx->s->obsPts + (2 * i));
+                //         float **pointerY = **(ctx->s->obsPts + (2 * i + 1));
+
+                //         for (i = ctx->s->obstaclePtsCount[j] - 1; i >= 0; i--)
+                //         {
+                //             **ctx->s->obsPts = **(ctx->s->obsPts - (2 * i + 1));
+                //             return **ctx->s->obsPts;
+                //             if (i == 0)
+                //             {
+                //                 goto jump;
+                //             }
+                //         }
+
+                //         float funOut = dynCoordinates(ctx->n_obstacles, ctx->obstaclePtsCount, **ctx->obsPts, ctx->xObstacle, ctx->stepSize, ctx->xObstacleEnd, ctx->yObstacle, ctx->yObstacleEnd, **ctx->pointerX, **ctx->pointerY);
+
                 ctx->s->distRO[i] = sqrt(pow((ctx->xRobot - **(ctx->s->obsPts + (2 * i))), 2) + pow((ctx->yRobot - **(ctx->s->obsPts + (2 * i + 1))), 2)); // Shortest distance between robot and obstacle
 
                 if (ctx->s->distRO[i] <= ctx->maxObstInfluence) // G represents safe distance from obstacle
