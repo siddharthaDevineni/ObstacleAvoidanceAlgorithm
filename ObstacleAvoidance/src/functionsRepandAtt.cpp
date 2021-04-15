@@ -111,7 +111,7 @@ o_errt Forces::forceRep(OcalculationContext *ctx, Oresult *out)
                          out->oResultFrx[j], out->oResultFry[j], ctx->s->repForce);
         }
 
-        ctx->s->movCount = ctx->s->movCount + 2;
+        ctx->s->movCount += 2; // Iterate by 2 positions
         OBA_TRACE_L1("Move Count: %d", ctx->s->movCount)
     }
 
@@ -144,22 +144,11 @@ o_errt Forces::forceAngle(OcalculationContext *ctx, Oresult *out)
 
     return o_errt::err_no_error;
 }
-float funStepSize(float attForce, float repForce, float stepSize)
-{
-    /*if (repForce = 0)
-    {
-        return 0.1;
-    }
-    else
-    {
-        return attForce / repForce;
-    }*/
-    return stepSize;
-}
+
 o_errt Forces::nextStep(OcalculationContext *ctx, Oresult *out)
 {
-    out->oResultNextX = ctx->xRobot + funStepSize(ctx->s->attForce, ctx->s->repForce, ctx->stepSize) * cos(out->oResultAng); // Next position of the robot X coordinate
-    out->oResultNextY = ctx->yRobot + funStepSize(ctx->s->attForce, ctx->s->repForce, ctx->stepSize) * sin(out->oResultAng); // Next position of the robot Y coordinate
+    out->oResultNextX = ctx->xRobot + ctx->stepSize * cos(out->oResultAng); // Next position of the robot X coordinate
+    out->oResultNextY = ctx->yRobot + ctx->stepSize * sin(out->oResultAng); // Next position of the robot Y coordinate
 
     if (ctx->s->distRA <= 0.1)
     {

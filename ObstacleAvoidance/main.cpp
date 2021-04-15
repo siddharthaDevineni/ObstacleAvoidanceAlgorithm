@@ -8,21 +8,21 @@ namespace plt = matplotlibcpp; // Importing matplotlib-cpp
 
 int main(int argc, char *argv[])
 {
-    float goalCoordinates[2] = {10, 10}; // position of target
-    float robotCoordinates[2] = {0, 0};  // initial position of robot
+    float goalCoordinates[2] = {10, 10};                 // Position of target
+    float robotCoordinates[2] = {0, 0};                  // Initial position of robot
+    const int nObstaclesTotal = 3;                       // Number of obstacles
+    float obstaclex[nObstaclesTotal] = {1, 5, 7.7};      // {obs1_x1, obs2_x1}
+    float obstacley[nObstaclesTotal] = {3, 2, 6.3};      // {obs1_y1, obs2_y1}
+    float xObstacleEnd[nObstaclesTotal] = {3, 5, 8.5};   // {obs1_x2, obs2_x2}
+    float yObstacleEnd[nObstaclesTotal] = {1, 6.5, 9.7}; // {obs1_y2, obs2_y2}
+    o_envType envType = env_dynamic;                     // Obstacle environment type dynamics
+    o_obstMovementType obsMovType = obst_mov_linear;     // Obstacle path movement type linear
 
-    // Number of obstacles
-    const int nObstaclesTotal = 2;
-    float obstaclex[nObstaclesTotal] = {3, 7};
-    float obstacley[nObstaclesTotal] = {1, 3};
-    float xObstacleEnd[nObstaclesTotal] = {3, 7};
-    float yObstacleEnd[nObstaclesTotal] = {5, 7};
-    o_envType envType = env_dynamic;
-    o_obstMovementType obsMovType = obst_mov_linear;
     // Paramters as explained in obstacleAvoidance
-    float params[6] = {1.1, 100, 0.5, 0.5, 2, float(nObstaclesTotal)};
+    float params[6] = {1.1, 100, 0.3, 1, 2, float(nObstaclesTotal)};
 
-    // As explained in corresponding libraries
+    // As explained in corresponding libraries:
+
     // Obstacle Avoidance possible Error object creation as err
     o_errt err;
 
@@ -54,16 +54,19 @@ int main(int argc, char *argv[])
     {
         cout << "Error detected";
     }
-    vector<float> xR = {robotCoordinates[0]}; // x-coordinate of robot
-    vector<float> yR = {robotCoordinates[1]}; // y-coordinate of robot
+    vector<float> xR = {robotCoordinates[0]}; // X-coordinate of robot
+    vector<float> yR = {robotCoordinates[1]}; // Y-coordinate of robot
     vector<float> goalx = {ctx->xGoal};
     vector<float> goaly = {ctx->yGoal};
 
     if (ctx->envType = env_dynamic)
     {
-        vector<float> xObs1 = {obstaclex[0], xObstacleEnd[0]}; // x-coordinate of robot
-        vector<float> yObs1 = {obstacley[0], yObstacleEnd[0]}; // y-coordinate of robot
-
+        vector<float> xObs1 = {obstaclex[0], xObstacleEnd[0]}; // X-coordinates of start and end points of Obstacle1
+        vector<float> yObs1 = {obstacley[0], yObstacleEnd[0]}; // Y-coordinates of start and end points of Obstacle1
+        vector<float> xObs2 = {obstaclex[1], xObstacleEnd[1]}; // X-coordinates of start and end points of Obstacle2
+        vector<float> yObs2 = {obstacley[1], yObstacleEnd[1]}; // X-coordinates of start and end points of Obstacle2
+        vector<float> xObs3 = {obstaclex[2], xObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
+        vector<float> yObs3 = {obstacley[2], yObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
         while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
         {
 
@@ -73,8 +76,8 @@ int main(int argc, char *argv[])
             err = force.forceAngle(ctx, res); // Calculate the steering angle for direction (navigation) using total force components
             err = force.nextStep(ctx, res);   // Calculate the next step for the robot consisting of x and y coordinates as its position
 
-            xR.push_back(res->oResultNextX); // for plotting purpose
-            yR.push_back(res->oResultNextY); // for plotting purpose
+            xR.push_back(res->oResultNextX); // For plotting purpose
+            yR.push_back(res->oResultNextY); // For plotting purpose
             vector<float> obsptsX;
             vector<float> obsptsY;
             ;
@@ -86,16 +89,17 @@ int main(int argc, char *argv[])
 
             plt::plot(xR, yR);
             plt::plot(xObs1, yObs1);
-            plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
+            plt::plot(xObs2, yObs2);
+            plt::plot(xObs3, yObs3);
+            // plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
 
             plt::scatter(obsptsX, obsptsY, 'r');
 
             plt::scatter(goalx, goaly, 'g');
             plt::grid(true);
+            // plt::pause(0.01);
             plt::title("Robot's Path Planning in Dynamic Environment");
             plt::show();
-
-            break;
         }
     }
 
@@ -123,8 +127,6 @@ int main(int argc, char *argv[])
             plt::grid(true);
             plt::title("Robot's Path Planning in Stationary Environment");
             plt::show();
-
-            break;
         }
     }
 
