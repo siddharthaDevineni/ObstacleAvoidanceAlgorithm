@@ -1,7 +1,7 @@
 #ifndef OBSTACLEAVOIDANCE_INTERNAL_H
 #define OBSTACLEAVOIDANCE_INTERNAL_H
 
-#define DEBUG_ENABLED // Comment out to disable Trace
+// #define DEBUG_ENABLED // Comment out to disable Trace
 
 #ifdef DEBUG_ENABLED
 #define TRACE_LEVEL 3 // Greater than 0 to activate deep trace
