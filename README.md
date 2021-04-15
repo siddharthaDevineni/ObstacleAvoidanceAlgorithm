@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
    const int nObstaclesTotal = 2;                     // Number of obstacles
    float obstaclex[nObstaclesTotal] = {3, 7};         // Obstacles X-coordinate positions
    float obstacley[nObstaclesTotal] = {3.2, 6.5};     // Obstacles Y-coordinate positions
-   o_envType envType = env_stationary;                // Obstacle environment type dynamics
+   o_envType envType = env_stationary;                // Obstacle environment type stationary
 
    // Paramters as explained in obstacleAvoidance
    float params[6] = {1.1, 100, 0.1, 0.75, 2, float(nObstaclesTotal)};
@@ -115,8 +115,8 @@ To run this project
 ## Roadmap
 - [x] Robot avoids random stationary obstacles (static environment) as version 1.0
 - [ ] Robot avoids random moving obstacles (dynamic environment) as version 1.1
-      - [x] Dynamic environment with obstacles moving along a linear path
-      - [ ] Dynamic environment with obstacles moving along a quadratic path
+   - [x] Dynamic environment with obstacles moving along a linear path
+        - [ ] Dynamic environment with obstacles moving along a quadratic path
       - [ ] Dynamic environment with obstacles moving along a cubic path
 - [ ] Implementation of interpolation functions and control strategies to calculate optimal path like shortest distance and time as version 2.0
 
