@@ -114,11 +114,11 @@ To run this project
 
 ## Roadmap
 - [x] Robot avoids random stationary obstacles (static environment) as version 1.0
-- [ ] Robot avoids random moving obstacles (dynamic environment) as version 1.1
-   - [x] Dynamic environment with obstacles moving along a linear path
-   - [ ] Dynamic environment with obstacles moving along a quadratic path
-   - [ ] Dynamic environment with obstacles moving along a cubic path
-- [ ] Implementation of interpolation functions and control strategies to calculate optimal path like shortest distance and time as version 2.0
+- [ ] Robot avoids random moving obstacles (dynamic environment) as version 2.0
+   - [x] Dynamic environment with obstacles moving along a linear path version 2.1
+   - [ ] Dynamic environment with obstacles moving along a quadratic path version 2.2
+   - [ ] Dynamic environment with obstacles moving along a cubic path version 2.3
+- [ ] Implementation of interpolation functions and control strategies to calculate optimal path like shortest distance and time as version 3.0
 
 
 ## References
