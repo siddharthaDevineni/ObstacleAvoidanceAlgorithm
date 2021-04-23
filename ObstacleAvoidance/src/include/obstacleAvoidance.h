@@ -4,7 +4,7 @@
 #define N_MAX_OBSTACLES 30 // Maximum number of obstacles
 
 // Obstacle Avoidance Error List
-typedef enum o_errt
+typedef enum 
 {
 	err_no_error,			   // 0: No error
 	err_invalid_input,		   // 1: Invalid input
@@ -12,21 +12,21 @@ typedef enum o_errt
 	err_obstaclecount_invalid, // 3: Number of obstacles invalid
 	err_no_memory,			   // 4: No memory
 	err_calculation_error	   // 5: Calculation error
-};
+}o_errt;
 
 // Obstacle Environment Type: Stationary or Dynamic
-typedef enum o_envType
+typedef enum 
 {
 	env_stationary, // Stationary environment
 	env_dynamic		// Dynamic environment
-};
+}o_envType;
 
 // Obstacle Path Movement Type: Linear or Quadratic
-typedef enum o_obstMovementType
+typedef enum 
 {
 	obst_mov_linear,   // Linear path
 	obst_mov_quadratic // Quadratic path
-};
+}o_obstMovementType;
 
 // Output Results struct
 struct Oresult
