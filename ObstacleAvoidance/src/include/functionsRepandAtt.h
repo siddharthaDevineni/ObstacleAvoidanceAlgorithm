@@ -15,7 +15,7 @@ public:
 	 * @params: Calculation Context
 	 * @params: Output result as struct 
 	 */
-	o_errt forceAtt(OcalculationContext *ctx, Oresult *out);
+	o_err_t force_Att(OcalculationContext *ctx, Oresult *out);
 
 	/*
 	 * @ The force of repulsion between the Robot and the obstacles
@@ -23,7 +23,7 @@ public:
 	 * @params: Calculation context
 	 * @params: Output result as struct
 	 */
-	o_errt forceRep(OcalculationContext *ctx, Oresult *out);
+	o_err_t force_Rep(OcalculationContext *ctx, Oresult *out);
 
 	/*
 	 * @ The function calculates the Total force by adding the corresponding components of attraction and repulsion forces
@@ -31,7 +31,7 @@ public:
 	 * @params: Calculation context
 	 * @params: Output result as struct
 	 */
-	o_errt forceComp(OcalculationContext *ctx, Oresult *out);
+	o_err_t force_Comp(OcalculationContext *ctx, Oresult *out);
 
 	/*
 	 * @ Calculates the steering angle for direction (navigation) using Total force components
@@ -39,7 +39,7 @@ public:
 	 * @params: Calculation context
 	 * @params: Output result as struct
 	 */
-	o_errt forceAngle(OcalculationContext *ctx, Oresult *out);
+	o_err_t force_Angle(OcalculationContext *ctx, Oresult *out);
 
 	/*
 	 * @ Calculates the next forward step for the robot consisting of x and y coordinates as position
@@ -47,7 +47,7 @@ public:
 	 * @params: Calculation context
 	 * @params: Output result as struct
 	 */
-	o_errt nextStep(OcalculationContext *ctx, Oresult *out);
+	o_err_t next_Step(OcalculationContext *ctx, Oresult *out);
 };
 
 #endif
