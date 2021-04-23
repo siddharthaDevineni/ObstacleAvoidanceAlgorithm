@@ -3,11 +3,11 @@
 #include <algorithm>
 #include "functionsRepandAtt.h"
 
-o_errt Forces::forceAtt(OcalculationContext *ctx, Oresult *out)
+o_err_t Forces::force_Att(OcalculationContext *ctx, Oresult *out)
 {
     if (ctx == nullptr)
     {
-        return o_errt::err_null_input;
+        return o_err_t::err_null_input;
     }
     float Fa = 0;
     ctx->s->distRA = sqrt(pow((ctx->xRobot - ctx->xGoal), 2) + pow((ctx->yRobot - ctx->yGoal), 2)); // Shortest distance between robot and target
@@ -22,19 +22,19 @@ o_errt Forces::forceAtt(OcalculationContext *ctx, Oresult *out)
     OBA_TRACE_L2("Robot Coordinates:(%f,%f) Target Distance: (%f) Attraction force: (%f) Fax: %f, Fay: %f",
                  ctx->xRobot, ctx->yRobot, ctx->s->distRA, ctx->s->attForce, out->oResultFax, out->oResultFay);
 
-    return o_errt::err_no_error;
+    return o_err_t::err_no_error;
 }
 
-float forceRepLineRO(float distRO, float maxObstInfluence, uint16_t funcOrder, float distRA)
+float force_RepLine_RO(float distRO, float maxObstInfluence, uint16_t funcOrder, float distRA)
 {
     return (pow(distRO, -1) - pow(maxObstInfluence, -1)) * pow(distRA, funcOrder) * pow(distRA, -3);
 }
-float forceRepLineRG(float distRO, float maxObstInfluence, uint16_t funcOrder, float distRA)
+float force_RepLine_RG(float distRO, float maxObstInfluence, uint16_t funcOrder, float distRA)
 {
     return pow((pow(distRO, -1) - pow(maxObstInfluence, -1)), 2) * pow(distRA, funcOrder);
 }
 
-o_errt Forces::forceRep(OcalculationContext *ctx, Oresult *out)
+o_err_t Forces::force_Rep(OcalculationContext *ctx, Oresult *out)
 {
     float Fr, Fr1, Fr2;
     if (ctx->envType == env_stationary)
@@ -44,9 +44,9 @@ o_errt Forces::forceRep(OcalculationContext *ctx, Oresult *out)
             ctx->s->distRO[i] = sqrt(pow((ctx->xRobot - ctx->xObstacle[i]), 2) + pow((ctx->yRobot - ctx->yObstacle[i]), 2)); // Shortest distance between robot and obstacle
             if (ctx->s->distRO[i] <= ctx->maxObstInfluence)                                                                  // G represents safe distance from obstacle
             {
-                Fr1 = forceRepLineRO(ctx->s->distRO[i], ctx->maxObstInfluence, ctx->funcOrder, ctx->s->distRA); // Fr1 is force component in the direction of the line between the robot and the obstacle
-                Fr2 = forceRepLineRG(ctx->s->distRO[i], ctx->maxObstInfluence, ctx->funcOrder, ctx->s->distRA); // Fr2 is force component in the direction of the line between the robot and the target
-                Fr = ctx->repCoefficientKrep * Fr1 + ctx->repCoefficientKrep * ctx->funcOrder * Fr2;            // Magnitude of Repulsion force
+                Fr1 = force_RepLine_RO(ctx->s->distRO[i], ctx->maxObstInfluence, ctx->funcOrder, ctx->s->distRA); // Fr1 is force component in the direction of the line between the robot and the obstacle
+                Fr2 = force_RepLine_RG(ctx->s->distRO[i], ctx->maxObstInfluence, ctx->funcOrder, ctx->s->distRA); // Fr2 is force component in the direction of the line between the robot and the target
+                Fr = ctx->repCoefficientKrep * Fr1 + ctx->repCoefficientKrep * ctx->funcOrder * Fr2;              // Magnitude of Repulsion force
             }
             else
             {
@@ -87,9 +87,9 @@ o_errt Forces::forceRep(OcalculationContext *ctx, Oresult *out)
 
             if (ctx->s->distRO[j] <= ctx->maxObstInfluence) // G represents safe distance from obstacle
             {
-                Fr1 = forceRepLineRO(ctx->s->distRO[j], ctx->maxObstInfluence, ctx->funcOrder, ctx->s->distRA); // Fr1 is force component in the direction of the line between the robot and the obstacle
-                Fr2 = forceRepLineRG(ctx->s->distRO[j], ctx->maxObstInfluence, ctx->funcOrder, ctx->s->distRA); // Fr2 is force component in the direction of the line between the robot and the target
-                Fr = ctx->repCoefficientKrep * Fr1 + ctx->repCoefficientKrep * ctx->funcOrder * Fr2;            // Magnitude of Repulsion force
+                Fr1 = force_RepLine_RO(ctx->s->distRO[j], ctx->maxObstInfluence, ctx->funcOrder, ctx->s->distRA); // Fr1 is force component in the direction of the line between the robot and the obstacle
+                Fr2 = force_RepLine_RG(ctx->s->distRO[j], ctx->maxObstInfluence, ctx->funcOrder, ctx->s->distRA); // Fr2 is force component in the direction of the line between the robot and the target
+                Fr = ctx->repCoefficientKrep * Fr1 + ctx->repCoefficientKrep * ctx->funcOrder * Fr2;              // Magnitude of Repulsion force
             }
             else
             {
@@ -115,10 +115,10 @@ o_errt Forces::forceRep(OcalculationContext *ctx, Oresult *out)
         OBA_TRACE_L1("Move Count: %d", ctx->s->movCount)
     }
 
-    out->oError = o_errt::err_no_error;
-    return o_errt::err_no_error;
+    out->oError = o_err_t::err_no_error;
+    return o_err_t::err_no_error;
 }
-o_errt Forces::forceComp(OcalculationContext *ctx, Oresult *out)
+o_err_t Forces::force_Comp(OcalculationContext *ctx, Oresult *out)
 {
 
     ctx->s->oResultFx = out->oResultFax;
@@ -132,9 +132,9 @@ o_errt Forces::forceComp(OcalculationContext *ctx, Oresult *out)
     OBA_TRACE_L2("resultFx: %f, resultFy: %f",
                  ctx->s->oResultFx, ctx->s->oResultFy);
 
-    return o_errt::err_no_error;
+    return o_err_t::err_no_error;
 }
-o_errt Forces::forceAngle(OcalculationContext *ctx, Oresult *out)
+o_err_t Forces::force_Angle(OcalculationContext *ctx, Oresult *out)
 {
 
     out->oResultAng = atan2(ctx->s->oResultFx, ctx->s->oResultFy); // Steering angle
@@ -142,10 +142,10 @@ o_errt Forces::forceAngle(OcalculationContext *ctx, Oresult *out)
     OBA_TRACE_L2("resultAngle: %f",
                  out->oResultAng * 180 / 3.14);
 
-    return o_errt::err_no_error;
+    return o_err_t::err_no_error;
 }
 
-o_errt Forces::nextStep(OcalculationContext *ctx, Oresult *out)
+o_err_t Forces::next_Step(OcalculationContext *ctx, Oresult *out)
 {
     out->oResultNextX = ctx->xRobot + ctx->stepSize * cos(out->oResultAng); // Next position of the robot X coordinate
     out->oResultNextY = ctx->yRobot + ctx->stepSize * sin(out->oResultAng); // Next position of the robot Y coordinate
@@ -161,5 +161,5 @@ o_errt Forces::nextStep(OcalculationContext *ctx, Oresult *out)
         ctx->yRobot = out->oResultNextY;
     }
 
-    return o_errt::err_no_error;
+    return o_err_t::err_no_error;
 }

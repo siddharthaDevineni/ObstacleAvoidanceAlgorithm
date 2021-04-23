@@ -4,7 +4,7 @@
 #define N_MAX_OBSTACLES 30 // Maximum number of obstacles
 
 // Obstacle Avoidance Error List
-typedef enum 
+typedef enum
 {
 	err_no_error,			   // 0: No error
 	err_invalid_input,		   // 1: Invalid input
@@ -12,21 +12,21 @@ typedef enum
 	err_obstaclecount_invalid, // 3: Number of obstacles invalid
 	err_no_memory,			   // 4: No memory
 	err_calculation_error	   // 5: Calculation error
-}o_errt;
+} o_err_t;
 
 // Obstacle Environment Type: Stationary or Dynamic
-typedef enum 
+typedef enum
 {
 	env_stationary, // Stationary environment
 	env_dynamic		// Dynamic environment
-}o_envType;
+} o_envType_t;
 
 // Obstacle Path Movement Type: Linear or Quadratic
-typedef enum 
+typedef enum
 {
 	obst_mov_linear,   // Linear path
 	obst_mov_quadratic // Quadratic path
-}o_obstMovementType;
+} o_obstMovementType_t;
 
 // Output Results struct
 struct Oresult
@@ -42,7 +42,7 @@ struct Oresult
 	float obstCoordinatesX[N_MAX_OBSTACLES]; // X-coordinates of Obstacles
 	float obstCoordinatesY[N_MAX_OBSTACLES]; // Y-coordiantes of Obstacles
 
-	o_errt oError; // Obstacle Avoidance Error List
+	o_err_t oError; // Obstacle Avoidance Error List
 };
 
 // Context must be Initialised for internal purposes
@@ -72,8 +72,8 @@ struct OcalculationContext;
 * @params: Obstacles position as y - coordinates
 * @params: Calculation context
 */
-o_errt obaInitCalculationContext(float goalCoordinates[2], float robotCoordinates[2], float params[5], float *obstx,
-								 float *obsty, OcalculationContext *ctx);
+o_err_t oba_Init_CalculationContext(float goalCoordinates[2], float robotCoordinates[2], float params[5], float *obstx,
+									float *obsty, OcalculationContext *ctx);
 
 /*
 * Initializes the Obstacle environment
@@ -83,18 +83,18 @@ o_errt obaInitCalculationContext(float goalCoordinates[2], float robotCoordinate
 * @params: Type of osbtacles environment
 * @params: Type of obstcales path movement
 */
-o_errt obaInitEnvironment(float *obstEndx, float *obstEndy, OcalculationContext *ctx, o_envType envtype, o_obstMovementType movtype);
+o_err_t oba_Init_Environment(float *obstEndx, float *obstEndy, OcalculationContext *ctx, o_envType_t envtype, o_obstMovementType_t movtype);
 
 /*
 * Free the used memory for the variables and paramters 
 * @param: Calculation context as mentioned in the OcalculationContext
 */
-o_errt obaFreeCalculationContext(OcalculationContext *ctx);
+o_err_t oba_Free_CalculationContext_Res(OcalculationContext *ctx, Oresult *res);
 
 /*
 * Initializes the Result values to 0
 * @params: Output Results as mentioned in the Oresult
 */
-o_errt obaInitResult(Oresult *res);
+o_err_t oba_Init_Result(Oresult *res);
 
 #endif
