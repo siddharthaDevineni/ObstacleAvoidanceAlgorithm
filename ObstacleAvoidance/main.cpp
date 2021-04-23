@@ -86,20 +86,20 @@ int main(int argc, char *argv[])
                 obsptsX.push_back(res->obstCoordinatesX[i]);
                 obsptsY.push_back(res->obstCoordinatesY[i]);
             }
-
+            plt::clf();
             plt::plot(xR, yR);
             plt::plot(xObs1, yObs1);
             plt::plot(xObs2, yObs2);
             plt::plot(xObs3, yObs3);
-            // plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
+            plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
 
             plt::scatter(obsptsX, obsptsY, 'r');
 
             plt::scatter(goalx, goaly, 'g');
             plt::grid(true);
-            // plt::pause(0.01);
+            plt::pause(0.01);
             plt::title("Robot's Path Planning in Dynamic Environment");
-            plt::show();
+            // plt::show();
         }
     }
 
@@ -120,12 +120,14 @@ int main(int argc, char *argv[])
 
             xR.push_back(res->oResultNextX); // for plotting purpose
             yR.push_back(res->oResultNextY); // for plotting purpose
+
             plt::plot(xR, yR);
             plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
             plt::scatter(xObs, yObs, 'r');
             plt::scatter(goalx, goaly, 'g');
             plt::grid(true);
             plt::title("Robot's Path Planning in Stationary Environment");
+
             plt::show();
         }
     }
