@@ -15,11 +15,12 @@ int main(int argc, char *argv[])
     float obstacley[nObstaclesTotal] = {3, 2, 6.3};      // {obs1_y1, obs2_y1}
     float xObstacleEnd[nObstaclesTotal] = {3, 5, 8.5};   // {obs1_x2, obs2_x2}
     float yObstacleEnd[nObstaclesTotal] = {1, 6.5, 9.7}; // {obs1_y2, obs2_y2}
-    o_envType envType = env_dynamic;                     // Obstacle environment type dynamics
-    o_obstMovementType obsMovType = obst_mov_linear;     // Obstacle path movement type linear
+    // o_envType envType = env_dynamic;                     // Obstacle environment type dynamics
+    o_envType envType = env_stationary;              // Obstacle environment type dynamics
+    o_obstMovementType obsMovType = obst_mov_linear; // Obstacle path movement type linear
 
     // Paramters as explained in obstacleAvoidance
-    float params[6] = {1.1, 100, 0.3, 1, 2, float(nObstaclesTotal)};
+    float params[6] = {1.1, 100, 0.1, 0.75, 2, float(nObstaclesTotal)};
 
     // As explained in corresponding libraries:
 
@@ -59,7 +60,7 @@ int main(int argc, char *argv[])
     vector<float> goalx = {ctx->xGoal};
     vector<float> goaly = {ctx->yGoal};
 
-    if (ctx->envType = env_dynamic)
+    if (ctx->envType == env_dynamic)
     {
         vector<float> xObs1 = {obstaclex[0], xObstacleEnd[0]}; // X-coordinates of start and end points of Obstacle1
         vector<float> yObs1 = {obstacley[0], yObstacleEnd[0]}; // Y-coordinates of start and end points of Obstacle1
@@ -103,7 +104,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    if (ctx->envType = env_stationary)
+    if (ctx->envType == env_stationary)
     {
 
         vector<float> xObs = {obstaclex[0], obstaclex[1]}; // x-coordinate of obstacles
@@ -120,15 +121,16 @@ int main(int argc, char *argv[])
 
             xR.push_back(res->oResultNextX); // for plotting purpose
             yR.push_back(res->oResultNextY); // for plotting purpose
-
+            plt::clf();
             plt::plot(xR, yR);
             plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
             plt::scatter(xObs, yObs, 'r');
             plt::scatter(goalx, goaly, 'g');
             plt::grid(true);
+            plt::pause(0.01);
             plt::title("Robot's Path Planning in Stationary Environment");
 
-            plt::show();
+            // plt::show();
         }
     }
 

@@ -150,7 +150,7 @@ o_errt Forces::nextStep(OcalculationContext *ctx, Oresult *out)
     out->oResultNextX = ctx->xRobot + ctx->stepSize * cos(out->oResultAng); // Next position of the robot X coordinate
     out->oResultNextY = ctx->yRobot + ctx->stepSize * sin(out->oResultAng); // Next position of the robot Y coordinate
 
-    if (ctx->s->distRA <= 0.1)
+    if ((fabs(out->oResultNextX - ctx->xGoal) < 0.1) && (fabs(out->oResultNextY - ctx->yGoal) < 0.1))
     {
         out->oResultNextX = ctx->xGoal;
         out->oResultNextY = ctx->yGoal;
