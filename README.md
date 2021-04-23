@@ -30,14 +30,14 @@ int main(int argc, char *argv[])
    const int nObstaclesTotal = 2;                     // Number of obstacles
    float obstaclex[nObstaclesTotal] = {3, 7};         // Obstacles X-coordinate positions
    float obstacley[nObstaclesTotal] = {3.2, 6.5};     // Obstacles Y-coordinate positions
-   o_envType envType = env_stationary;                // Obstacle environment type stationary
+   o_envType_t envType = env_stationary;              // Obstacle environment type stationary
 
    // Paramters as explained in obstacleAvoidance
    float params[6] = {1.1, 100, 0.1, 0.75, 2, float(nObstaclesTotal)};
 
    // As explained in corresponding libraries
    // Obstacle Avoidance possible Error object creation as err
-   o_errt err;
+   o_err_t err;
 
    // Object creation for the calculation context as ctx
    OcalculationContext *ctx = new OcalculationContext;
@@ -49,14 +49,14 @@ int main(int argc, char *argv[])
    Forces force;
 
    // Function for initialization of parameters to run the program as explained in the library obstacleAvoidance
-   err = obaInitCalculationContext(goalCoordinates, robotCoordinates, params, obstaclex, obstacley, ctx);
+   err = oba_Init_CalculationContext(goalCoordinates, robotCoordinates, params, obstaclex, obstacley, ctx);
    if (err != o_errt ::err_no_error)
    {
       cout << "Error detected";
    }
 
    // Function takes the Results obtained from functionsRepandAtt to check errors
-   err = obaInitResult(res);
+   err = oba_Init_Result(res);
    if (err != o_errt ::err_no_error)
    {
       cout << "Error detected";
@@ -72,11 +72,11 @@ int main(int argc, char *argv[])
    {
       while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
       {
-         err = force.forceAtt(ctx, res);   // Calculate attraction force between the robot and target
-         err = force.forceRep(ctx, res);   // Calculate force of repulsion between the Robot and the obstacles
-         err = force.forceComp(ctx, res);  // Calculate the total force by adding the corresponding components of attraction & repulsion forces
-         err = force.forceAngle(ctx, res); // Calculate the steering angle for direction (navigation) using total force components
-         err = force.nextStep(ctx, res);   // Calculate the next step for the robot consisting of x and y coordinates as its position
+         err = force.force_Att(ctx, res);   // Calculate attraction force between the robot and target
+         err = force.force_Rep(ctx, res);   // Calculate force of repulsion between the Robot and the obstacles
+         err = force.force_Comp(ctx, res);  // Calculate the total force by adding the corresponding components of attraction & repulsion forces
+         err = force.force_Angle(ctx, res); // Calculate the steering angle for direction (navigation) using total force components
+         err = force.next_Step(ctx, res);   // Calculate the next step for the robot consisting of x and y coordinates as its position
 
          xR.push_back(ctx->xRobot);        // For plotting purpose
          yR.push_back(ctx->yRobot);        // For plotting purpose
