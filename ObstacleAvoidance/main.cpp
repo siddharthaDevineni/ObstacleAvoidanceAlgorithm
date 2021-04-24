@@ -11,12 +11,14 @@ int main(int argc, char *argv[])
     float goalCoordinates[2] = {10, 10};                 // Position of target
     float robotCoordinates[2] = {0, 0};                  // Initial position of robot
     const int nObstaclesTotal = 3;                       // Number of obstacles
-    float obstaclex[nObstaclesTotal] = {1, 5, 7.7};      // {obs1_x1, obs2_x1}
-    float obstacley[nObstaclesTotal] = {3, 2, 6.3};      // {obs1_y1, obs2_y1}
-    float xObstacleEnd[nObstaclesTotal] = {3, 5, 8.5};   // {obs1_x2, obs2_x2}
-    float yObstacleEnd[nObstaclesTotal] = {1, 6.5, 9.7}; // {obs1_y2, obs2_y2}
-    o_envType_t envType = env_dynamic;                   // Obstacle environment type dynamics
-    o_obstMovementType_t obsMovType = obst_mov_linear;   // Obstacle path movement type linear
+    float obstaclex[nObstaclesTotal] = {1, 3, 7.7};      // {obs1_x1, obs2_x1, obs3_x1}
+    float obstacley[nObstaclesTotal] = {2, 2, 6.3};      // {obs1_y1, obs2_y1, obs3_y1}
+    float xObstacleEnd[nObstaclesTotal] = {3, 5, 8.5};   // {obs1_x2, obs2_x2, obs3_x2}
+    float yObstacleEnd[nObstaclesTotal] = {3, 6.5, 9.7}; // {obs1_y2, obs2_y2, obs3_y2}
+    // o_envType_t envType = env_stationary;                // Obstacle environment type stationary
+    o_envType_t envType = env_dynamic;                 // Obstacle environment type dynamics
+    // o_obstMovementType_t obsMovType = obst_mov_linear; // Obstacle path movement type linear
+    o_obstMovementType_t obsMovType = obst_mov_quadratic; // Obstacle path movement type quadratic
 
     // Paramters as explained in obstacleAvoidance
     float params[6] = {1.1, 100, 0.1, 0.75, 2, float(nObstaclesTotal)};
@@ -61,12 +63,26 @@ int main(int argc, char *argv[])
 
     if (ctx->envType == env_dynamic)
     {
-        vector<float> xObs1 = {obstaclex[0], xObstacleEnd[0]}; // X-coordinates of start and end points of Obstacle1
-        vector<float> yObs1 = {obstacley[0], yObstacleEnd[0]}; // Y-coordinates of start and end points of Obstacle1
-        vector<float> xObs2 = {obstaclex[1], xObstacleEnd[1]}; // X-coordinates of start and end points of Obstacle2
-        vector<float> yObs2 = {obstacley[1], yObstacleEnd[1]}; // X-coordinates of start and end points of Obstacle2
-        vector<float> xObs3 = {obstaclex[2], xObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
-        vector<float> yObs3 = {obstacley[2], yObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
+        if (obsMovType == obst_mov_linear)
+        {
+            vector<float> xObs1 = {obstaclex[0], xObstacleEnd[0]}; // X-coordinates of start and end points of Obstacle1
+            vector<float> yObs1 = {obstacley[0], yObstacleEnd[0]}; // Y-coordinates of start and end points of Obstacle1
+            vector<float> xObs2 = {obstaclex[1], xObstacleEnd[1]}; // X-coordinates of start and end points of Obstacle2
+            vector<float> yObs2 = {obstacley[1], yObstacleEnd[1]}; // X-coordinates of start and end points of Obstacle2
+            vector<float> xObs3 = {obstaclex[2], xObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
+            vector<float> yObs3 = {obstacley[2], yObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
+        }
+
+        else //(obsMovType == obst_mov_quadratic)
+        {
+            vector<float> xObs1 = {obstaclex[0], ctx->xObstacleInt[0], xObstacleEnd[0]}; // X-coordinates of start and end points of Obstacle1 and Intermediate points
+            vector<float> yObs1 = {obstacley[0], ctx->yObstacleInt[0], yObstacleEnd[0]}; // Y-coordinates of start and end points of Obstacle1
+            vector<float> xObs2 = {obstaclex[1], ctx->xObstacleInt[1], xObstacleEnd[1]}; // X-coordinates of start and end points of Obstacle2
+            vector<float> yObs2 = {obstacley[1], ctx->yObstacleInt[1], yObstacleEnd[1]}; // X-coordinates of start and end points of Obstacle2
+            vector<float> xObs3 = {obstaclex[2], ctx->xObstacleInt[2], xObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
+            vector<float> yObs3 = {obstacley[2], ctx->yObstacleInt[2], yObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
+        }
+
         while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
         {
 
@@ -91,6 +107,7 @@ int main(int argc, char *argv[])
             plt::plot(xObs1, yObs1);
             plt::plot(xObs2, yObs2);
             plt::plot(xObs3, yObs3);
+
             plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
 
             plt::scatter(obsptsX, obsptsY, 'r');
@@ -106,8 +123,8 @@ int main(int argc, char *argv[])
     if (ctx->envType == env_stationary)
     {
 
-        vector<float> xObs = {obstaclex[0], obstaclex[1]}; // x-coordinate of obstacles
-        vector<float> yObs = {obstacley[0], obstacley[1]}; // y-coordinate of obstacles
+        vector<float> xObs = {obstaclex[0], obstaclex[1], obstaclex[2]}; // x-coordinate of obstacles
+        vector<float> yObs = {obstacley[0], obstacley[1], obstaclex[2]}; // y-coordinate of obstacles
 
         while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
         {

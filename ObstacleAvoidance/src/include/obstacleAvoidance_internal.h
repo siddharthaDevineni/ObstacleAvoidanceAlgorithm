@@ -1,7 +1,7 @@
 #ifndef OBSTACLEAVOIDANCE_INTERNAL_H
 #define OBSTACLEAVOIDANCE_INTERNAL_H
 
-// #define DEBUG_ENABLED // Comment out to disable Trace
+#define DEBUG_ENABLED // Comment out to disable Trace
 
 #ifdef DEBUG_ENABLED
 #define TRACE_LEVEL 3 // Greater than 0 to activate deep trace
@@ -49,10 +49,12 @@ struct OcalculationContext
     int n_obstacles;                     // Total number of obstacles
     float xObstacle[N_MAX_OBSTACLES];    // Starting X-coordinates of obstacles
     float yObstacle[N_MAX_OBSTACLES];    // Starting Y-coordinates of obstacles
-    o_envType_t envType;                 // Type of osbtacles environment
-    o_obstMovementType_t obsMovType;     // Type of obstcales path movement
+    float xObstacleInt[N_MAX_OBSTACLES]; // Middle X-coordinates of obstacles
+    float yObstacleInt[N_MAX_OBSTACLES]; // Middle Y-coordinates of obstacles
     float xObstacleEnd[N_MAX_OBSTACLES]; // End X-coordinates of obstacles
     float yObstacleEnd[N_MAX_OBSTACLES]; // End Y-coordinates of obstacles
+    o_envType_t envType;                 // Type of osbtacles environment
+    o_obstMovementType_t obsMovType;     // Type of obstcales path movement
 
     struct OcalculationState *s; // Calculation State
 };

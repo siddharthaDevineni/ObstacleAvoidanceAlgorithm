@@ -72,6 +72,53 @@ private:
             }
         }
 
+        else if (movtype == obst_mov_quadratic)
+        {
+
+            float midPoint[2] = {(obstacleStartPt[0] + obstacleEndPt[0]) / 2, (obstacleStartPt[1] + obstacleEndPt[1]) / 2};
+            float diameter = sqrt(pow((obstacleStartPt[1] - obstacleEndPt[1]), 2) + pow((obstacleStartPt[0] - obstacleEndPt[0]), 2));
+            float diameterSlope = (obstacleEndPt[1] - obstacleStartPt[1]) / (obstacleEndPt[0] - obstacleStartPt[0]);
+
+            float oppLineSlope = -1 / diameterSlope;
+
+            ctx->xObstacleInt[i] = midPoint[0] + ;
+            ctx->yObstacleInt[i] = obstIntPt[1];
+
+            float radius = (float)sqrt(pow((obstacleStartPt[1] - obstacleEndPt[1]), 2) + pow((obstacleStartPt[0] - obstacleEndPt[0]), 2)) / 2;
+
+            int numPoints = radius * / stepsize;
+
+            *outObstCount = std::min(numPoints, MAX_OBSTACLE_PTS);
+
+            if (*outObstCount == MAX_OBSTACLE_PTS)
+            {
+                stepsize = radius * / MAX_OBSTACLE_PTS;
+            }
+
+            for (int i = 0; i < *outObstCount + 1; i++)
+            {
+                // Slope
+                float obstPathSlope = atan2(obstacleEndPt[1] - obstacleStartPt[1], obstacleEndPt[0] - obstacleStartPt[0]);
+
+                outObstPts[2 * i] = obstacleStartPt[0] + cos(obstPathSlope) * (stepsize * i);
+
+                if (((obstacleStartPt[0] - obstacleIntPt[0]) != 0) && ((obstacleStartPt[0] - obstacleEndPt[0]) != 0) && ((obstacleIntPt[0] - obstacleEndPt[0]) != 0))
+                {
+                    *(outObstPts + (2 * i + 1)) = obstacleStartPt[1] * (*(outObstPts + (2 * i)) - obstacleIntPt[0]) * pow((obstacleStartPt[0] - obstacleIntPt[0]), -1) * (*(outObstPts + (2 * i)) - obstacleEndPt[0]) * pow((obstacleStartPt[0] - obstacleEndPt[0]), -1) +
+                                                  obstacleIntPt[1] * (*(outObstPts + (2 * i)) - obstacleStartPt[0]) * pow((obstacleIntPt[0] - obstacleStartPt[0]), -1) * (*(outObstPts + (2 * i)) - obstacleEndPt[0]) * pow((obstacleIntPt[0] - obstacleEndPt[0]), -1) +
+                                                  obstacleEndPt[1] * (*(outObstPts + (2 * i)) - obstacleStartPt[0]) * pow((obstacleEndPt[0] - obstacleStartPt[0]), -1) * (*(outObstPts + (2 * i)) - obstacleIntPt[0]) * pow((obstacleEndPt[0] - obstacleIntPt[0]), -1);
+                }
+                else
+                {
+                    *(outObstPts + (2 * i + 1)) = obstacleStartPt[1] + sin(obstPathSlope) * stepsize * i;
+                }
+
+                OBA_TRACE_L2("obstPathSlope: %f ", obstPathSlope * 180 / 3.14);
+
+                OBA_TRACE_L2("Out Obstacle Points: (%f %f)", *(outObstPts + (2 * i)), *(outObstPts + (2 * i + 1)));
+            }
+        }
+
         return o_err_t::err_no_error;
     }
 
