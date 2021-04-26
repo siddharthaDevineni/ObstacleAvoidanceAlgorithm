@@ -12,8 +12,8 @@ int main(int argc, char *argv[])
     float robotCoordinates[2] = {0, 0};           // Initial position of robot
     const int nObstaclesTotal = 2;                // Number of obstacles
     float obstaclex[nObstaclesTotal] = {1, 5};    // {obs1_x1, obs2_x1, obs3_x1}
-    float obstacley[nObstaclesTotal] = {5, 7};    // {obs1_y1, obs2_y1, obs3_y1}
-    float xObstacleEnd[nObstaclesTotal] = {4, 8}; // {obs1_x2, obs2_x2, obs3_x2}
+    float obstacley[nObstaclesTotal] = {5, 5};    // {obs1_y1, obs2_y1, obs3_y1}
+    float xObstacleEnd[nObstaclesTotal] = {4, 9}; // {obs1_x2, obs2_x2, obs3_x2}
     float yObstacleEnd[nObstaclesTotal] = {5, 4}; // {obs1_y2, obs2_y2, obs3_y2}
     // o_envType_t envType = env_stationary;                // Obstacle environment type stationary
     o_envType_t envType = env_dynamic; // Obstacle environment type dynamics
@@ -56,10 +56,10 @@ int main(int argc, char *argv[])
         cout << "Error detected";
     }
 
-    vector<float> xR = {robotCoordinates[0]}; // X-coordinate of robot
-    vector<float> yR = {robotCoordinates[1]}; // Y-coordinate of robot
-    vector<float> goalx = {goalCoordinates[0]};
-    vector<float> goaly = {goalCoordinates[1]};
+    vector<float> xR = {robotCoordinates[0]};   // X-coordinate of robot
+    vector<float> yR = {robotCoordinates[1]};   // Y-coordinate of robot
+    vector<float> goalx = {goalCoordinates[0]}; // X-coordinate of goal
+    vector<float> goaly = {goalCoordinates[1]}; // Y-coordinate of goal
 
     if (ctx->envType == env_dynamic)
     {
@@ -67,6 +67,17 @@ int main(int argc, char *argv[])
         vector<float> yObs1; // Y-coordinates of start and end points of Obstacle1
         vector<float> xObs2; // X-coordinates of start and end points of Obstacle2
         vector<float> yObs2; // X-coordinates of start and end points of Obstacle2
+
+        if (obsMovType == obst_mov_linear)
+        {
+            xObs1 = {obstaclex[0], xObstacleEnd[0]}; // x-coordinate of obstacles
+            yObs1 = {obstacley[0], yObstacleEnd[0]}; // y-coordinate of obstacles
+            xObs2 = {obstaclex[1], xObstacleEnd[1]}; // x-coordinate of obstacles
+            yObs2 = {obstacley[1], yObstacleEnd[1]}; // y-coordinate of obstacles
+            // xObs3 = {obstaclex[2], xObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
+            // yObs3 = {obstacley[2], yObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
+        }
+
         if (obsMovType == obst_mov_quadratic)
         {
             int max = (res->obsPts.at(0).size() > res->obsPts.at(1).size()) ? res->obsPts.at(0).size() : res->obsPts.at(1).size();
@@ -84,9 +95,6 @@ int main(int argc, char *argv[])
                 }
             }
         }
-
-        // xObs3 = {obstaclex[2], xObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
-        // yObs3 = {obstacley[2], yObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
 
         while ((res->oResultNextX, res->oResultNextY) != (goalCoordinates[0], goalCoordinates[1]))
         {
