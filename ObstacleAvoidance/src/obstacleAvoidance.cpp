@@ -79,21 +79,27 @@ private:
             float diameter = sqrt(pow((obstacleStartPt[1] - obstacleEndPt[1]), 2) + pow((obstacleStartPt[0] - obstacleEndPt[0]), 2));
             float diameterSlope = (obstacleEndPt[1] - obstacleStartPt[1]) / (obstacleEndPt[0] - obstacleStartPt[0]);
 
-            float oppLineSlope = -1 / diameterSlope;
+            float lengthPara = 0.5 * sqrt(pow(diameter, 2) + 3 * pow(diameter, 2)); // + (pow(diameter, 2) * log((4 * diameter + sqrt(pow(diameter, 2) + 16 * pow(diameter, 2))) / (diameter))) / (8 * diameter);
 
-            ctx->xObstacleInt[i] = midPoint[0] + ;
-            ctx->yObstacleInt[i] = obstIntPt[1];
-
-            float radius = (float)sqrt(pow((obstacleStartPt[1] - obstacleEndPt[1]), 2) + pow((obstacleStartPt[0] - obstacleEndPt[0]), 2)) / 2;
-
-            int numPoints = radius * / stepsize;
+            int numPoints = lengthPara / stepsize;
 
             *outObstCount = std::min(numPoints, MAX_OBSTACLE_PTS);
 
             if (*outObstCount == MAX_OBSTACLE_PTS)
             {
-                stepsize = radius * / MAX_OBSTACLE_PTS;
+                stepsize = lengthPara / MAX_OBSTACLE_PTS;
             }
+
+            // float x3 = midPoint[0] + (diameter / (sqrt(pow(((obstacleEndPt[0] - obstacleStartPt[0]) / (obstacleEndPt[1] - obstacleStartPt[1])), 2) + 1)));
+
+            // float y3 = midPoint[1] + sqrt(pow(diameter, 2) - pow((x3 - midPoint[0]), 2));
+            float theta2 = atan2(obstacleEndPt[1] - obstacleStartPt[1], obstacleEndPt[0] - obstacleStartPt[0]) + M_PI * 0.5;
+            float x3 = midPoint[0] + (diameter / (sqrt(1 + pow(tan(theta2), 2))));
+            float y3 = midPoint[1] + ((diameter * tan(theta2)) / (sqrt(1 + pow(tan(theta2), 2))));
+
+            float obstacleIntPt[2] = {x3, y3};
+            // out->xObstacleInt[0] = x3;
+            // out->yObstacleInt[1] = y3;
 
             for (int i = 0; i < *outObstCount + 1; i++)
             {

@@ -39,6 +39,8 @@ struct Oresult
 	float oResultAng;						 // Steering angle for navigation of the robot
 	float oResultNextX;						 // Next position of the robot X coordinate
 	float oResultNextY;						 // Next position of the robot Y coordinate
+	float xObstacleInt[N_MAX_OBSTACLES];	 // Middle X-coordinates of obstacles
+	float yObstacleInt[N_MAX_OBSTACLES];	 // Middle Y-coordinates of obstacles
 	float obstCoordinatesX[N_MAX_OBSTACLES]; // X-coordinates of Obstacles
 	float obstCoordinatesY[N_MAX_OBSTACLES]; // Y-coordiantes of Obstacles
 

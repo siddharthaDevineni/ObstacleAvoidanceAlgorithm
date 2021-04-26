@@ -49,8 +49,7 @@ struct OcalculationContext
     int n_obstacles;                     // Total number of obstacles
     float xObstacle[N_MAX_OBSTACLES];    // Starting X-coordinates of obstacles
     float yObstacle[N_MAX_OBSTACLES];    // Starting Y-coordinates of obstacles
-    float xObstacleInt[N_MAX_OBSTACLES]; // Middle X-coordinates of obstacles
-    float yObstacleInt[N_MAX_OBSTACLES]; // Middle Y-coordinates of obstacles
+
     float xObstacleEnd[N_MAX_OBSTACLES]; // End X-coordinates of obstacles
     float yObstacleEnd[N_MAX_OBSTACLES]; // End Y-coordinates of obstacles
     o_envType_t envType;                 // Type of osbtacles environment

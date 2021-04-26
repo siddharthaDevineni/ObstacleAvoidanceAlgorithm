@@ -8,15 +8,15 @@ namespace plt = matplotlibcpp; // Importing matplotlib-cpp
 
 int main(int argc, char *argv[])
 {
-    float goalCoordinates[2] = {10, 10};                 // Position of target
-    float robotCoordinates[2] = {0, 0};                  // Initial position of robot
-    const int nObstaclesTotal = 3;                       // Number of obstacles
-    float obstaclex[nObstaclesTotal] = {1, 3, 7.7};      // {obs1_x1, obs2_x1, obs3_x1}
-    float obstacley[nObstaclesTotal] = {2, 2, 6.3};      // {obs1_y1, obs2_y1, obs3_y1}
-    float xObstacleEnd[nObstaclesTotal] = {3, 5, 8.5};   // {obs1_x2, obs2_x2, obs3_x2}
-    float yObstacleEnd[nObstaclesTotal] = {3, 6.5, 9.7}; // {obs1_y2, obs2_y2, obs3_y2}
+    float goalCoordinates[2] = {10, 10};          // Position of target
+    float robotCoordinates[2] = {0, 0};           // Initial position of robot
+    const int nObstaclesTotal = 2;                // Number of obstacles
+    float obstaclex[nObstaclesTotal] = {1, 5};    // {obs1_x1, obs2_x1, obs3_x1}
+    float obstacley[nObstaclesTotal] = {5, 7};    // {obs1_y1, obs2_y1, obs3_y1}
+    float xObstacleEnd[nObstaclesTotal] = {4, 8}; // {obs1_x2, obs2_x2, obs3_x2}
+    float yObstacleEnd[nObstaclesTotal] = {5, 4}; // {obs1_y2, obs2_y2, obs3_y2}
     // o_envType_t envType = env_stationary;                // Obstacle environment type stationary
-    o_envType_t envType = env_dynamic;                 // Obstacle environment type dynamics
+    o_envType_t envType = env_dynamic; // Obstacle environment type dynamics
     // o_obstMovementType_t obsMovType = obst_mov_linear; // Obstacle path movement type linear
     o_obstMovementType_t obsMovType = obst_mov_quadratic; // Obstacle path movement type quadratic
 
@@ -58,34 +58,20 @@ int main(int argc, char *argv[])
     }
     vector<float> xR = {robotCoordinates[0]}; // X-coordinate of robot
     vector<float> yR = {robotCoordinates[1]}; // Y-coordinate of robot
-    vector<float> goalx = {ctx->xGoal};
-    vector<float> goaly = {ctx->yGoal};
+    vector<float> goalx = {goalCoordinates[0]};
+    vector<float> goaly = {goalCoordinates[1]};
 
     if (ctx->envType == env_dynamic)
     {
-        if (obsMovType == obst_mov_linear)
-        {
-            vector<float> xObs1 = {obstaclex[0], xObstacleEnd[0]}; // X-coordinates of start and end points of Obstacle1
-            vector<float> yObs1 = {obstacley[0], yObstacleEnd[0]}; // Y-coordinates of start and end points of Obstacle1
-            vector<float> xObs2 = {obstaclex[1], xObstacleEnd[1]}; // X-coordinates of start and end points of Obstacle2
-            vector<float> yObs2 = {obstacley[1], yObstacleEnd[1]}; // X-coordinates of start and end points of Obstacle2
-            vector<float> xObs3 = {obstaclex[2], xObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
-            vector<float> yObs3 = {obstacley[2], yObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
-        }
+        vector<float> xObs1;                                   // = {obstaclex[0], xObstacleEnd[0]}; // X-coordinates of start and end points of Obstacle1
+        vector<float> yObs1;                                   // = {obstacley[0], yObstacleEnd[0]}; // Y-coordinates of start and end points of Obstacle1
+        vector<float> xObs2 = {obstaclex[1], xObstacleEnd[1]}; // X-coordinates of start and end points of Obstacle2
+        vector<float> yObs2 = {obstacley[1], yObstacleEnd[1]}; // X-coordinates of start and end points of Obstacle2
+        // xObs3 = {obstaclex[2], xObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
+        // yObs3 = {obstacley[2], yObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
 
-        else //(obsMovType == obst_mov_quadratic)
+        while ((res->oResultNextX, res->oResultNextY) != (goalCoordinates[0], goalCoordinates[1]))
         {
-            vector<float> xObs1 = {obstaclex[0], ctx->xObstacleInt[0], xObstacleEnd[0]}; // X-coordinates of start and end points of Obstacle1 and Intermediate points
-            vector<float> yObs1 = {obstacley[0], ctx->yObstacleInt[0], yObstacleEnd[0]}; // Y-coordinates of start and end points of Obstacle1
-            vector<float> xObs2 = {obstaclex[1], ctx->xObstacleInt[1], xObstacleEnd[1]}; // X-coordinates of start and end points of Obstacle2
-            vector<float> yObs2 = {obstacley[1], ctx->yObstacleInt[1], yObstacleEnd[1]}; // X-coordinates of start and end points of Obstacle2
-            vector<float> xObs3 = {obstaclex[2], ctx->xObstacleInt[2], xObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
-            vector<float> yObs3 = {obstacley[2], ctx->yObstacleInt[2], yObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
-        }
-
-        while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
-        {
-
             err = force.force_Att(ctx, res);   // Calculate attraction force between the robot and target
             err = force.force_Rep(ctx, res);   // Calculate force of repulsion between the Robot and the obstacles
             err = force.force_Comp(ctx, res);  // Calculate the total force by adding the corresponding components of attraction & repulsion forces
@@ -104,14 +90,26 @@ int main(int argc, char *argv[])
             }
             plt::clf();
             plt::plot(xR, yR);
-            plt::plot(xObs1, yObs1);
+
             plt::plot(xObs2, yObs2);
-            plt::plot(xObs3, yObs3);
-
-            plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
-
+            // plt::plot(xObs3, yObs3);
+            vector<float> intPointX;
+            vector<float> intPointY;
+            // plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
+            if (obsptsX.size() % 2 == 0)
+            {
+                intPointX.push_back(obsptsX[obsptsX.size() / 2]);
+                intPointY.push_back(obsptsY[obsptsY.size() / 2]);
+            }
+            else
+            {
+                intPointX.push_back(obsptsX[(obsptsX.size() + 1) / 2]);
+                intPointY.push_back(obsptsY[(obsptsY.size() + 1) / 2]);
+            }
+            xObs1 = {obstaclex[0], intPointX[0], xObstacleEnd[0]};
+            yObs1 = {obstacley[0], intPointY[0], yObstacleEnd[0]};
+            plt::plot(xObs1, yObs1);
             plt::scatter(obsptsX, obsptsY, 'r');
-
             plt::scatter(goalx, goaly, 'g');
             plt::grid(true);
             plt::pause(0.01);
@@ -126,7 +124,7 @@ int main(int argc, char *argv[])
         vector<float> xObs = {obstaclex[0], obstaclex[1], obstaclex[2]}; // x-coordinate of obstacles
         vector<float> yObs = {obstacley[0], obstacley[1], obstaclex[2]}; // y-coordinate of obstacles
 
-        while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
+        while ((res->oResultNextX, res->oResultNextY) != (goalCoordinates[0], goalCoordinates[1]))
         {
 
             err = force.force_Att(ctx, res);   // Calculate attraction force between the robot and target

@@ -1,5 +1,5 @@
-# Obstacle Avoidance Algorithm in C++ (Version 1.0)
-- [Obstacle Avoidance Algorithm in C++ (Version 1.0)](#obstacle-avoidance-algorithm-in-c-version-10)
+# Obstacle Avoidance Algorithm in C++ (Version 2.2)
+- [Obstacle Avoidance Algorithm in C++ (Version 2.2)](#obstacle-avoidance-algorithm-in-c-version-22)
   - [Description](#description)
   - [Usage](#usage)
   - [Demo](#demo)
@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
 
    if (ctx->envType = env_stationary)
    {
-      while ((ctx->xRobot, ctx->yRobot) != (ctx->xGoal, ctx->yGoal))
+      while ((res->oResultNextX, res->oResultNextY) != (goalCoordinates[0], goalCoordinates[1]))
       {
          err = force.force_Att(ctx, res);   // Calculate attraction force between the robot and target
          err = force.force_Rep(ctx, res);   // Calculate force of repulsion between the Robot and the obstacles
@@ -78,8 +78,8 @@ int main(int argc, char *argv[])
          err = force.force_Angle(ctx, res); // Calculate the steering angle for direction (navigation) using total force components
          err = force.next_Step(ctx, res);   // Calculate the next step for the robot consisting of x and y coordinates as its position
 
-         xR.push_back(ctx->xRobot);        // For plotting purpose
-         yR.push_back(ctx->yRobot);        // For plotting purpose
+         xR.push_back(res->oResultNextX);        // For plotting purpose
+         yR.push_back(res->oResultNextY);        // For plotting purpose
          plt::scatter(xR, yR, 3);
          plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
          plt::scatter(xObs, yObs, 'r');
@@ -116,7 +116,7 @@ To run this project
 - [x] Robot avoids random stationary obstacles (static environment) as version 1.0
 - [ ] Robot avoids random moving obstacles (dynamic environment) as version 2.0
    - [x] Dynamic environment with obstacles moving along a linear path version 2.1
-   - [ ] Dynamic environment with obstacles moving along a quadratic path version 2.2
+   - [x] Dynamic environment with obstacles moving along a quadratic path version 2.2
    - [ ] Dynamic environment with obstacles moving along a cubic path version 2.3
 - [ ] Implementation of interpolation functions and control strategies to calculate optimal path like shortest distance and time as version 3.0
 
