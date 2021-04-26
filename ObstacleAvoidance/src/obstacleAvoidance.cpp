@@ -37,7 +37,7 @@ private:
      * @params: Total number of positions in the path the obstacle should travel
      */
 
-    o_err_t oba_obst_movtype_individual(float obstacleStartPt[2], float obstacleEndPt[2], o_obstMovementType_t movtype, float stepsize, float *outObstPts, uint *outObstCount)
+    o_err_t oba_obst_movtype_individual(float obstacleStartPt[2], float obstacleEndPt[2], o_obstMovementType_t movtype, float stepsize, float *outObstPts, uint *outObstCount, std::vector<float> *pts)
     {
         if (movtype == obst_mov_linear)
         {
@@ -56,14 +56,17 @@ private:
                 float obstPathSlope = atan2(obstacleEndPt[1] - obstacleStartPt[1], obstacleEndPt[0] - obstacleStartPt[0]);
 
                 outObstPts[2 * i] = obstacleStartPt[0] + cos(obstPathSlope) * (stepsize * i);
+                pts->emplace_back(outObstPts[2 * i]);
 
                 if ((obstacleEndPt[0] - obstacleStartPt[0]) != 0)
                 {
                     *(outObstPts + (2 * i + 1)) = obstacleStartPt[1] + (obstacleEndPt[1] - obstacleStartPt[1]) * (*(outObstPts + (2 * i)) - obstacleStartPt[0]) / (obstacleEndPt[0] - obstacleStartPt[0]);
+                    pts->emplace_back(*(outObstPts + (2 * i + 1)));
                 }
                 else
                 {
                     *(outObstPts + (2 * i + 1)) = obstacleStartPt[1] + sin(obstPathSlope) * stepsize * i;
+                    pts->emplace_back(*(outObstPts + (2 * i + 1)));
                 }
 
                 OBA_TRACE_L2("obstPathSlope: %f ", obstPathSlope * 180 / 3.14);
@@ -77,29 +80,24 @@ private:
 
             float midPoint[2] = {(obstacleStartPt[0] + obstacleEndPt[0]) / 2, (obstacleStartPt[1] + obstacleEndPt[1]) / 2};
             float diameter = sqrt(pow((obstacleStartPt[1] - obstacleEndPt[1]), 2) + pow((obstacleStartPt[0] - obstacleEndPt[0]), 2));
-            float diameterSlope = (obstacleEndPt[1] - obstacleStartPt[1]) / (obstacleEndPt[0] - obstacleStartPt[0]);
+            float a = diameter;
 
-            float lengthPara = 0.5 * sqrt(pow(diameter, 2) + 3 * pow(diameter, 2)); // + (pow(diameter, 2) * log((4 * diameter + sqrt(pow(diameter, 2) + 16 * pow(diameter, 2))) / (diameter))) / (8 * diameter);
-
-            int numPoints = lengthPara / stepsize;
+            //float lengthCurve = 0.5 * sqrt(pow(diameter, 2) + 16 * pow(a, 2)) + ((pow(diameter, 2) / (8 * a)) * log((4 * a + sqrt(pow(diameter, 2) + 16 * pow(a, 2))) / (diameter)));
+            float lengthCurve = (float)sqrt(pow((obstacleStartPt[1] - obstacleEndPt[1]), 2) + pow((obstacleStartPt[0] - obstacleEndPt[0]), 2));
+            int numPoints = lengthCurve / stepsize;
 
             *outObstCount = std::min(numPoints, MAX_OBSTACLE_PTS);
 
             if (*outObstCount == MAX_OBSTACLE_PTS)
             {
-                stepsize = lengthPara / MAX_OBSTACLE_PTS;
+                stepsize = lengthCurve / MAX_OBSTACLE_PTS;
             }
 
-            // float x3 = midPoint[0] + (diameter / (sqrt(pow(((obstacleEndPt[0] - obstacleStartPt[0]) / (obstacleEndPt[1] - obstacleStartPt[1])), 2) + 1)));
-
-            // float y3 = midPoint[1] + sqrt(pow(diameter, 2) - pow((x3 - midPoint[0]), 2));
             float theta2 = atan2(obstacleEndPt[1] - obstacleStartPt[1], obstacleEndPt[0] - obstacleStartPt[0]) + M_PI * 0.5;
-            float x3 = midPoint[0] + (diameter / (sqrt(1 + pow(tan(theta2), 2))));
-            float y3 = midPoint[1] + ((diameter * tan(theta2)) / (sqrt(1 + pow(tan(theta2), 2))));
+            float x3 = midPoint[0] + (a / (sqrt(1 + pow(tan(theta2), 2)))); // x+lcosO
+            float y3 = midPoint[1] + ((a * tan(theta2)) / (sqrt(1 + pow(tan(theta2), 2))));
 
             float obstacleIntPt[2] = {x3, y3};
-            // out->xObstacleInt[0] = x3;
-            // out->yObstacleInt[1] = y3;
 
             for (int i = 0; i < *outObstCount + 1; i++)
             {
@@ -107,16 +105,19 @@ private:
                 float obstPathSlope = atan2(obstacleEndPt[1] - obstacleStartPt[1], obstacleEndPt[0] - obstacleStartPt[0]);
 
                 outObstPts[2 * i] = obstacleStartPt[0] + cos(obstPathSlope) * (stepsize * i);
+                pts->emplace_back(outObstPts[2 * i]);
 
                 if (((obstacleStartPt[0] - obstacleIntPt[0]) != 0) && ((obstacleStartPt[0] - obstacleEndPt[0]) != 0) && ((obstacleIntPt[0] - obstacleEndPt[0]) != 0))
                 {
                     *(outObstPts + (2 * i + 1)) = obstacleStartPt[1] * (*(outObstPts + (2 * i)) - obstacleIntPt[0]) * pow((obstacleStartPt[0] - obstacleIntPt[0]), -1) * (*(outObstPts + (2 * i)) - obstacleEndPt[0]) * pow((obstacleStartPt[0] - obstacleEndPt[0]), -1) +
                                                   obstacleIntPt[1] * (*(outObstPts + (2 * i)) - obstacleStartPt[0]) * pow((obstacleIntPt[0] - obstacleStartPt[0]), -1) * (*(outObstPts + (2 * i)) - obstacleEndPt[0]) * pow((obstacleIntPt[0] - obstacleEndPt[0]), -1) +
                                                   obstacleEndPt[1] * (*(outObstPts + (2 * i)) - obstacleStartPt[0]) * pow((obstacleEndPt[0] - obstacleStartPt[0]), -1) * (*(outObstPts + (2 * i)) - obstacleIntPt[0]) * pow((obstacleEndPt[0] - obstacleIntPt[0]), -1);
+                    pts->emplace_back(*(outObstPts + (2 * i + 1)));
                 }
                 else
                 {
                     *(outObstPts + (2 * i + 1)) = obstacleStartPt[1] + sin(obstPathSlope) * stepsize * i;
+                    pts->emplace_back(*(outObstPts + (2 * i + 1)));
                 }
 
                 OBA_TRACE_L2("obstPathSlope: %f ", obstPathSlope * 180 / 3.14);
@@ -133,19 +134,19 @@ public:
      * Function to calculate positions of obstacle points for all the obstacles
      * @params: Calculation context ctx
      */
-    o_err_t oba_obst_movtype_internal(OcalculationContext *ctx)
+    o_err_t oba_obst_movtype_internal(OcalculationContext *ctx, Oresult *res)
     {
-        o_err_t res;
+        o_err_t ret;
         for (int i = 0; i < ctx->n_obstacles; i++)
         {
 
             float obstStartPt[2] = {ctx->xObstacle[i], ctx->yObstacle[i]};
             float obstEndPt[2] = {ctx->xObstacleEnd[i], ctx->yObstacleEnd[i]};
 
-            res = oba_obst_movtype_individual(obstStartPt, obstEndPt, ctx->obsMovType, ctx->stepSize, ctx->s->obsPts[i], &(ctx->s->obstaclePtsCount[i]));
-            if (res != o_err_t::err_no_error)
+            ret = oba_obst_movtype_individual(obstStartPt, obstEndPt, ctx->obsMovType, ctx->stepSize, ctx->s->obsPts[i], &(ctx->s->obstaclePtsCount[i]), &(res->obsPts.at(i)));
+            if (ret != o_err_t::err_no_error)
             {
-                return res;
+                return ret;
             }
         }
 
@@ -217,9 +218,9 @@ o_err_t oba_Init_CalculationContext(float goalCoordinates[2], float robotCoordin
     return o_err_t::err_no_error;
 }
 
-o_err_t oba_Init_Environment(float *obstEndx, float *obstEndy, OcalculationContext *ctx, o_envType_t envtype, o_obstMovementType_t movtype)
+o_err_t oba_Init_Environment(float *obstEndx, float *obstEndy, OcalculationContext *ctx, o_envType_t envtype, o_obstMovementType_t movtype, Oresult *res)
 {
-    o_err_t res;
+    o_err_t ret;
     if (ctx == nullptr)
     {
         return o_err_t::err_null_input;
@@ -242,7 +243,7 @@ o_err_t oba_Init_Environment(float *obstEndx, float *obstEndy, OcalculationConte
             }
             else
             {
-                o_err_t err_obstaclecount_invalid;
+                return o_err_t::err_obstaclecount_invalid;
             }
         }
 
@@ -251,15 +252,15 @@ o_err_t oba_Init_Environment(float *obstEndx, float *obstEndy, OcalculationConte
     }
     else if (envtype != env_stationary)
     {
-        o_err_t err_invalid_input;
+        return o_err_t::err_invalid_input;
     }
 
     // Calculate intermediate Obstacle coordinates
     ObaObstInterpolationInt obj;
-    res = obj.oba_obst_movtype_internal(ctx);
-    if (res != err_no_error)
+    ret = obj.oba_obst_movtype_internal(ctx, res);
+    if (ret != err_no_error)
     {
-        return res;
+        return ret;
     }
 
     OBA_TRACE("CTX Environment initialised");
@@ -292,6 +293,7 @@ o_err_t oba_Init_Result(Oresult *res)
     res->oResultFry[N_MAX_OBSTACLES] = 0.f;
     res->oResultNextX = 0.f;
     res->oResultNextY = 0.f;
+
     res->oError = o_err_t::err_no_error;
 
     return o_err_t::err_no_error;

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project (ObstacleAvoidance VERSION 2.1) # VERSION is not configured
+project (ObstacleAvoidance VERSION 2.2) 
 
 configure_file(ObstacleAvoidanceConfig.h.in ObstacleAvoidanceConfig.h)
 

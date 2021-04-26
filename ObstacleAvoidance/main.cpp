@@ -43,19 +43,19 @@ int main(int argc, char *argv[])
     {
         cout << "Error detected";
     }
-
-    err = oba_Init_Environment(xObstacleEnd, yObstacleEnd, ctx, envType, obsMovType);
-    if (err != o_err_t ::err_no_error)
-    {
-        cout << "Error detected";
-    }
-
     // Function takes the Results obtained from functionsRepandAtt to check errors
     err = oba_Init_Result(res);
     if (err != o_err_t ::err_no_error)
     {
         cout << "Error detected";
     }
+
+    err = oba_Init_Environment(xObstacleEnd, yObstacleEnd, ctx, envType, obsMovType, res);
+    if (err != o_err_t ::err_no_error)
+    {
+        cout << "Error detected";
+    }
+
     vector<float> xR = {robotCoordinates[0]}; // X-coordinate of robot
     vector<float> yR = {robotCoordinates[1]}; // Y-coordinate of robot
     vector<float> goalx = {goalCoordinates[0]};
@@ -63,10 +63,28 @@ int main(int argc, char *argv[])
 
     if (ctx->envType == env_dynamic)
     {
-        vector<float> xObs1;                                   // = {obstaclex[0], xObstacleEnd[0]}; // X-coordinates of start and end points of Obstacle1
-        vector<float> yObs1;                                   // = {obstacley[0], yObstacleEnd[0]}; // Y-coordinates of start and end points of Obstacle1
-        vector<float> xObs2 = {obstaclex[1], xObstacleEnd[1]}; // X-coordinates of start and end points of Obstacle2
-        vector<float> yObs2 = {obstacley[1], yObstacleEnd[1]}; // X-coordinates of start and end points of Obstacle2
+        vector<float> xObs1; // X-coordinates of start and end points of Obstacle1
+        vector<float> yObs1; // Y-coordinates of start and end points of Obstacle1
+        vector<float> xObs2; // X-coordinates of start and end points of Obstacle2
+        vector<float> yObs2; // X-coordinates of start and end points of Obstacle2
+        if (obsMovType == obst_mov_quadratic)
+        {
+            int max = (res->obsPts.at(0).size() > res->obsPts.at(1).size()) ? res->obsPts.at(0).size() : res->obsPts.at(1).size();
+            for (int i = 0; i < max / 2; i++)
+            {
+                if (i < res->obsPts.at(0).size() / 2)
+                {
+                    xObs1.push_back(res->obsPts[0][2 * i]);
+                    yObs1.push_back(res->obsPts[0][2 * i + 1]);
+                }
+                if (i < res->obsPts.at(1).size() / 2)
+                {
+                    xObs2.push_back(res->obsPts[1][2 * i]);
+                    yObs2.push_back(res->obsPts[1][2 * i + 1]);
+                }
+            }
+        }
+
         // xObs3 = {obstaclex[2], xObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
         // yObs3 = {obstacley[2], yObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
 
@@ -91,24 +109,9 @@ int main(int argc, char *argv[])
             plt::clf();
             plt::plot(xR, yR);
 
+            plt::plot(xObs1, yObs1);
             plt::plot(xObs2, yObs2);
             // plt::plot(xObs3, yObs3);
-            vector<float> intPointX;
-            vector<float> intPointY;
-            // plt::annotate("Robot", ctx->xRobot, ctx->yRobot);
-            if (obsptsX.size() % 2 == 0)
-            {
-                intPointX.push_back(obsptsX[obsptsX.size() / 2]);
-                intPointY.push_back(obsptsY[obsptsY.size() / 2]);
-            }
-            else
-            {
-                intPointX.push_back(obsptsX[(obsptsX.size() + 1) / 2]);
-                intPointY.push_back(obsptsY[(obsptsY.size() + 1) / 2]);
-            }
-            xObs1 = {obstaclex[0], intPointX[0], xObstacleEnd[0]};
-            yObs1 = {obstacley[0], intPointY[0], yObstacleEnd[0]};
-            plt::plot(xObs1, yObs1);
             plt::scatter(obsptsX, obsptsY, 'r');
             plt::scatter(goalx, goaly, 'g');
             plt::grid(true);

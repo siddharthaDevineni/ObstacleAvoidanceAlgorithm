@@ -2,7 +2,7 @@
 #define OBSTACLEAVOIDANCE_H
 
 #define N_MAX_OBSTACLES 30 // Maximum number of obstacles
-
+#include <vector>
 // Obstacle Avoidance Error List
 typedef enum
 {
@@ -32,19 +32,17 @@ typedef enum
 struct Oresult
 {
 
-	float oResultFax;						 // Magnitude of Attraction force in X-direction
-	float oResultFay;						 // Magnitude of Attraction force in Y-direction
-	float oResultFrx[N_MAX_OBSTACLES];		 // Magnitude of Repulsion force in X-direction for each obstacle
-	float oResultFry[N_MAX_OBSTACLES];		 // Magnitude of Repulsion force in Y-direction for each obstacle
-	float oResultAng;						 // Steering angle for navigation of the robot
-	float oResultNextX;						 // Next position of the robot X coordinate
-	float oResultNextY;						 // Next position of the robot Y coordinate
-	float xObstacleInt[N_MAX_OBSTACLES];	 // Middle X-coordinates of obstacles
-	float yObstacleInt[N_MAX_OBSTACLES];	 // Middle Y-coordinates of obstacles
-	float obstCoordinatesX[N_MAX_OBSTACLES]; // X-coordinates of Obstacles
-	float obstCoordinatesY[N_MAX_OBSTACLES]; // Y-coordiantes of Obstacles
-
-	o_err_t oError; // Obstacle Avoidance Error List
+	float oResultFax;										 // Magnitude of Attraction force in X-direction
+	float oResultFay;										 // Magnitude of Attraction force in Y-direction
+	float oResultFrx[N_MAX_OBSTACLES];						 // Magnitude of Repulsion force in X-direction for each obstacle
+	float oResultFry[N_MAX_OBSTACLES];						 // Magnitude of Repulsion force in Y-direction for each obstacle
+	float oResultAng;										 // Steering angle for navigation of the robot
+	float oResultNextX;										 // Next position of the robot X coordinate
+	float oResultNextY;										 // Next position of the robot Y coordinate
+	float obstCoordinatesX[N_MAX_OBSTACLES];				 // X-coordinates of Obstacles
+	float obstCoordinatesY[N_MAX_OBSTACLES];				 // Y-coordiantes of Obstacles
+	std::vector<std::vector<float>> obsPts{N_MAX_OBSTACLES}; // All position coordinates for the obstacle to travel along
+	o_err_t oError;											 // Obstacle Avoidance Error List
 };
 
 // Context must be Initialised for internal purposes
@@ -85,7 +83,7 @@ o_err_t oba_Init_CalculationContext(float goalCoordinates[2], float robotCoordin
 * @params: Type of osbtacles environment
 * @params: Type of obstcales path movement
 */
-o_err_t oba_Init_Environment(float *obstEndx, float *obstEndy, OcalculationContext *ctx, o_envType_t envtype, o_obstMovementType_t movtype);
+o_err_t oba_Init_Environment(float *obstEndx, float *obstEndy, OcalculationContext *ctx, o_envType_t envtype, o_obstMovementType_t movtype, Oresult *res);
 
 /*
 * Free the used memory for the variables and paramters 
