@@ -98,13 +98,13 @@ int main(int argc, char *argv[])
 
 ## Demo
 ![Image](examples/curveAndDotObstacles.png)
-<img src="Quadratic_gif.gif"/> 
+<img src="Quadratic_gif.gif" width="1600" height="600"/> 
 
 ## Technologies
 Project is created with:
 * C++
 * CMake
-<!-- width="1600" height="600" -->
+
 ## Setup
 To run this project
 * Install CMake with a minimum version of 3.10
