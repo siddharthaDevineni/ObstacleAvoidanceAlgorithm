@@ -2,7 +2,9 @@
 - [Obstacle Avoidance Algorithm in C++ (Version 2.2)](#obstacle-avoidance-algorithm-in-c-version-22)
   - [Description](#description)
   - [Usage](#usage)
-  - [Demo](#demo)
+  - [Demos](#demos)
+    - [Linear](#linear)
+    - [Quadratic](#quadratic)
   - [Technologies](#technologies)
   - [Setup](#setup)
   - [Roadmap](#roadmap)
@@ -96,8 +98,13 @@ int main(int argc, char *argv[])
 **Result:**
 ![Image of Robot](examples/twoObstacles.png)
 
-## Demo
+## Demos
 ![Image](examples/curveAndDotObstacles.png)
+
+### Linear 
+<img src="linear_demo.gif" width="1600" height="600"/>
+
+### Quadratic
 <img src="Quadratic_gif.gif" width="1600" height="600"/> 
 
 ## Technologies
