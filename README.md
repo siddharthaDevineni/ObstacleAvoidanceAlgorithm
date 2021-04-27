@@ -6,6 +6,7 @@
   - [Demos](#demos)
     - [Linear](#linear)
     - [Quadratic](#quadratic)
+      - [2nd Quadrant](#2nd-quadrant)
   - [Technologies](#technologies)
   - [Setup](#setup)
   - [Roadmap](#roadmap)
@@ -103,10 +104,13 @@ int main(int argc, char *argv[])
 ![Image](examples/curveAndDotObstacles.png)
 
 ### Linear 
-<img src="linear_demo.gif" width="1600" height="600"/>
+<img src="linear_demo_3rd_quadrant.gif" width="1600" height="600"/>
 
 ### Quadratic
 <img src="Quadratic_gif.gif" width="1600" height="600"/> 
+
+#### 2nd Quadrant
+<img src="quadratic_demo_2nd_Quadrant.gif" width="1600" height="600"/> 
 
 ## Technologies
 Project is created with:
