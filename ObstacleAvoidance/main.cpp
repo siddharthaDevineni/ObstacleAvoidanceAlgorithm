@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     o_obstMovementType_t obsMovType = obst_mov_quadratic; // Obstacle path movement type quadratic
 
     // Paramters as explained in obstacleAvoidance
-    float params[6] = {1.1, 100, 0.1, 0.75, 2, float(nObstaclesTotal)};
+    float params[6] = {1.1, 100, 0.1, 0.7, 2, float(nObstaclesTotal)};
 
     // As explained in corresponding libraries:
 
@@ -122,9 +122,9 @@ int main(int argc, char *argv[])
             // plt::plot(xObs3, yObs3);
             plt::scatter(obsptsX, obsptsY, 'r');
             plt::scatter(goalx, goaly, 'g');
+            plt::title("Robot's Path Planning in Dynamic Environment");
             plt::grid(true);
             plt::pause(0.01);
-            plt::title("Robot's Path Planning in Dynamic Environment");
             // plt::show();
         }
     }
