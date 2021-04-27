@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
 
 ## Demo
 ![Image](examples/curveAndDotObstacles.png)
-<img src="quadratic_demo.gif"/> 
+<img src="Quadratic_gif.gif"/> 
 
 ## Technologies
 Project is created with:
