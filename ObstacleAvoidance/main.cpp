@@ -8,17 +8,17 @@ namespace plt = matplotlibcpp; // Importing matplotlib-cpp
 
 int main(int argc, char *argv[])
 {
-    float goalCoordinates[2] = {10, 10};          // Position of target
-    float robotCoordinates[2] = {0, 0};           // Initial position of robot
-    const int nObstaclesTotal = 2;                // Number of obstacles
-    float obstaclex[nObstaclesTotal] = {1, 5};    // {obs1_x1, obs2_x1, obs3_x1}
-    float obstacley[nObstaclesTotal] = {5, 5};    // {obs1_y1, obs2_y1, obs3_y1}
-    float xObstacleEnd[nObstaclesTotal] = {4, 9}; // {obs1_x2, obs2_x2, obs3_x2}
-    float yObstacleEnd[nObstaclesTotal] = {5, 4}; // {obs1_y2, obs2_y2, obs3_y2}
+    float goalCoordinates[2] = {10, 10};               // Position of target
+    float robotCoordinates[2] = {0, 0};                // Initial position of robot
+    const int nObstaclesTotal = 3;                     // Number of obstacles
+    float obstaclex[nObstaclesTotal] = {2.5, 4, 5};    // {obs1_x1, obs2_x1, obs3_x1}
+    float obstacley[nObstaclesTotal] = {0.5, 5, 8};    // {obs1_y1, obs2_y1, obs3_y1}
+    float xObstacleEnd[nObstaclesTotal] = {2.5, 7, 8}; // {obs1_x2, obs2_x2, obs3_x2}
+    float yObstacleEnd[nObstaclesTotal] = {4, 4, 6};   // {obs1_y2, obs2_y2, obs3_y2}
     // o_envType_t envType = env_stationary;                // Obstacle environment type stationary
-    o_envType_t envType = env_dynamic; // Obstacle environment type dynamics
-    // o_obstMovementType_t obsMovType = obst_mov_linear; // Obstacle path movement type linear
-    o_obstMovementType_t obsMovType = obst_mov_quadratic; // Obstacle path movement type quadratic
+    o_envType_t envType = env_dynamic;                 // Obstacle environment type dynamics
+    o_obstMovementType_t obsMovType = obst_mov_linear; // Obstacle path movement type linear
+    // o_obstMovementType_t obsMovType = obst_mov_quadratic; // Obstacle path movement type quadratic
 
     // Paramters as explained in obstacleAvoidance
     float params[6] = {1.1, 100, 0.1, 0.7, 2, float(nObstaclesTotal)};
@@ -67,6 +67,8 @@ int main(int argc, char *argv[])
         vector<float> yObs1; // Y-coordinates of start and end points of Obstacle1
         vector<float> xObs2; // X-coordinates of start and end points of Obstacle2
         vector<float> yObs2; // X-coordinates of start and end points of Obstacle2
+        vector<float> xObs3; // X-coordinates of start and end points of Obstacle3
+        vector<float> yObs3; // X-coordinates of start and end points of Obstacle3
 
         if (obsMovType == obst_mov_linear)
         {
@@ -74,11 +76,11 @@ int main(int argc, char *argv[])
             yObs1 = {obstacley[0], yObstacleEnd[0]}; // y-coordinate of obstacles
             xObs2 = {obstaclex[1], xObstacleEnd[1]}; // x-coordinate of obstacles
             yObs2 = {obstacley[1], yObstacleEnd[1]}; // y-coordinate of obstacles
-            // xObs3 = {obstaclex[2], xObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
-            // yObs3 = {obstacley[2], yObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
+            xObs3 = {obstaclex[2], xObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
+            yObs3 = {obstacley[2], yObstacleEnd[2]}; // X-coordinates of start and end points of Obstacle3
         }
 
-        if (obsMovType == obst_mov_quadratic)
+        else if (obsMovType == obst_mov_quadratic)
         {
             int max = (res->obsPts.at(0).size() > res->obsPts.at(1).size()) ? res->obsPts.at(0).size() : res->obsPts.at(1).size();
             for (int i = 0; i < max / 2; i++)
@@ -119,7 +121,7 @@ int main(int argc, char *argv[])
 
             plt::plot(xObs1, yObs1);
             plt::plot(xObs2, yObs2);
-            // plt::plot(xObs3, yObs3);
+            plt::plot(xObs3, yObs3);
             plt::scatter(obsptsX, obsptsY, 'r');
             plt::scatter(goalx, goaly, 'g');
             plt::title("Robot's Path Planning in Dynamic Environment");
